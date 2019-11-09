@@ -26,7 +26,6 @@ export default {
       volume: 0.7,
       video: {
         type: 'hls',
-        pic: require('../assets/images/fg.png'),
         url: 'https://vip.okokbo.com/20171214/EyioIJsB/index.m3u8',
       },
       danmaku: {

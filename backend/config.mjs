@@ -25,9 +25,50 @@ const STATEMENTS = {
   'addDanmaku': 'INSERT INTO danmaku (id,author,_text,color,_type,_time,_date,ip) values (?,?,?,?,?,?,?,?)'
 }
 
+/**
+ * OK资源网 [okzyw](http://www.okzyw.com)
+ * 
+ */
+
+const DOMAIN = {
+  'okzyw': 'http://www.okzyw.com'
+}
+
+// URL 地址模板
+const URLTPL = {
+  'okzyw': {
+    'home': 'http://www.okzyw.com/?m=vod-index-pg-%s.html',
+    'info': 'http://www.okzyw.com/?m=vod-detail-id-%s.html'
+  }
+}
+
+// XPath 选择器
+const SELECTOR = {
+  'okzyw': {
+    'videoUrl'  : '/html[1]/body[1]/div[5]/ul/li[1]/span[2]/a[1]/@href',
+    'updateTime': '/html[1]/body[1]/div[5]/ul/li[1]/span[4]',
+    'name'     : '/html[1]/body[1]/div[5]/div[1]/div[1]/div[1]/div[2]/div[1]/h2[1]',
+    'summary'  : '/html[1]/body[1]/div[5]/div[3]/div[2]',
+    'director' : '/html[1]/body[1]/div[5]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[2]/span[1]',
+    'actors'   : '/html[1]/body[1]/div[5]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[3]/span[1]',
+    'type'     : '/html[1]/body[1]/div[5]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[4]/span[1]/text()',
+    'years'    : '/html[1]/body[1]/div[5]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[7]/span[1]',
+    'area'     : '/html[1]/body[1]/div[5]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[5]/span[1]',
+    'lang'     : '/html[1]/body[1]/div[5]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[6]/span[1]',  
+    'plAddr'   : '/html[1]/body[1]/div[5]/div[4]/font[1]/div[1]/div[1]/div[2]/ul[1]/li',
+    'dlAddr'   : '/html[1]/body[1]/div[5]/font[1]/div[1]/div[2]/div[1]/div[1]/ul[1]/li'
+  }
+}
+
+// 已注册站点
+const SITES = ['okzyw'];
+
+// 每次更新的间隔
+const THRESHOLD = 432000000;
 
 export { 
   DBHOST, DBPORT, DBUSER, DBPASSWORD, DBNAME, 
+  DOMAIN, URLTPL, SELECTOR, SITES, THRESHOLD,
   ADDR_DANMAKU, PORT_DANMAKU,
   STATEMENTS
 };

@@ -20,7 +20,7 @@ class Spider {
   }
 
   /**
-   * 
+   * 获取视频更新
    * @param site 
    */
   fetchUpdate(site) {
@@ -70,12 +70,11 @@ class Spider {
     this.print(this.extractDirector('okzyw',document));
     this.print(this.extractActors('okzyw',document));
     this.print(this.extractType('okzyw',document));
-    this.print(this.extractYears('okzyw',document));
+    this.print(this.extractYear('okzyw',document));
     this.print(this.extractArea('okzyw',document));
     this.print(this.extractLang('okzyw',document));
     this.print(this.extractPlAddr('okzyw',document));
     this.print(this.extractDlAddr('okzyw',document));
-    
   }
 
   // 提取视频名字
@@ -109,7 +108,7 @@ class Spider {
   }
 
   // 提取视频年份
-  extractYears(site, document) {
+  extractYear(site, document) {
     const result = this.xpath.select(SELECTOR[site]['years'], document);
     return result;
   }

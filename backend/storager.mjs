@@ -1,0 +1,32 @@
+import { Database } from './database.mjs'
+import { STATEMENTS } from './config.mjs'
+
+class Storager {
+  constructor() {
+    this.db = new Database();
+  }
+
+  /**
+   * 
+   * @param {object} item 
+   */
+  storage(item) {
+    const params = [
+      item.getName(),
+      item.getSummary(),
+      item.getImgaddr(),
+      item.getDirector(), 
+      item.getActors(),
+      item.getType(),
+      item.getYear(),
+      item.getArea(),
+      item.getLang(),
+      item.getUpdate(),
+    ];
+    this.db.excute(STATEMENTS['addMovie'], params).then(()=>{
+      console.log(params);
+    })
+  }
+}
+
+export { Storager }

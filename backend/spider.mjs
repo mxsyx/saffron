@@ -7,6 +7,9 @@ import jsdom from 'jsdom'
 import { Requests } from './requests.mjs'
 import { DOMAIN, URLTPL, SELECTOR, THRESHOLD } from './config.mjs'
 import { XPath } from './xpath.mjs'
+import { VideoItem } from './items.mjs'
+import { getCurrentTime } from './utils.mjs'
+import { Storager } from './storager.mjs'
 
 class Spider {
   constructor() {
@@ -14,9 +17,10 @@ class Spider {
     this.requests =  new Requests();
     this.videoUrlArray = [];
     this.updateTimeArray = [];
-    this.pages = [1,2,3,4,6,7,8,9,10];
+    this.pages = [1];
     this.timeStamp = Date.now() - THRESHOLD;
     this.xpath = new XPath();
+    this.storager = new Storager();
   }
 
   /**
@@ -24,57 +28,68 @@ class Spider {
    * @param site 
    */
   fetchUpdate(site) {
-    this.pages.forEach((element) => {
-      const url = util.format(URLTPL[site]['home'], element);      
-      this.requests.get(url).then((content) => {
-        const document = (new jsdom.JSDOM(content)).window.document;
+    let hasFetched = 0;
+    return new Promise((resolve, reject) => {
+      this.pages.forEach((element) => {
+        const url = util.format(URLTPL[site]['home'], element);
+        this.requests.get(url).then((content) => {
+          const document = (new jsdom.JSDOM(content)).window.document;
 
-        // 获取视频地址
-        const videoUrls = this.xpath.selectAll(SELECTOR[site]['videoUrl'], document);
-        videoUrls.forEach((element) => {
-          this.videoUrlArray.push(`${DOMAIN[site]}${element}`)
-        });
+          // 获取视频地址
+          const videoUrls = this.xpath.selectAll(SELECTOR[site]['videoUrl'], document);
+          videoUrls.forEach((element) => {
+            this.videoUrlArray.push(`${DOMAIN[site]}${element}`)
+          });
         
-        // 获取视频更新时间
-        const updateTimes = this.xpath.selectAll(SELECTOR[site]['updateTime'],document);
-        updateTimes.forEach((element) => {
-          this.updateTimeArray.push(element.replace('\n\t',''))
-        });        
+          // 获取视频更新时间
+          const updateTimes = this.xpath.selectAll(SELECTOR[site]['updateTime'],document);
+          updateTimes.forEach((element) => {
+            this.updateTimeArray.push(element.replace('\n\t',''))
+          });        
         
-        // 根据更新时间过滤视频
-        this.updateTimeArray.forEach((element,index) => {
-          // 删除更新时间早于预定日期的视频地址
-          if (Date.parse(element) < this.timeStamp) {
-            this.videoUrlArray.pop(index);
+          // 根据更新时间过滤视频
+          this.updateTimeArray.forEach((element,index) => {
+            // 删除更新时间早于预定日期的视频地址
+            if (Date.parse(element) < this.timeStamp) {
+              this.videoUrlArray.pop(index);
+            }
+          });
+
+          // 判断是否结束更新
+          hasFetched++;
+          if (hasFetched == this.pages.length) {
+            resolve();
           }
         });
-        this.parse();
       });
     });
   }
 
   parse() {
-    this.print(this.videoUrlArray.length);
-    this.videoUrlArray.forEach((url,index) => {
-      this.requests.get(url).then((content) => {
-        this.print(`当前是${index}`);
-        const document = (new jsdom.JSDOM(content)).window.document;
-        this.extractInfo(document);
+    return new Promise((resolve, reject) => {
+      this.videoUrlArray.forEach((url) => {
+        this.requests.get(url).then((content) => {
+          const document = (new jsdom.JSDOM(content)).window.document;
+          const videoItem = this.extractInfo(document);
+          this.storager.storage(videoItem);
+        });
       });
     });
   }
 
-  extractInfo(document) {
-    this.print(this.extractName('okzyw', document));
-    this.print(this.extractSummary('okzyw',document));
-    this.print(this.extractDirector('okzyw',document));
-    this.print(this.extractActors('okzyw',document));
-    this.print(this.extractType('okzyw',document));
-    this.print(this.extractYear('okzyw',document));
-    this.print(this.extractArea('okzyw',document));
-    this.print(this.extractLang('okzyw',document));
-    this.print(this.extractPlAddr('okzyw',document));
-    this.print(this.extractDlAddr('okzyw',document));
+  extractInfo(document, site='okzyw') {
+    const videoItem = new VideoItem();
+    videoItem.setName(this.extractName(site, document));
+    videoItem.setSummary(this.extractSummary(site, document));
+    videoItem.setImgaddr(this.extractImgaddr(site, document));
+    videoItem.setDirector(this.extractDirector(site, document));
+    videoItem.setActors(this.extractActors(site, document));
+    videoItem.setType(this.extractType(site, document));
+    videoItem.setYear(this.extractYear(site, document));
+    videoItem.setArea(this.extractArea(site, document));
+    videoItem.setLang(this.extractLang(site, document));
+    videoItem.setUpdate(this.extractUpdate(site, document));
+    return videoItem;
   }
 
   // 提取视频名字
@@ -87,6 +102,10 @@ class Spider {
   extractSummary(site, document) {
     const result = this.xpath.select(SELECTOR[site]['summary'], document);
     return result;
+  }
+
+  extractImgaddr(site, document) {
+    return '/img/2019/11/11/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.jpg';
   }
 
   // 提取视频导演
@@ -130,7 +149,10 @@ class Spider {
     const results = this.xpath.selectAll(SELECTOR[site]['plAddr'], document);
     const plAddr = [];
     results.forEach((element) => {
-      plAddr.push(element.match('(http|https)://.*')[0])
+      const matchResult = element.match('(http|https)://.*');
+      if (matchResult) {
+        plAddr.push(matchResult[0]);
+      }
     });
     return plAddr;
   }
@@ -140,16 +162,23 @@ class Spider {
     const results = this.xpath.selectAll(SELECTOR[site]['dlAddr'], document);
     const dlAddr = [];
     results.forEach((element) => {
-      dlAddr.push(element.match('(http|https)://.*')[0])
+      const matchResult = element.match('(http|https)://.*');
+      if (matchResult) {
+        dlAddr.push(matchResult[0]);
+      }
     });
     return dlAddr;
   }
 
-  start() {
-    this.fetchUpdate('okzyw');
+  extractUpdate(site, document) {
+    return getCurrentTime('datetime');
+  }
+
+  async start() {
+    await this.fetchUpdate('okzyw');
+    this.print(this.videoUrlArray);
+    await this.parse();
   }
 }
 
-const spider = new Spider();
-
-spider.start();
+export { Spider }

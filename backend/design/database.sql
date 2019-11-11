@@ -1,6 +1,6 @@
 -- 藏红花
 CREATE DATABASE `saffron`;
-USE `saffron`;
+USE saffron;
 
 -- 用户信息表
 CREATE TABLE `user`
@@ -34,7 +34,7 @@ CREATE TABLE `movie`
   `hate`   INT UNSIGNED DEFAULT 0,      -- 讨厌数量
   `update` DATETIME NOT NULL,           -- 更新时间
   PRIMARY KEY(`id`),
-  UNIQUE KEY `name` (`name`),
+  UNIQUE KEY `name` (`name`)
 )ENGINE=InnoDB AUTO_INCREMENT=1000001 DEFAULT CHARSET=utf8mb4
 
 -- 电影播放地址表

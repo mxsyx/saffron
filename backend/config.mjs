@@ -21,9 +21,11 @@ const PORT_DANMAKU = 1722
 
 // 数据库操作
 const STATEMENTS = {
-  'getDanmaku': 'SELECT _time,_type,color,author,_text FROM danmaku WHERE id=? LIMIT ?',
-  'addDanmaku': 'INSERT INTO danmaku (id,author,_text,color,_type,_time,_date,ip) values (?,?,?,?,?,?,?,?)'
+  'getDanmaku': 'SELECT `time`,`type`,`color`,`author`,`text` FROM danmaku WHERE `id`=? LIMIT ?',
+  'addDanmaku': 'INSERT INTO `danmaku` (`id`,`author`,`text`,`color`,`type`,`time`,`date`,`addr`) values (?,?,?,?,?,?,?,?)',
+  'addMovie': 'INSERT INTO `movie` (`name`,`summary`,`imgaddr`,`director`,`actors`,`type`,`year`,`area`,`lang`,`update`) values (?,?,?,?,?,?,?,?,?,?)',
 }
+
 
 /**
  * OK资源网 [okzyw](http://www.okzyw.com)

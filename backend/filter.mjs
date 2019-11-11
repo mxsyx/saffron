@@ -5,3 +5,5 @@
 class Filter {
 
 }
+
+export { Filter }

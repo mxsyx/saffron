@@ -23,15 +23,13 @@ const PORT_DANMAKU = 1722
 const STATEMENTS = {
   'getDanmaku': 'SELECT `time`,`type`,`color`,`author`,`text` FROM danmaku WHERE `id`=? LIMIT ?',
   'addDanmaku': 'INSERT INTO `danmaku` (`id`,`author`,`text`,`color`,`type`,`time`,`date`,`addr`) values (?,?,?,?,?,?,?,?)',
-  'addMovie': 'INSERT INTO `movie` (`name`,`summary`,`imgaddr`,`director`,`actors`,`type`,`year`,`area`,`lang`,`update`) values (?,?,?,?,?,?,?,?,?,?)',
+  'addMovie': 'INSERT IGNORE INTO `movie` (`name`,`summary`,`imgaddr`,`director`,`actors`,`type`,`year`,`area`,`lang`,`update`) values (?,?,?,?,?,?,?,?,?,?)',
 }
 
-
 /**
- * OK资源网 [okzyw](http://www.okzyw.com)
  * 
+ * OK资源网 [okzyw](http://www.okzyw.com)
  */
-
 const DOMAIN = {
   'okzyw': 'http://www.okzyw.com'
 }
@@ -68,9 +66,39 @@ const SITES = ['okzyw'];
 // 每次更新的间隔
 const THRESHOLD = 432000000;
 
+// 已注册的电影类型
+const MOVIE_TYPES = [
+  '动作片', '喜剧片', '爱情片', '科幻片', '恐怖片', 
+  '剧情片', '战争片', '微电影', '伦理片'
+];
+
+// 已注册的电视剧类型
+const TV_TYPES = [
+  //'国产剧'  港台剧  日韩剧  欧美剧
+];
+
+
+// 已注册的视频年份
+const YEARS = [
+  '2019', '2018', '2017', '2016', '2015',
+  '2014', '2013', '2012', '2011',
+];
+
+// 已注册的视频地区
+const AREAS = [
+  '大陆', '香港', '台湾', '日本', '韩国', '美国', 
+  '英国', '德国', '法国', '意大利', '西班牙', '加拿大',
+  '泰国', '印度',
+];
+
+const LANGS = [
+  '国语', '粤语', '日语', '韩语', '英语', '法语', '德语'
+]
+
 export { 
   DBHOST, DBPORT, DBUSER, DBPASSWORD, DBNAME, 
   DOMAIN, URLTPL, SELECTOR, SITES, THRESHOLD,
   ADDR_DANMAKU, PORT_DANMAKU,
+  TYPES, YEARS, AREAS, LANGS,
   STATEMENTS
 };

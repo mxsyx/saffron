@@ -1,3 +1,7 @@
+/**
+ * 数据存储器
+ */
+
 import { Database } from './database.mjs'
 import { STATEMENTS } from './config.mjs'
 
@@ -11,6 +15,9 @@ class Storager {
    * @param {object} item 
    */
   storage(item) {
+    // 检测该条目是否是可存储的
+    if (item.getDrop()) return ;
+    
     const params = [
       item.getName(),
       item.getSummary(),

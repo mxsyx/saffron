@@ -15,6 +15,7 @@ class VideoItem {
     this.area = null
     this.lang = null
     this.update = null
+    this.drop = false
   }
 
   // 存值函数
@@ -58,6 +59,10 @@ class VideoItem {
     this.update = update; 
   }
 
+  setDrop(drop) {
+    this.drop = drop;
+  }
+
   // 取值函数
   getName() {
     return this.name;
@@ -97,6 +102,10 @@ class VideoItem {
   
   getUpdate() {
     return this.update;
+  }
+
+  getDrop() {
+    return this.drop;
   }
 }
 

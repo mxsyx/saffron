@@ -20,7 +20,7 @@ class XPath {
   select(xpathStr, document) {
     const expression = this.evaluator.createExpression(xpathStr);
     const result = expression.evaluate(document, this.XPathResult.STRING_TYPE);
-    return result.stringValue;
+    return result.stringValue.trim();
   }
 
   /**
@@ -37,7 +37,7 @@ class XPath {
     let res = null;
     const array = [];
     while (res = results.iterateNext()) {
-      array.push(res.textContent);
+      array.push(res.textContent.trim());
     }
     
     return array;

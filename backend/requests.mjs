@@ -6,7 +6,6 @@ import http from 'http'
 
 class Requests {
   constructor() {
-
   }
   
   /**
@@ -27,7 +26,6 @@ class Requests {
       });
     });
   }
-
 }
 
 export { Requests };

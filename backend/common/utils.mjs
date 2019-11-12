@@ -7,6 +7,7 @@ import queryString from 'querystring'
 
 /**
  * 获取URL查询参数
+ * @param {object} req 请求对象
  * @returns URL参数对象
  */
 function getUrlParams(req) {
@@ -15,7 +16,11 @@ function getUrlParams(req) {
   return urlParams;
 }
 
-// 获取客户端Ip地址
+/**
+ * 获取客户端Ip地址
+ * @param {object} req 请求对象
+ * @returns 客户端的Ip地址
+ */
 function getClientIp(req) {
   return req.headers['x-forwarded-for'] ||
          req.connection.remoteAddress ||
@@ -26,6 +31,7 @@ function getClientIp(req) {
 /**
  * 获取特定格式的当前时间
  * @param {string} format 时间格式
+ * @returns 特性格式的时间字符串
  */
 function getCurrentTime(format) {
   const currenTime = new Date();

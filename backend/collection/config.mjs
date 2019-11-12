@@ -1,38 +1,13 @@
-// 数据库地址
-const DBHOST = '127.0.0.1';
-
-// 数据库端口
-const DBPORT = '3308'
-
-// 数据库用户名
-const DBUSER = 'root';
-
-// 数据库用户密码
-const DBPASSWORD = '201920';
-
-// 数据库名
-const DBNAME = 'saffron';
-
-// 弹幕API地址
-const ADDR_DANMAKU = '172.17.5.144'
-
-// 弹幕API端口
-const PORT_DANMAKU = 1722
-
-// 数据库操作
-const STATEMENTS = {
-  'getDanmaku': 'SELECT `time`,`type`,`color`,`author`,`text` FROM danmaku WHERE `id`=? LIMIT ?',
-  'addDanmaku': 'INSERT INTO `danmaku` (`id`,`author`,`text`,`color`,`type`,`time`,`date`,`addr`) values (?,?,?,?,?,?,?,?)',
-  'addInfoMv': 'INSERT IGNORE INTO `infomv` (`name`,`summary`,`imgaddr`,`director`,`actors`,`type`,`year`,`area`,`lang`,`update`) values (?,?,?,?,?,?,?,?,?,?)',
-  'addInfoTv': 'INSERT IGNORE INTO `infotv` (`name`,`summary`,`imgaddr`,`director`,`actors`,`type`,`year`,`area`,`lang`,`update`) values (?,?,?,?,?,?,?,?,?,?)',
-  'addAddrMv': '',
-  'addAddrTv': '',
-}
-
 /**
- * 
- * OK资源网 [okzyw](http://www.okzyw.com)
+ * 资源站点
+ * 1号线 OK资源网 [okzyw](http://www.okzyw.com)
+ * 2号线 
  */
+
+// 已注册站点
+const SITES = ['okzyw'];
+
+// 站点域名
 const DOMAIN = {
   'okzyw': 'http://www.okzyw.com'
 }
@@ -63,9 +38,6 @@ const SELECTOR = {
   }
 }
 
-// 已注册站点
-const SITES = ['okzyw'];
-
 // 每次更新的间隔
 const THRESHOLD = 432000000;
 
@@ -80,9 +52,6 @@ const TVTYPES = [
   '国产剧', '港台剧', '日韩剧', '欧美剧', '台湾剧', '日本剧', '海外剧'
 ];
 
-
-
-
 // 已注册的视频年份
 const YEARS = [
   '2019', '2018', '2017', '2016', '2015',
@@ -96,14 +65,21 @@ const AREAS = [
   '泰国', '印度',
 ];
 
+// 已注册的视频语言
 const LANGS = [
   '国语', '粤语', '日语', '韩语', '英语', '法语', '德语'
 ]
 
-export { 
-  DBHOST, DBPORT, DBUSER, DBPASSWORD, DBNAME, 
+// 数据库操作
+const STATEMENTS = {
+  'addInfoMv': 'INSERT IGNORE INTO `infomv` (`name`,`summary`,`imgaddr`,`director`,`actors`,`type`,`year`,`area`,`lang`,`update`) values (?,?,?,?,?,?,?,?,?,?)',
+  'addInfoTv': 'INSERT IGNORE INTO `infotv` (`name`,`summary`,`imgaddr`,`director`,`actors`,`type`,`year`,`area`,`lang`,`update`) values (?,?,?,?,?,?,?,?,?,?)',
+  'addAddrMv': '',
+  'addAddrTv': '',
+}
+
+export {
   DOMAIN, URLTPL, SELECTOR, SITES, THRESHOLD,
-  ADDR_DANMAKU, PORT_DANMAKU,
-  TYPES, YEARS, AREAS, LANGS,
+  MVTYPES, TVTYPES, YEARS, AREAS, LANGS,
   STATEMENTS
-};
+}

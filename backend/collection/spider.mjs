@@ -8,7 +8,7 @@ import { Requests } from './requests.mjs'
 import { XPath } from './xpath.mjs'
 import { VideoItem } from './items.mjs'
 import { DOMAIN, URLTPL, SELECTOR, THRESHOLD } from './config.mjs'
-import { getCurrentTime } from './utils.mjs'
+import { getCurrentTime } from '../common/utils.mjs'
 
 class Spider {
   constructor() {

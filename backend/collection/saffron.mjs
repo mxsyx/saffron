@@ -2,11 +2,9 @@
  * 主调度文件
  */
 
-
 import { Spider } from './spider.mjs'
 import { Filter } from './filter.mjs'
 import { Storager } from './storager.mjs'
-
 
 class Saffron {
   constructor() {
@@ -30,5 +28,4 @@ class Saffron {
 
 
 const saffron = new Saffron();
-
 saffron.start();

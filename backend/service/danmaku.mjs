@@ -3,8 +3,8 @@
  */
 
 import http from 'http'
-import { Database } from './database.mjs'
-import { getUrlParams, getClientIp, getCurrentTime } from './utils.mjs'
+import { Database } from '../common/database.mjs'
+import utils from '../common/utils.mjs'
 import { PORT_DANMAKU, ADDR_DANMAKU, STATEMENTS } from './config.mjs'
 
 class Danmaku {

@@ -2,7 +2,7 @@
  * 数据存储器
  */
 
-import { Database } from './database.mjs'
+import { Database } from '../common/database.mjs'
 import { STATEMENTS } from './config.mjs'
 
 class Storager {

@@ -1,9 +1,5 @@
-async function dev() {
-  for(let i = 0; i < 5; i++)  {
-    return i;
-  }
-}
+import jsdom from 'jsdom'
 
-dev().then((i)=>{
-  console.log(i);
-})
+jsdom.JSDOM.fromURL('https://api.leduotv.com/wp-api/glid.php?vid=XMNTUxMjMwMDAwXzE=').then((dom) => {
+  console.log(dom.window.document.body.getElementsByTagName('script')[0].innerHTML.match('https:.*m3u8')[0]);
+});

@@ -23,7 +23,10 @@ const PORT_DANMAKU = 1722
 const STATEMENTS = {
   'getDanmaku': 'SELECT `time`,`type`,`color`,`author`,`text` FROM danmaku WHERE `id`=? LIMIT ?',
   'addDanmaku': 'INSERT INTO `danmaku` (`id`,`author`,`text`,`color`,`type`,`time`,`date`,`addr`) values (?,?,?,?,?,?,?,?)',
-  'addMovie': 'INSERT IGNORE INTO `movie` (`name`,`summary`,`imgaddr`,`director`,`actors`,`type`,`year`,`area`,`lang`,`update`) values (?,?,?,?,?,?,?,?,?,?)',
+  'addInfoMv': 'INSERT IGNORE INTO `infomv` (`name`,`summary`,`imgaddr`,`director`,`actors`,`type`,`year`,`area`,`lang`,`update`) values (?,?,?,?,?,?,?,?,?,?)',
+  'addInfoTv': 'INSERT IGNORE INTO `infotv` (`name`,`summary`,`imgaddr`,`director`,`actors`,`type`,`year`,`area`,`lang`,`update`) values (?,?,?,?,?,?,?,?,?,?)',
+  'addAddrMv': '',
+  'addAddrTv': '',
 }
 
 /**

@@ -15,7 +15,16 @@ class VideoItem {
     this.area = null
     this.lang = null
     this.update = null
+    
+    // 是否将该条目舍弃
     this.drop = false
+
+    /**
+     * 将该条目存储到哪个表
+     * infomv 电影信息表
+     * infotv 电视剧信息表
+     */
+    this.table = null
   }
 
   // 存值函数

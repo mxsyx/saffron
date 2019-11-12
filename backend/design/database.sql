@@ -17,7 +17,7 @@ CREATE TABLE `user`
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4
 
 -- 电影信息表
-CREATE TABLE `movie`
+CREATE TABLE `infomv`
 (
   `id` INT UNSIGNED AUTO_INCREMENT,     -- 电影ID
   `name` VARCHAR(30) NOT NULL,          -- 电影名字  
@@ -38,7 +38,7 @@ CREATE TABLE `movie`
 )ENGINE=InnoDB AUTO_INCREMENT=1000001 DEFAULT CHARSET=utf8mb4
 
 -- 电影播放地址表
-CREATE TABLE `addrmovie`
+CREATE TABLE `addrmv`
 (
   `vid` INT UNSIGNED NOT NULL,            -- 电影ID
   `episode` SMALLINT UNSIGNED NOT NULL,   -- 电影剧集
@@ -55,11 +55,11 @@ CREATE TABLE `addrmovie`
   `dladdr5` VARCHAR(255) DEFAULT NULL,    -- 下载线路5
   `dladdr6` VARCHAR(255) DEFAULT NULL,    -- 下载线路6
   PRIMARY KEY (`vid`,`episode`),
-  FOREIGN KEY (`vid`) REFERENCES `movie`(`id`)
+  FOREIGN KEY (`vid`) REFERENCES `infomv`(`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 
 -- 电视剧信息表
-CREATE TABLE `tv`
+CREATE TABLE `infotv`
 (
   `id` INT UNSIGNED AUTO_INCREMENT,     -- 电视剧ID
   `name` VARCHAR(30) NOT NULL,          -- 电视剧名字  
@@ -97,7 +97,7 @@ CREATE TABLE `addrtv`
   `dladdr5` VARCHAR(255) DEFAULT NULL,    -- 下载线路5
   `dladdr6` VARCHAR(255) DEFAULT NULL,    -- 下载线路6
   PRIMARY KEY (`vid`,`episode`),
-  FOREIGN KEY (`vid`) REFERENCES `tv`(`id`)
+  FOREIGN KEY (`vid`) REFERENCES `infotv`(`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 
 -- 历史记录表

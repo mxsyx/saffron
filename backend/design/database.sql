@@ -38,22 +38,26 @@ CREATE TABLE `infomv`
 )ENGINE=InnoDB AUTO_INCREMENT=1000001 DEFAULT CHARSET=utf8mb4
 
 -- 电影播放地址表
-CREATE TABLE `addrmv`
+CREATE TABLE `pladdrmv`
 (
   `vid` INT UNSIGNED NOT NULL,            -- 电影ID
   `episode` SMALLINT UNSIGNED NOT NULL,   -- 电影剧集
-  `pladdr1` VARCHAR(255) DEFAULT NULL,    -- 播放线路1
-  `pladdr2` VARCHAR(255) DEFAULT NULL,    -- 播放线路2
-  `pladdr3` VARCHAR(255) DEFAULT NULL,    -- 播放线路3
-  `pladdr4` VARCHAR(255) DEFAULT NULL,    -- 播放线路4
-  `pladdr5` VARCHAR(255) DEFAULT NULL,    -- 播放线路5
-  `pladdr6` VARCHAR(255) DEFAULT NULL,    -- 播放线路6
-  `dladdr1` VARCHAR(255) DEFAULT NULL,    -- 下载线路1
-  `dladdr2` VARCHAR(255) DEFAULT NULL,    -- 下载线路2
-  `dladdr3` VARCHAR(255) DEFAULT NULL,    -- 下载线路3
-  `dladdr4` VARCHAR(255) DEFAULT NULL,    -- 下载线路4
-  `dladdr5` VARCHAR(255) DEFAULT NULL,    -- 下载线路5
-  `dladdr6` VARCHAR(255) DEFAULT NULL,    -- 下载线路6
+  `addr1` VARCHAR(255) DEFAULT NULL,      -- 播放地址1
+  `addr2` VARCHAR(255) DEFAULT NULL,      -- 播放地址2
+  `addr3` VARCHAR(255) DEFAULT NULL,      -- 播放地址3
+  `addr4` VARCHAR(255) DEFAULT NULL,      -- 播放地址4
+  `addr5` VARCHAR(255) DEFAULT NULL,      -- 播放地址5
+  `addr6` VARCHAR(255) DEFAULT NULL,      -- 播放地址6
+  PRIMARY KEY (`vid`,`episode`),
+  FOREIGN KEY (`vid`) REFERENCES `infomv`(`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+
+-- 电影下载地址表
+CREATE TABLE `dladdrmv`
+(
+  `vid` INT UNSIGNED NOT NULL,            -- 电影ID
+  `episode` SMALLINT UNSIGNED NOT NULL,   -- 电影剧集
+  `addr` VARCHAR(255) DEFAULT NULL,     -- 下载地址
   PRIMARY KEY (`vid`,`episode`),
   FOREIGN KEY (`vid`) REFERENCES `infomv`(`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
@@ -80,22 +84,25 @@ CREATE TABLE `infotv`
 )ENGINE=InnoDB AUTO_INCREMENT=6000001 DEFAULT CHARSET=utf8mb4
 
 -- 电视剧播放地址表
-CREATE TABLE `addrtv`
+CREATE TABLE `pladdrtv`
 (
   `vid` INT UNSIGNED NOT NULL,            -- 电视剧ID
   `episode` SMALLINT UNSIGNED NOT NULL,   -- 电视剧剧集
-  `pladdr1` VARCHAR(255) DEFAULT NULL,    -- 播放线路1
-  `pladdr2` VARCHAR(255) DEFAULT NULL,    -- 播放线路2
-  `pladdr3` VARCHAR(255) DEFAULT NULL,    -- 播放线路3
-  `pladdr4` VARCHAR(255) DEFAULT NULL,    -- 播放线路4
-  `pladdr5` VARCHAR(255) DEFAULT NULL,    -- 播放线路5
-  `pladdr6` VARCHAR(255) DEFAULT NULL,    -- 播放线路6
-  `dladdr1` VARCHAR(255) DEFAULT NULL,    -- 下载线路1
-  `dladdr2` VARCHAR(255) DEFAULT NULL,    -- 下载线路2
-  `dladdr3` VARCHAR(255) DEFAULT NULL,    -- 下载线路3
-  `dladdr4` VARCHAR(255) DEFAULT NULL,    -- 下载线路4
-  `dladdr5` VARCHAR(255) DEFAULT NULL,    -- 下载线路5
-  `dladdr6` VARCHAR(255) DEFAULT NULL,    -- 下载线路6
+  `addr1` VARCHAR(255) DEFAULT NULL,      -- 播放地址1
+  `addr2` VARCHAR(255) DEFAULT NULL,      -- 播放地址2
+  `addr3` VARCHAR(255) DEFAULT NULL,      -- 播放地址3
+  `addr4` VARCHAR(255) DEFAULT NULL,      -- 播放地址4
+  `addr5` VARCHAR(255) DEFAULT NULL,      -- 播放地址5
+  `addr6` VARCHAR(255) DEFAULT NULL,      -- 播放地址6
+  PRIMARY KEY (`vid`,`episode`),
+  FOREIGN KEY (`vid`) REFERENCES `infotv`(`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+
+CREATE TABLE `dladdrtv`
+(
+  `vid` INT UNSIGNED NOT NULL,            -- 电视剧ID
+  `episode` SMALLINT UNSIGNED NOT NULL,   -- 电视剧剧集
+  `addr` VARCHAR(255) DEFAULT NULL,       -- 下载地址
   PRIMARY KEY (`vid`,`episode`),
   FOREIGN KEY (`vid`) REFERENCES `infotv`(`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4

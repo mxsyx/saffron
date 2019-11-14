@@ -1,5 +1,13 @@
-import jsdom from 'jsdom'
+import { Database } from '../common/database.mjs'
 
-jsdom.JSDOM.fromURL('https://api.leduotv.com/wp-api/glid.php?vid=XMNTUxMjMwMDAwXzE=').then((dom) => {
-  console.log(dom.window.document.body.getElementsByTagName('script')[0].innerHTML.match('https:.*m3u8')[0]);
-});
+const db = new Database();
+
+async function dev1(name) {
+  await db.excute('select max(id) as maxId from d3').then((res)=> {
+    console.log(`执行${name}`);
+    console.log(res[0]);
+  });
+}
+
+dev1(8);
+

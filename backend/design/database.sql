@@ -19,7 +19,7 @@ CREATE TABLE `user`
 -- 电影信息表
 CREATE TABLE `infomv`
 (
-  `id` INT UNSIGNED AUTO_INCREMENT,     -- 电影ID
+  `id` INT UNSIGNED,                    -- 电影ID
   `name` VARCHAR(30) NOT NULL,          -- 电影名字  
   `summary` VARCHAR(600) DEFAULT NULL,  -- 电影摘要
   `imgaddr` CHAR(52) DEFAULT NULL,      -- 电影图片地址
@@ -35,7 +35,7 @@ CREATE TABLE `infomv`
   `update` DATETIME NOT NULL,           -- 更新时间
   PRIMARY KEY(`id`),
   UNIQUE KEY `name` (`name`)
-)ENGINE=InnoDB AUTO_INCREMENT=1000001 DEFAULT CHARSET=utf8mb4
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 
 -- 电影播放地址表
 CREATE TABLE `pladdrmv`
@@ -65,7 +65,7 @@ CREATE TABLE `dladdrmv`
 -- 电视剧信息表
 CREATE TABLE `infotv`
 (
-  `id` INT UNSIGNED AUTO_INCREMENT,     -- 电视剧ID
+  `id` INT UNSIGNED,                    -- 电视剧ID
   `name` VARCHAR(30) NOT NULL,          -- 电视剧名字  
   `summary` VARCHAR(600) DEFAULT NULL,  -- 电视剧摘要
   `imgaddr` CHAR(52) DEFAULT NULL,      -- 电视剧图片地址
@@ -81,7 +81,7 @@ CREATE TABLE `infotv`
   `update` DATETIME NOT NULL,           -- 更新时间
   PRIMARY KEY(`id`),
   UNIQUE KEY `name` (`name`)
-)ENGINE=InnoDB AUTO_INCREMENT=6000001 DEFAULT CHARSET=utf8mb4
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 
 -- 电视剧播放地址表
 CREATE TABLE `pladdrtv`

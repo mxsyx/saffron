@@ -73,3 +73,20 @@
   库存 30000+
 
   CDN 美国
+
+
+```javascript
+OkPacket {
+  fieldCount: 0,
+  affectedRows: 1,
+  insertId: 0,
+  serverStatus: 2,
+  warningCount: 0,
+  message: '',
+  protocol41: true,
+  changedRows: 0
+}
+```
+
+
+异步获取，同步更新（异步获取网页，同步更新数据库，自主控制主键ID）

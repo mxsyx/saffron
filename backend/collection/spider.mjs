@@ -15,7 +15,7 @@ class Spider {
     this.print = console.log;
     this.requests =  new Requests();
     this.xpath = new XPath();
-    this.pages = [1];
+    this.pageIndexs = [1];
     this.timeStamp = Date.now() - THRESHOLD;
   }
 
@@ -23,37 +23,38 @@ class Spider {
    * 获取视频更新
    * @param site 
    */
-  fetchUpdate(site, videoUrlArray, updateTimeArray) {
-    let hasFetched = 0;
+  fetchUpdate(site, urlsToFetch) {
+    let sumFetched = 0;
+    const updateTimeArray = [];
     return new Promise((resolve, reject) => {
-      this.pages.forEach((element) => {
-        const url = util.format(URLTPL[site]['home'], element);
-        this.requests.get(url).then((content) => {
-          const document = (new jsdom.JSDOM(content)).window.document;
+      this.pageIndexs.forEach((pageIndex) => {
+        const url = util.format(URLTPL[site]['home'], pageIndex);
+        jsdom.JSDOM.fromURL(url).then((dom) => {
+          const document = dom.window.document;
 
           // 获取视频地址
           const videoUrls = this.xpath.selectAll(SELECTOR[site]['videoUrl'], document);
-          videoUrls.forEach((element) => {
-            videoUrlArray.push(`${DOMAIN[site]}${element}`)
+          videoUrls.forEach((videoUrl) => {
+            urlsToFetch.push(`${DOMAIN[site]}${videoUrl}`)
           });
         
           // 获取视频更新时间
           const updateTimes = this.xpath.selectAll(SELECTOR[site]['updateTime'],document);
-          updateTimes.forEach((element) => {
-            updateTimeArray.push(element.replace('\n\t',''))
+          updateTimes.forEach((updateTime) => {
+            updateTimeArray.push(updateTime.replace('\n\t',''))
           });        
         
           // 根据更新时间过滤视频
-          updateTimeArray.forEach((element,index) => {
+          updateTimeArray.forEach((updateTime, index) => {
             // 删除更新时间早于预定日期的视频地址
-            if (Date.parse(element) < this.timeStamp) {
-              videoUrlArray.pop(index);
+            if (Date.parse(updateTime) < this.timeStamp) {
+              urlsToFetch.pop(index);
             }
           });
 
           // 判断是否结束更新
-          hasFetched++;
-          if (hasFetched == this.pages.length) {
+          sumFetched++;
+          if (sumFetched == this.pageIndexs.length) {
             resolve();
           }
         });
@@ -63,8 +64,8 @@ class Spider {
 
   parse(url) {
     return new Promise((resolve, reject) => {
-      this.requests.get(url).then((content) => {
-        const document = (new jsdom.JSDOM(content)).window.document;
+      jsdom.JSDOM.fromURL(url).then((dom) => {
+        const document = dom.window.document;
         const videoItem = this.extractInfo(document);
         resolve(videoItem);
       });
@@ -82,7 +83,7 @@ class Spider {
     videoItem.setYear(this.extractYear(site, document));
     videoItem.setArea(this.extractArea(site, document));
     videoItem.setLang(this.extractLang(site, document));
-    videoItem.setUpdate(this.extractUpdate(site, document));
+    videoItem.setUpdate(getCurrentTime('datetime'));
     return videoItem;
   }
 
@@ -163,10 +164,6 @@ class Spider {
       }
     });
     return dlAddr;
-  }
-
-  extractUpdate(site, document) {
-    return getCurrentTime('datetime');
   }
 }
 

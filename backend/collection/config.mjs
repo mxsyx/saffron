@@ -72,11 +72,13 @@ const LANGS = [
 
 // 数据库操作
 const STATEMENTS = {
-  'addInfoMv': 'INSERT IGNORE INTO `infomv` (`name`,`summary`,`imgaddr`,`director`,`actors`,`type`,`year`,`area`,`lang`,`update`) values (?,?,?,?,?,?,?,?,?,?)',
-  'addInfoTv': 'INSERT IGNORE INTO `infotv` (`name`,`summary`,`imgaddr`,`director`,`actors`,`type`,`year`,`area`,`lang`,`update`) values (?,?,?,?,?,?,?,?,?,?)',
+  'addInfoMv': 'INSERT IGNORE INTO `infomv` (`id`,`name`,`summary`,`imgaddr`,`director`,`actors`,`type`,`year`,`area`,`lang`,`update`) values (?,?,?,?,?,?,?,?,?,?,?)',
+  'addInfoTv': 'INSERT IGNORE INTO `infotv` (`id`,`name`,`summary`,`imgaddr`,`director`,`actors`,`type`,`year`,`area`,`lang`,`update`) values (?,?,?,?,?,?,?,?,?,?,?)',
   'addAddrMv': '',
   'addAddrTv': '',
+  'getMaxId': 'SELECT MAX(`id`) AS maxId FROM ??',
 }
+
 
 export {
   DOMAIN, URLTPL, SELECTOR, SITES, THRESHOLD,

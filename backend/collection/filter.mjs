@@ -2,11 +2,11 @@
  * 视频信息过滤器
  */
 
-import { TYPES, YEARS, AREAS, LANGS } from './config.mjs'
+import { MVTYPES, YEARS, AREAS, LANGS } from './config.mjs'
 
 class Filter {
   constructor() {
-    this.types = TYPES
+    this.types = MVTYPES
     this.years = YEARS
     this.areas = AREAS
     this.langs = LANGS

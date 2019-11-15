@@ -49,7 +49,8 @@ const MVTYPES = [
 
 // 已注册的电视剧类型
 const TVTYPES = [
-  '国产剧', '港台剧', '日韩剧', '欧美剧', '台湾剧', '日本剧', '海外剧'
+  '国产剧', '香港剧', '台湾剧', '韩国剧', '日本剧', 
+  '欧美剧', '海外剧'
 ];
 
 // 已注册的视频年份
@@ -72,11 +73,12 @@ const LANGS = [
 
 // 数据库操作
 const STATEMENTS = {
-  'addInfoMv': 'INSERT IGNORE INTO `infomv` (`id`,`name`,`summary`,`imgaddr`,`director`,`actors`,`type`,`year`,`area`,`lang`,`update`) values (?,?,?,?,?,?,?,?,?,?,?)',
-  'addInfoTv': 'INSERT IGNORE INTO `infotv` (`id`,`name`,`summary`,`imgaddr`,`director`,`actors`,`type`,`year`,`area`,`lang`,`update`) values (?,?,?,?,?,?,?,?,?,?,?)',
+  'addInfoMv': 'INSERT INTO `infomv` (`name`,`summary`,`imgaddr`,`director`,`actors`,`type`,`year`,`area`,`lang`,`update`) values (?,?,?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE `update`=?',
+  'addInfoTv': 'INSERT INTO `infotv` (`name`,`summary`,`imgaddr`,`director`,`actors`,`type`,`year`,`area`,`lang`,`update`) values (?,?,?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE `update`=?',
   'addAddrMv': '',
   'addAddrTv': '',
   'getMaxId': 'SELECT MAX(`id`) AS maxId FROM ??',
+  'resetAutoInc': 'ALTER TABLE ?? AUTO_INCREMENT=0',
 }
 
 

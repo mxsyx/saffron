@@ -14,12 +14,12 @@ CREATE TABLE `user`
   `last_login` DATETIME DEFAULT NULL,   -- 最后登录的时间
   `date_joined` DATETIME NOT NULL,      -- 加入网站的时间
   PRIMARY KEY (`id`)
-)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
 -- 电影信息表
 CREATE TABLE `infomv`
 (
-  `id` INT UNSIGNED,                    -- 电影ID
+  `id` INT UNSIGNED AUTO_INCREMENT,     -- 电影ID
   `name` VARCHAR(30) NOT NULL,          -- 电影名字  
   `summary` VARCHAR(600) DEFAULT NULL,  -- 电影摘要
   `imgaddr` CHAR(52) DEFAULT NULL,      -- 电影图片地址
@@ -35,7 +35,7 @@ CREATE TABLE `infomv`
   `update` DATETIME NOT NULL,           -- 更新时间
   PRIMARY KEY(`id`),
   UNIQUE KEY `name` (`name`)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+)ENGINE=InnoDB AUTO_INCREMENT=1000001 DEFAULT CHARSET=utf8mb4;
 
 -- 电影播放地址表
 CREATE TABLE `pladdrmv`
@@ -50,7 +50,7 @@ CREATE TABLE `pladdrmv`
   `addr6` VARCHAR(255) DEFAULT NULL,      -- 播放地址6
   PRIMARY KEY (`vid`,`episode`),
   FOREIGN KEY (`vid`) REFERENCES `infomv`(`id`)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- 电影下载地址表
 CREATE TABLE `dladdrmv`
@@ -60,12 +60,12 @@ CREATE TABLE `dladdrmv`
   `addr` VARCHAR(255) DEFAULT NULL,     -- 下载地址
   PRIMARY KEY (`vid`,`episode`),
   FOREIGN KEY (`vid`) REFERENCES `infomv`(`id`)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- 电视剧信息表
 CREATE TABLE `infotv`
 (
-  `id` INT UNSIGNED,                    -- 电视剧ID
+  `id` INT UNSIGNED AUTO_INCREMENT,     -- 电视剧ID
   `name` VARCHAR(30) NOT NULL,          -- 电视剧名字  
   `summary` VARCHAR(600) DEFAULT NULL,  -- 电视剧摘要
   `imgaddr` CHAR(52) DEFAULT NULL,      -- 电视剧图片地址
@@ -81,7 +81,7 @@ CREATE TABLE `infotv`
   `update` DATETIME NOT NULL,           -- 更新时间
   PRIMARY KEY(`id`),
   UNIQUE KEY `name` (`name`)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+)ENGINE=InnoDB AUTO_INCREMENT=6000001 DEFAULT CHARSET=utf8mb4;
 
 -- 电视剧播放地址表
 CREATE TABLE `pladdrtv`
@@ -96,7 +96,7 @@ CREATE TABLE `pladdrtv`
   `addr6` VARCHAR(255) DEFAULT NULL,      -- 播放地址6
   PRIMARY KEY (`vid`,`episode`),
   FOREIGN KEY (`vid`) REFERENCES `infotv`(`id`)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `dladdrtv`
 (
@@ -105,25 +105,7 @@ CREATE TABLE `dladdrtv`
   `addr` VARCHAR(255) DEFAULT NULL,       -- 下载地址
   PRIMARY KEY (`vid`,`episode`),
   FOREIGN KEY (`vid`) REFERENCES `infotv`(`id`)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
-
--- 历史记录表
-CREATE TABLE `history` ()
-
--- 收藏数据表
-CREATE TABLE `collection`()
-
--- 轮播数据表
-CREATE TABLE `carousel`()
-
--- 反馈信息表
-CREATE TABLE `feedback`()
-
--- 用户留言表
-CREATE TABLE `comments`()
-
--- 系统消息表
-CREATE TABLE `message`()
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- 弹幕数据表
 CREATE TABLE `danmaku`
@@ -138,4 +120,40 @@ CREATE TABLE `danmaku`
   `date` DATETIME NOT NULL,             -- 弹幕发送的时间
   `addr` CHAR(15) NOT NULL,             -- 弹幕发送者IP
   PRIMARY KEY (`_id`)
-)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+
+-- 历史记录表
+CREATE TABLE `history`
+(
+
+);
+
+-- 收藏数据表
+CREATE TABLE `collection`
+(
+
+);
+
+-- 轮播数据表
+CREATE TABLE `carousel`
+(
+
+);
+
+-- 反馈信息表
+CREATE TABLE `feedback`
+(
+
+);
+
+-- 用户留言表
+CREATE TABLE `comments`
+(
+
+);
+
+-- 系统消息表
+CREATE TABLE `message`
+(
+
+);

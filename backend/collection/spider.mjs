@@ -15,7 +15,7 @@ class Spider {
     this.print = console.log;
     this.requests =  new Requests();
     this.xpath = new XPath();
-    this.pageIndexs = [1];
+    this.pageIndexs = [2];
     this.timeStamp = Date.now() - THRESHOLD;
   }
 

@@ -8,32 +8,6 @@ import { STATEMENTS } from './config.mjs'
 class Storager {
   constructor() {
     this.db = new Database();
-    this.maxIdMv = null;
-    this.maxIdTv = null;
-  }
-
-  async init() {
-    return new Promise((resolve, reject) => {
-      this.getMaxId('infomv').then((maxIdMv) => {
-        this.maxIdMv = maxIdMv + 1;
-      });
-      this.getMaxId('infotv').then((maxIdTv) => {
-        this.maxIdTv = maxIdTv + 1;
-      });
-      resolve();
-    });
-  }
-
-  /**
-   * 获取当表中的最大ID
-   * @param {string} tableName 数据表名
-   */
-  getMaxId(tableName) {
-    return new Promise((resolve, reject) => {
-      this.db.excute(STATEMENTS['getMaxId'],[tableName]).then((results)=>{
-        resolve(results[0].maxId);
-      });
-    });
   }
 
   checkInsert(result) {
@@ -54,9 +28,8 @@ class Storager {
         resolve();
         return ;
       }
-      console.log(this.maxIdMv);
+
       const params = [
-        this.maxIdMv,
         item.getName(),
         item.getSummary(),
         item.getImgaddr(),
@@ -67,12 +40,20 @@ class Storager {
         item.getArea(),
         item.getLang(),
         item.getUpdate(),
+        item.getUpdate(),
       ];
-      this.db.excute(STATEMENTS['addInfoMv'], params).then((result)=>{
-        this.checkInsert(result);
-        
-        resolve();
-      })
+
+      // 首先重置自增索引
+      this.db.excute(STATEMENTS['resetAutoInc'], ['infomv']).then((result) => {
+        this.db.excute(STATEMENTS['addInfoMv'], params).then((result) => {
+          //this.checkInsert(result);
+          console.log(item);
+          console.log(result);
+          resolve();
+        })
+      });
+
+
     });
   }
 }

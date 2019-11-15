@@ -10,50 +10,53 @@ class Storager {
     this.db = new Database();
   }
 
-  checkInsert(result) {
+ /* checkInsert(result) {
     console.log(result);
     if (result.insertId) {
       ++this.maxIdMv;
     }
-  }
+  }*/
 
   /**
-   * 
-   * @param {object} item 
+   * 存储视频信息
+   * @param {object} videoItem 视频信息条目
    */
-  storage(item) {
+  storage(videoItem) {
     return new Promise((resolve, reject) => {
+      
       // 检测该条目是否是可存储的
-      if (item.getDrop()) {
+      if (videoItem.getDrop()) {
         resolve();
         return ;
       }
+      
+      // 该信息条目需要插入的表
+      const tableName = videoItem.getTable();
 
+      // 封装Sql参数
+      const updateTime = videoItem.getUpdate();
       const params = [
-        item.getName(),
-        item.getSummary(),
-        item.getImgaddr(),
-        item.getDirector(), 
-        item.getActors(),
-        item.getType(),
-        item.getYear(),
-        item.getArea(),
-        item.getLang(),
-        item.getUpdate(),
-        item.getUpdate(),
+        tableName,
+        videoItem.getName(),
+        videoItem.getSummary(),
+        videoItem.getImgaddr(),
+        videoItem.getDirector(), 
+        videoItem.getActors(),
+        videoItem.getType(),
+        videoItem.getYear(),
+        videoItem.getArea(),
+        videoItem.getLang(),
+        updateTime,
+        updateTime,
       ];
-
+      
       // 首先重置自增索引
-      this.db.excute(STATEMENTS['resetAutoInc'], ['infomv']).then((result) => {
-        this.db.excute(STATEMENTS['addInfoMv'], params).then((result) => {
-          //this.checkInsert(result);
-          console.log(item);
+      this.db.excute(STATEMENTS['resetAutoInc'], [tableName]).then((result) => {
+        this.db.excute(STATEMENTS['addInfo'], params).then((result) => {
           console.log(result);
           resolve();
         })
       });
-
-
     });
   }
 }

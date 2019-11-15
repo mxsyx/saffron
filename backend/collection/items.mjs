@@ -5,26 +5,31 @@
  // 视频信息条目
 class VideoItem {
   constructor() {
-    this.name = null
-    this.summary = null
-    this.imgaddr = null
-    this.director = null
-    this.actors = null
-    this.type = null
-    this.year = null
-    this.area = null
-    this.lang = null
-    this.update = null
-    
+    this.name = null;
+    this.summary = null;
+    this.imgaddr = null;
+    this.director = null;
+    this.actors = null;
+    this.type = null;
+    this.year = null;
+    this.area = null;
+    this.lang = null;
+    this.update = null;
+    this.pladdrs = null;
+    this.dladdrs = null;
+
+    // 来源站点
+    this.site = null;
+
     // 是否将该条目舍弃
-    this.drop = false
+    this.drop = false;
 
     /**
      * 将该条目存储到哪个表
      * infomv 电影信息表
      * infotv 电视剧信息表
      */
-    this.table = null
+    this.table = null;
   }
 
   // 存值函数
@@ -68,8 +73,16 @@ class VideoItem {
     this.update = update; 
   }
 
+  setSite(site) {
+    this.site = site;
+  }
+
   setDrop(drop) {
     this.drop = drop;
+  }
+
+  setTable(table) {
+    this.table = table;
   }
 
   // 取值函数
@@ -108,13 +121,21 @@ class VideoItem {
   getLang() {
     return this.lang;
   }
-  
+
   getUpdate() {
     return this.update;
   }
 
+  getSite() {
+    return this.site;
+  }
+
   getDrop() {
     return this.drop;
+  }
+
+  getTable() {
+    return this.table;
   }
 }
 

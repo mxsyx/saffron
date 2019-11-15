@@ -40,7 +40,7 @@ class Saffron {
   }
 
   async start() {
-    await this.storager.init();
+    //await this.storager.init();
     await this.asyncFetch();
     this.syncStorage();
     //

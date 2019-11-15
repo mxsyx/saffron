@@ -2,17 +2,22 @@
  * 视频信息过滤器
  */
 
-import { MVTYPES, YEARS, AREAS, LANGS } from './config.mjs'
+import { YEARS, AREAS, LANGS } from './config.mjs'
+import { MVTYPES, TVTYPES, DMTYPES } from './config.mjs'
 
 class Filter {
-  constructor() {
-    this.types = MVTYPES
-    this.years = YEARS
-    this.areas = AREAS
-    this.langs = LANGS
-  }
+  constructor() { }
 
   filte(videoItem) {
+    switch(videoItem.getSite()) {
+      case 1: this.makeFilteSite1();break;
+      case 2: this.makeFilteSite2();break;
+      case 3: this.makeFilteSite3();break;
+      case 4: this.makeFilteSite4();break;
+      case 5: this.makeFilteSite5();break;
+      case 6: this.makeFilteSite6();break;
+    }
+
     this.filteType(videoItem);
     this.filteYear(videoItem);
     this.filteArea(videoItem);
@@ -25,7 +30,14 @@ class Filter {
    */
   filteType(videoItem) {
     const type = videoItem.getType();
-    if (this.types.indexOf(type) == -1) {
+    if (MVTYPES.indexOf(type) != -1) {
+      videoItem.setTable('infomv');
+    } else if (TVTYPES.indexOf(type) != -1) {
+      videoItem.setTable('infotv');
+    } else if (DMTYPES.indexOf(type) != -1){
+      videoItem.setType('动漫剧')
+      videoItem.setTable('infotv')
+    } else {
       videoItem.setDrop(true);
     }
   }
@@ -36,8 +48,8 @@ class Filter {
    */
   filteYear(videoItem) {
     const year = videoItem.getYear();
-    if (this.years.indexOf(year) == -1) {
-      videoItem.setYear('其它');
+    if (YEARS.indexOf(year) == -1) {
+      videoItem.setYear('更早');
     }
   }
 
@@ -47,7 +59,7 @@ class Filter {
    */
   filteArea(videoItem) {
     const area = videoItem.getArea();
-    if (this.areas.indexOf(area) == -1) {
+    if (AREAS.indexOf(area) == -1) {
       videoItem.setArea('其它');
     }
   }
@@ -58,9 +70,34 @@ class Filter {
   */
   filteLang(videoItem) {
     const lang = videoItem.getLang();
-    if (this.langs.indexOf(lang) == -1) {
+    if (LANGS.indexOf(lang) == -1) {
       videoItem.setLang('其它');
     }
+  }
+
+  // 执行站点1特殊过滤
+  makeFilteSite1() {
+
+  }
+  
+  // 执行站点2特殊过滤
+  makeFilteSite2() {
+  }
+  
+  // 执行站点3特殊过滤
+  makeFilteSite3() {
+  }
+  
+  // 执行站点4特殊过滤
+  makeFilteSite4() {
+  }
+  
+  // 执行站点5特殊过滤
+  makeFilteSite5() {
+  }
+
+  // 执行站点6特殊过滤
+  makeFilteSite6() {
   }
 }
 

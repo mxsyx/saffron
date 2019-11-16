@@ -12,7 +12,7 @@ import { getCurrentTime } from '../common/utils.mjs'
 class Spider {
   constructor() {
     this.xpath = new XPath();
-    this.pageIndexs = [8];
+    this.pageIndexs = [1,2,3,4,5,6,7,8,9,10];
     this.timeStamp = Date.now() - THRESHOLD;
   }
 

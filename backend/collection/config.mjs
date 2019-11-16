@@ -40,7 +40,7 @@ const SELECTOR = {
 }
 
 // 每次更新的间隔
-const THRESHOLD = 14400000;
+const THRESHOLD = 864000000;
 
 // 已注册的单剧集类型
 const MVTYPES = [

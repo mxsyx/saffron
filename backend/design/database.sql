@@ -157,3 +157,13 @@ CREATE TABLE `message`
 (
 
 );
+
+delete from `dladdrmv`;
+delete from `dladdrtv`;
+delete from `pladdrmv`;
+delete from `pladdrtv`;
+delete from `infomv`;
+delete from `infotv`;
+alter table `infomv` auto_increment = 0;
+alter table `infotv` auto_increment = 0;
+

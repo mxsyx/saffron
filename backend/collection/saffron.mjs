@@ -43,7 +43,7 @@ class Saffron {
     // 每隔一段时间存储数据
     const intervalFunction = this.storager.interval.bind(this.storager);
     const interval = setInterval(intervalFunction, 5000);
-    
+
     await this.asyncFetch();
     
     clearInterval(interval);

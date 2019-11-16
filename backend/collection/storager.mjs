@@ -43,7 +43,7 @@ class Storager {
     // 图片名(视频名字的MD5摘要)
     const imgName = md5(videoItem.getName());
     return {
-      'remoteAddr': `/img/${this.imgDirName}/${imgName}.png`,
+      'remoteAddr': `/img/${this.currenDate}/${imgName}.png`,
       'localAddr' : `${this.localImgDir}/${imgName}.png`
     }
   }
@@ -180,7 +180,12 @@ class Storager {
    * @param {string} imgAddr 图片本机地址
    */
   storageImg(imgUrl, imgAddr) {
-    request(imgUrl).pipe(fs.createWriteStream(imgAddr));
+    try {
+      request(imgUrl).pipe(fs.createWriteStream(imgAddr));
+    } catch (error) {
+      console.log(error);
+    }
+    
   }
 }
 

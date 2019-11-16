@@ -15,7 +15,7 @@ class Spider {
     this.print = console.log;
     this.requests =  new Requests();
     this.xpath = new XPath();
-    this.pageIndexs = [1];
+    this.pageIndexs = [8];
     this.timeStamp = Date.now() - THRESHOLD;
   }
 
@@ -76,9 +76,10 @@ class Spider {
     const videoItem = new VideoItem();
 
     // 提取视频信息
+    videoItem.setSite(1);
     videoItem.setName(this.extractName(site, document));
     videoItem.setSummary(this.extractSummary(site, document));
-    videoItem.setImgaddr(this.extractImgaddr(site, document));
+    videoItem.setImgUrl(this.extractImgUrl(site, document));
     videoItem.setDirector(this.extractDirector(site, document));
     videoItem.setActors(this.extractActors(site, document));
     videoItem.setType(this.extractType(site, document));
@@ -107,8 +108,9 @@ class Spider {
   }
 
   // 提取视频图片地址
-  extractImgaddr(site, document) {
-    return '/img/2019/11/11/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.jpg';
+  extractImgUrl(site, document) {
+    const result = this.xpath.select(SELECTOR[site]['imgUrl'], document);
+    return result;
   }
 
   // 提取视频导演

@@ -7,7 +7,7 @@ class VideoItem {
   constructor() {
     this.name = null;
     this.summary = null;
-    this.imgaddr = null;
+    this.imgUrl = null;
     this.director = null;
     this.actors = null;
     this.type = null;
@@ -67,7 +67,7 @@ class VideoItem {
     this.summary = summary;
   }
 
-  setImgaddr(imgaddr) {
+  setImgUrl(imgaddr) {
     this.imgaddr = imgaddr;
   }
 
@@ -141,7 +141,7 @@ class VideoItem {
     return this.summary;
   }
 
-  getImgaddr() {
+  getImgUrl() {
     return this.imgaddr;
   }
 
@@ -201,7 +201,7 @@ class VideoItem {
     return this.dlAddrTableName;
   }
 
-  getAddr() {
+  getAddrName() {
     return this.addrName;
   }
 }

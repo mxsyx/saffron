@@ -36,6 +36,12 @@ const getClientIp = function (req) {
 const getCurrentTime = function (format) {
   const currenTime = new Date();
   switch (format) {
+    case 'date'    : {
+      const year = currenTime.getFullYear();
+      const month = currenTime.getMonth() + 1;
+      const day = currenTime.getDate();
+      return `${year}/${month}/${day}`;
+    } 
     case 'datetime': return currenTime.toISOString();
   }
 }

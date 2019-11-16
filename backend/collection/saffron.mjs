@@ -13,18 +13,18 @@ class Saffron {
     this.filter = new Filter();
     this.storager = new Storager();
     this.urlsToFetch = [];
-    this.itemsToStorage = [];
+    this.sumUrlsToFetch = 0;
+    this.sumCompleted = 0;
   }
-
 
   asyncFetch() {
     return new Promise(async (resolve, reject) => {
-      await this.spider.fetchUpdate('okzyw', this.urlsToFetch);
-      this.urlsToFetch.forEach((url, index) => {
+      this.urlsToFetch.forEach((url) => {
         this.spider.parse(url).then((videoItem) => {
           this.filter.filte(videoItem);
-          this.itemsToStorage.push(videoItem);
-          if (this.itemsToStorage.length == this.urlsToFetch.length){
+          this.storager.pushVideoItem(videoItem);
+          console.log(this.sumCompleted);
+          if (++this.sumCompleted == this.sumUrlsToFetch){
             resolve();
           }
         });
@@ -32,22 +32,23 @@ class Saffron {
     });
   }
 
-  async syncStorage() {
-    const len = this.itemsToStorage.length;
-    for(let i = 0; i < len; i++) {
-      await this.storager.storage(this.itemsToStorage[i]);
-    }
-  }
-
   async start() {
-    //await this.storager.init();
+    // 获取更新地址
+    await this.spider.fetchUpdate('okzyw', this.urlsToFetch);
+    this.sumUrlsToFetch =  this.urlsToFetch.length;
+    
+    // 每隔一段时间存储数据
+    const intervalFunction = this.storager.interval.bind(this.storager);
+    const interval = setInterval(intervalFunction, 5000);
+    
     await this.asyncFetch();
-    this.syncStorage();
-    //
+    
+    clearInterval(interval);
+    
+    // 完成数据的最终存储
+    this.storager.clear();
+   
   }
-
-
-
 }
 
 

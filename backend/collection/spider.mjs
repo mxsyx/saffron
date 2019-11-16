@@ -15,7 +15,7 @@ class Spider {
     this.print = console.log;
     this.requests =  new Requests();
     this.xpath = new XPath();
-    this.pageIndexs = [2];
+    this.pageIndexs = [1];
     this.timeStamp = Date.now() - THRESHOLD;
   }
 
@@ -74,6 +74,8 @@ class Spider {
 
   extractInfo(document, site='okzyw') {
     const videoItem = new VideoItem();
+
+    // 提取视频信息
     videoItem.setName(this.extractName(site, document));
     videoItem.setSummary(this.extractSummary(site, document));
     videoItem.setImgaddr(this.extractImgaddr(site, document));
@@ -84,6 +86,11 @@ class Spider {
     videoItem.setArea(this.extractArea(site, document));
     videoItem.setLang(this.extractLang(site, document));
     videoItem.setUpdate(getCurrentTime('datetime'));
+
+    // 提取视频的播放与下载地址
+    videoItem.setPlAddrs(this.extractPlAddr(site, document));
+    videoItem.setDlAddrs(this.extractDlAddr(site, document));
+    
     return videoItem;
   }
 

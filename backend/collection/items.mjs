@@ -21,15 +21,41 @@ class VideoItem {
     // 来源站点
     this.site = null;
 
-    // 是否将该条目舍弃
+    /**
+     * 是否将该条目舍弃
+     * 当视频的类型不属于任何
+     * 一种已经注册的类型时应舍弃
+     */
     this.drop = false;
 
     /**
-     * 将该条目存储到哪个表
-     * infomv 电影信息表
-     * infotv 电视剧信息表
+     * 该条目存储到的信息表名
+     * infomv 单剧集视频信息表
+     * infotv 多剧集视频信息表
      */
-    this.table = null;
+    this.infoTableName = null;
+
+    /**
+     * 该条目存储到的播放地址表名
+     * pladdrmv 单剧集播放地址表
+     * pladdrtv 多剧集播放地址表
+     */
+    this.plAddrTableName = null;
+
+    /**
+     * 条目存储到哪个下载地址表名
+     * dladdrmv 单剧集下载地址表
+     * dladdrtv 多剧集下载地址表
+     */
+    this.dlAddrTableName = null;
+
+    /**
+     * 该条目播放地址线路名
+     * add1 线路1  add2 线路2
+     * add3 线路3  add4 线路4
+     * add5 线路5  add6 线路6 
+     */
+    this.addrName = null;
   }
 
   // 存值函数
@@ -73,6 +99,14 @@ class VideoItem {
     this.update = update; 
   }
 
+  setPlAddrs(pladdrs) {
+    this.pladdrs = pladdrs;
+  }
+
+  setDlAddrs(dladdrs) {
+    this.dladdrs = dladdrs;
+  } 
+
   setSite(site) {
     this.site = site;
   }
@@ -81,9 +115,22 @@ class VideoItem {
     this.drop = drop;
   }
 
-  setTable(table) {
-    this.table = table;
+  setInfoTableName(infoTableName) {
+    this.infoTableName = infoTableName;
   }
+
+  setPlAddrTableName(plAddrTableName) {
+    this.plAddrTableName = plAddrTableName;
+  }
+
+  setDlAddrTableName(dlAddrTableName) {
+    this.dlAddrTableName = dlAddrTableName;
+  }
+
+  setAddrName(addrName) {
+    this.addrName = addrName;
+  }
+
 
   // 取值函数
   getName() {
@@ -126,6 +173,14 @@ class VideoItem {
     return this.update;
   }
 
+  getPlAddrs() {
+    return this.pladdrs;
+  }
+
+  getDlAddrs() {
+    return this.dladdrs;
+  }
+
   getSite() {
     return this.site;
   }
@@ -134,8 +189,20 @@ class VideoItem {
     return this.drop;
   }
 
-  getTable() {
-    return this.table;
+  getInfoTableName() {
+    return this.infoTableName;
+  }
+
+  getPlAddrTableName() {
+    return this.plAddrTableName;
+  }
+
+  getDlAddrTableName() {
+    return this.dlAddrTableName;
+  }
+
+  getAddr() {
+    return this.addrName;
   }
 }
 

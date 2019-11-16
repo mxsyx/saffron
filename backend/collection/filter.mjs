@@ -10,12 +10,12 @@ class Filter {
 
   filte(videoItem) {
     switch(videoItem.getSite()) {
-      case 1: this.makeFilteSite1();break;
-      case 2: this.makeFilteSite2();break;
-      case 3: this.makeFilteSite3();break;
-      case 4: this.makeFilteSite4();break;
-      case 5: this.makeFilteSite5();break;
-      case 6: this.makeFilteSite6();break;
+      case 1: this.makeFilteSite1(videoItem);break;
+      case 2: this.makeFilteSite2(videoItem);break;
+      case 3: this.makeFilteSite3(videoItem);break;
+      case 4: this.makeFilteSite4(videoItem);break;
+      case 5: this.makeFilteSite5(videoItem);break;
+      case 6: this.makeFilteSite6(videoItem);break;
     }
 
     this.filteType(videoItem);
@@ -31,12 +31,18 @@ class Filter {
   filteType(videoItem) {
     const type = videoItem.getType();
     if (MVTYPES.indexOf(type) != -1) {
-      videoItem.setTable('infomv');
+      videoItem.setInfoTableName('infomv');
+      videoItem.setPlAddrTableName('pladdrmv');
+      videoItem.setDlAddrTableName('dladdrmv');
     } else if (TVTYPES.indexOf(type) != -1) {
-      videoItem.setTable('infotv');
+      videoItem.setInfoTableName('infotv');
+      videoItem.setPlAddrTableName('pladdrtv');
+      videoItem.setDlAddrTableName('dladdrtv');
     } else if (DMTYPES.indexOf(type) != -1){
       videoItem.setType('动漫剧')
-      videoItem.setTable('infotv')
+      videoItem.setInfoTableName('infotv')
+      videoItem.setPlAddrTableName('pladdrtv');
+      videoItem.setDlAddrTableName('dladdrtv');
     } else {
       videoItem.setDrop(true);
     }
@@ -76,28 +82,33 @@ class Filter {
   }
 
   // 执行站点1特殊过滤
-  makeFilteSite1() {
-
+  makeFilteSite1(videoItem) {
+    videoItem.setAddrName('addr1');
   }
   
   // 执行站点2特殊过滤
-  makeFilteSite2() {
+  makeFilteSite2(videoItem) {
+    videoItem.setAddrName('addr2');
   }
   
   // 执行站点3特殊过滤
-  makeFilteSite3() {
+  makeFilteSite3(videoItem) {
+    videoItem.setAddrName('addr3');
   }
   
   // 执行站点4特殊过滤
-  makeFilteSite4() {
+  makeFilteSite4(videoItem) {
+    videoItem.setAddrName('addr4');
   }
   
   // 执行站点5特殊过滤
-  makeFilteSite5() {
+  makeFilteSite5(videoItem) {
+    videoItem.setAddrName('addr5');
   }
 
   // 执行站点6特殊过滤
-  makeFilteSite6() {
+  makeFilteSite6(videoItem) {
+    videoItem.setAddrName('addr6');
   }
 }
 

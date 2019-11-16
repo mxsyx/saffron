@@ -80,9 +80,9 @@ const LANGS = [
 // 数据库操作
 const STATEMENTS = {
   'addInfo'   : 'INSERT INTO ?? (`name`,`summary`,`imgaddr`,`director`,`actors`,`type`,`year`,`area`,`lang`,`update`) values (?,?,?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE `update`=?',
-  'addPlAddr' : 'INSERT INTO ?? (`vid`,`episode`, `addr%d`) ON DUPLICATE KEY UPDATE `addr%d`=?',
-  'addDlAddr' : 'INSERT INTO '
-  'getMaxId': 'SELECT MAX(`id`) AS maxId FROM ??',
+  'addPlAddr' : 'INSERT INTO ?? (`vid`,`episode`, ??) VALUES (?,?,?) ON DUPLICATE KEY UPDATE ??=?',
+  'addDlAddr' : 'INSERT IGNORE INTO ?? (`vid`,`episode`, `addr`) VALUES (?,?,?)',
+  'getMaxId'  : 'SELECT MAX(`id`) AS maxId FROM ??',
   'resetAutoInc': 'ALTER TABLE ?? AUTO_INCREMENT=0',
 }
 

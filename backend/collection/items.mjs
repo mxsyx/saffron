@@ -1,8 +1,7 @@
 /**
- * 存储条目
+ * 视频信息存储条目
  */
 
- // 视频信息条目
 class VideoItem {
   constructor() {
     this.name = null;
@@ -18,13 +17,16 @@ class VideoItem {
     this.pladdrs = null;
     this.dladdrs = null;
 
-    // 来源站点
+    /**
+     * 来源站点
+     * @type {number}
+     */
     this.site = null;
 
     /**
      * 是否将该条目舍弃
-     * 当视频的类型不属于任何
-     * 一种已经注册的类型时应舍弃
+     * 当视频的类型不属于任何一种已经注册的类型时应舍弃
+     * @type {boolean}
      */
     this.drop = false;
 
@@ -32,6 +34,7 @@ class VideoItem {
      * 该条目存储到的信息表名
      * infomv 单剧集视频信息表
      * infotv 多剧集视频信息表
+     * @type {string}
      */
     this.infoTableName = null;
 
@@ -39,6 +42,7 @@ class VideoItem {
      * 该条目存储到的播放地址表名
      * pladdrmv 单剧集播放地址表
      * pladdrtv 多剧集播放地址表
+     * @type {string}
      */
     this.plAddrTableName = null;
 
@@ -46,6 +50,7 @@ class VideoItem {
      * 条目存储到哪个下载地址表名
      * dladdrmv 单剧集下载地址表
      * dladdrtv 多剧集下载地址表
+     * @type {string}
      */
     this.dlAddrTableName = null;
 
@@ -54,6 +59,7 @@ class VideoItem {
      * add1 线路1  add2 线路2
      * add3 线路3  add4 线路4
      * add5 线路5  add6 线路6 
+     * @type {string}
      */
     this.addrName = null;
   }

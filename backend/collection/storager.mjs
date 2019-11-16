@@ -17,14 +17,30 @@ class Storager {
     this.makeImgDir();
   }
 
-  // 图片存储目录
+  // 将视频信息条目压入待存储的信息条目数组中
+  pushVideoItem(videoItem) {
+    this.videoItems.push(videoItem);
+  }
+
+  /**
+   * 创建图片的本机存储目录
+   * 目录名为当天的日期(年/月/日)
+   */
   makeImgDir() {
     this.currenDate = `${getCurrentTime('date')}`;
     this.localImgDir = `/opt/img/${this.currenDate}`;
+    
+    // 递归创建图片本机存储目录
     fs.mkdirSync(this.localImgDir, {recursive: true})
   }
 
+  /**
+   * 生成图片的远程地址与本地地址
+   * @param {object} videoItem 视频信息条目
+   * @returns 图片的远程地址与本地地址
+   */
   makeImgAddr(videoItem) {
+    // 图片名(视频名字的MD5摘要)
     const imgName = md5(videoItem.getName());
     return {
       'remoteAddr': `/img/${this.imgDirName}/${imgName}.png`,
@@ -32,24 +48,38 @@ class Storager {
     }
   }
 
-  pushVideoItem(videoItem) {
-    this.videoItems.push(videoItem);
-  }
-
-  async interval() {
+  /**
+   * 间隔时间存储数据
+   * 函数每隔一段时间检索一遍待存储的信息条目数组,
+   * 如果数组不为空, 则将数组中的数据存储到数据库中,
+   * 同时从数组删除这些数据.
+   * 为防止在间隔时间内数据未完成存储, 
+   * 每次执行函数时给函数上锁, 数据执行完毕后将锁解开.
+   */
+  async interval() {  
+    // 函数被锁住，终止执行
     if (this.mutex) return ;
+    
+    // 给函数上锁
     this.mutex = true;
+    
     const len = this.videoItems.length;
+    
+    // 同步存储数据
     for(let i = 0; i < len; i++) {
       await this.storage(this.videoItems[i]);
     }
+    
+    // 删除已完成存储的数据
     for(let i = 0; i < len; i++) {
       this.videoItems.pop(i);
     }
+
+    // 该函数解锁
     this.mutex = false;
   }
 
-  // 完成最后的存储
+  // 清理未完成的存储
   clear() {
     this.mutex = false;
     this.interval();
@@ -63,17 +93,14 @@ class Storager {
     return new Promise((resolve, reject) => {
       // 检测该条目是否是可存储的
       if (videoItem.getDrop()) {
-        resolve();
-        return ;
+        return resolve();
       }
       
       // 该信息条目需要插入的表
       const infoTableName = videoItem.getInfoTableName();
 
-      // 封装Sql参数
       const updateTime = videoItem.getUpdate();
       const imgAddr = this.makeImgAddr(videoItem);
-
       const params = [
         infoTableName,
         videoItem.getName(),
@@ -97,6 +124,11 @@ class Storager {
             this.storagePladdr(videoItem, vid);
             this.storageDladdr(videoItem, vid);
           }
+          
+          /**
+           * 当返回的插入结果显示只影响了一行时,
+           * 则说明该视频为一个新的视频, 应该下载其图片
+           */
           if (result.affectedRows == 1) {
             this.storageImg(videoItem.getImgUrl(), imgAddr['localAddr'],)
           }
@@ -106,6 +138,11 @@ class Storager {
     });
   }
 
+  /**
+   * 异步存储视频播放地址
+   * @param {object} videoItem 视频信息条目
+   * @param {number} vid 视频ID
+   */
   storagePladdr(videoItem, vid) {
     const pladdrs = videoItem.getPlAddrs();
     const pladdrTableName = videoItem.getPlAddrTableName();
@@ -120,6 +157,11 @@ class Storager {
     });
   }
 
+  /**
+   * 异步存储视频下载地址
+   * @param {object} videoItem 视频信息条目
+   * @param {number} vid 视频ID
+   */
   storageDladdr(videoItem, vid) {
     const dladdrs = videoItem.getDlAddrs();
     const dladdrTableName = videoItem.getDlAddrTableName();
@@ -135,10 +177,9 @@ class Storager {
   /**
    * 存储图片到本机
    * @param {string} imgUrl  图片远程URL
-   * @param {string} imgAddr 图片本地地址
+   * @param {string} imgAddr 图片本机地址
    */
   storageImg(imgUrl, imgAddr) {
-    console.log(imgAddr);
     request(imgUrl).pipe(fs.createWriteStream(imgAddr));
   }
 }

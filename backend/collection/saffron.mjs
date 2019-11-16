@@ -6,7 +6,6 @@ import { Spider } from './spider.mjs'
 import { Filter } from './filter.mjs'
 import { Storager } from './storager.mjs'
 
-
 class Saffron {
   constructor() {
     this.spider = new Spider();
@@ -17,11 +16,15 @@ class Saffron {
     this.sumCompleted = 0;
   }
 
+  /**
+   * 异步获取网页并提取视频信息
+   * 每次获取并完成信息的提取后向待存储条目数组压入新的条目
+   */
   asyncFetch() {
     return new Promise(async (resolve, reject) => {
       this.urlsToFetch.forEach((url) => {
         this.spider.parse(url).then((videoItem) => {
-          this.filter.filte(videoItem);
+          this.filter.filte(videoItem);          
           this.storager.pushVideoItem(videoItem);
           console.log(this.sumCompleted);
           if (++this.sumCompleted == this.sumUrlsToFetch){
@@ -34,7 +37,7 @@ class Saffron {
 
   async start() {
     // 获取更新地址
-    await this.spider.fetchUpdate('okzyw', this.urlsToFetch);
+    await this.spider.fetchUpdate(1, this.urlsToFetch);
     this.sumUrlsToFetch =  this.urlsToFetch.length;
     
     // 每隔一段时间存储数据

@@ -25,8 +25,8 @@ class Filter {
   }
 
   /**
-   * 过滤视频类型
-   * 未知类型将被舍弃
+   * 过滤视频类型, 未知类型将被舍弃
+   * 设置其所属信息表、播放地址表、下载地址表
    */
   filteType(videoItem) {
     const type = videoItem.getType();
@@ -38,19 +38,21 @@ class Filter {
       videoItem.setInfoTableName('infotv');
       videoItem.setPlAddrTableName('pladdrtv');
       videoItem.setDlAddrTableName('dladdrtv');
-    } else if (DMTYPES.indexOf(type) != -1){
+    } else if (DMTYPES.indexOf(type) != -1) {
+      // 将动漫剧合并进多剧集类型中
       videoItem.setType('动漫剧')
       videoItem.setInfoTableName('infotv')
       videoItem.setPlAddrTableName('pladdrtv');
       videoItem.setDlAddrTableName('dladdrtv');
     } else {
+      // 未知类型舍弃
       videoItem.setDrop(true);
     }
   }
 
   /**
    * 过滤视频年份
-   * 未知年份将设置为其它
+   * 未知年份将设置为更早
    */
   filteYear(videoItem) {
     const year = videoItem.getYear();

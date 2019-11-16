@@ -13,8 +13,8 @@ class XPath {
 
   /**
    * 从文档中选择字符串
-   * @param xpathStr XPath 字符串 
-   * @param document 文档对象树
+   * @param {string} xpathStr XPath 字符串 
+   * @param {object} document 文档对象
    * @returns 选取到的结果
    */
   select(xpathStr, document) {
@@ -25,8 +25,8 @@ class XPath {
 
   /**
    * 从文档中选择字符串（全部）
-   * @param xpathStr XPath 字符串
-   * @param document 文档对象树
+   * @param {string} xpathStr XPath 字符串
+   * @param {object} document 文档对象
    * @returns 选取到的结果
    */
   selectAll(xpathStr, document) {
@@ -37,6 +37,7 @@ class XPath {
     let res = null;
     const array = [];
     while (res = results.iterateNext()) {
+      // 压入数组的时候注意处理字符串两边空格
       array.push(res.textContent.trim());
     }
     

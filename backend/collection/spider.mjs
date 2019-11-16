@@ -4,7 +4,6 @@
 
 import util from 'util'
 import jsdom from 'jsdom'
-import { Requests } from './requests.mjs'
 import { XPath } from './xpath.mjs'
 import { VideoItem } from './items.mjs'
 import { DOMAIN, URLTPL, SELECTOR, THRESHOLD } from './config.mjs'
@@ -12,8 +11,6 @@ import { getCurrentTime } from '../common/utils.mjs'
 
 class Spider {
   constructor() {
-    this.print = console.log;
-    this.requests =  new Requests();
     this.xpath = new XPath();
     this.pageIndexs = [8];
     this.timeStamp = Date.now() - THRESHOLD;
@@ -21,7 +18,8 @@ class Spider {
 
   /**
    * 获取视频更新
-   * @param site 
+   * @param {number} site 来源站点
+   * @param {Array} urlsToFetch 需要获取的URL数组
    */
   fetchUpdate(site, urlsToFetch) {
     let sumFetched = 0;
@@ -39,7 +37,7 @@ class Spider {
           });
         
           // 获取视频更新时间
-          const updateTimes = this.xpath.selectAll(SELECTOR[site]['updateTime'],document);
+          const updateTimes = this.xpath.selectAll(SELECTOR[site]['updateTime'], document);
           updateTimes.forEach((updateTime) => {
             updateTimeArray.push(updateTime.replace('\n\t',''))
           });        
@@ -72,11 +70,11 @@ class Spider {
     });
   }
 
-  extractInfo(document, site='okzyw') {
+  extractInfo(document, site=1) {
     const videoItem = new VideoItem();
 
     // 提取视频信息
-    videoItem.setSite(1);
+    videoItem.setSite(site);
     videoItem.setName(this.extractName(site, document));
     videoItem.setSummary(this.extractSummary(site, document));
     videoItem.setImgUrl(this.extractImgUrl(site, document));

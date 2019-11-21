@@ -30,14 +30,14 @@ class Spider {
     const updateTimeArray = [];
     return new Promise((resolve, reject) => {
       this.pageIndexs.forEach((pageIndex) => {
-        const url = util.format(URLTPL[site]['home'], pageIndex);
+        const url = util.format(URLTPL[this.site]['home'], pageIndex);
         jsdom.JSDOM.fromURL(url).then((dom) => {
           const document = dom.window.document;
 
           // 获取视频地址
           const videoUrls = this.xpath.selectAll(this.selector['videoUrl'], document);
           videoUrls.forEach((videoUrl) => {
-            urlsToFetch.push(`${DOMAIN[site]}${videoUrl}`)
+            urlsToFetch.push(`${DOMAIN[this.site]}${videoUrl}`)
           });
         
           // 获取视频更新时间

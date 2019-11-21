@@ -24,7 +24,8 @@ class Saffron {
     return new Promise((resolve, reject) => {
       this.urlsToFetch.forEach((url) => {
         this.spider.parse(url).then((videoItem) => {
-          this.filter.filte(videoItem);          
+          this.filter.filte(videoItem);
+          console.log(this.sumCompleted);
           this.storager.pushVideoItem(videoItem);
           if (++this.sumCompleted == this.sumUrlsToFetch){
             resolve();
@@ -42,6 +43,8 @@ class Saffron {
     // 每隔一段时间存储数据
     const intervalFunction = this.storager.interval.bind(this.storager);
     const interval = setInterval(intervalFunction, 5000);
+    
+    console.log(`共${this.sumUrlsToFetch}条`);
 
     await this.asyncFetch();
     

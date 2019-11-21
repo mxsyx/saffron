@@ -6,14 +6,7 @@ import { Spider } from './spider.mjs'
 import { Filter } from './filter.mjs'
 import { Storager } from './storager.mjs'
 
-const sleep = function(seconds) {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve();
-    },
-    seconds)
-  })
-}
+
 
 class Saffron {
   constructor() {

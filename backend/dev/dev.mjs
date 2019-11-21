@@ -1,7 +1,7 @@
+import request from 'request'
 
-
-async function d() {
-  await sleep(1000);
-  console.log('cccc');
-}
-d();
+request('https://www.dogedoge.com/', (error, response, body) => {
+  if (!error && response.statusCode == 200) {
+    console.log(body);
+  }
+})

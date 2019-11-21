@@ -46,5 +46,20 @@ const getCurrentTime = function (format) {
   }
 }
 
+/**
+ * 使程序睡眠一段时间
+ * @param {number} seconds 睡眠的秒数
+ */
+const sleep = function(seconds) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    },
+    seconds)
+  })
+}
 
-export { getUrlParams, getClientIp, getCurrentTime }
+export { 
+  getUrlParams, getClientIp, getCurrentTime ,
+  sleep
+}

@@ -6,22 +6,26 @@ import util from 'util'
 import jsdom from 'jsdom'
 import { XPath } from './xpath.mjs'
 import { VideoItem } from './items.mjs'
-import { DOMAIN, URLTPL, SELECTOR, THRESHOLD } from './config.mjs'
+import { DOMAIN, URLTPL, SELECTOR,  } from './config.mjs'
+import { PAGEINDEX, THRESHOLD } from './config.mjs'
 import { getCurrentTime } from '../common/utils.mjs'
 
 class Spider {
-  constructor() {
+  constructor(site) {
+    this.site = site;
     this.xpath = new XPath();
-    this.pageIndexs = [1,2,3,4,5,6,7,8,9,10];
     this.timeStamp = Date.now() - THRESHOLD;
+    this.pageIndexs = PAGEINDEX[site];
+    this.selector = SELECTOR[site];
   }
 
   /**
-   * 获取视频更新
-   * @param {number} site 来源站点
+   * 获取视频的更新地址
+   * 函数解析采集站的视频主页地址,
+   * 将符合条件的地址填充到数组中去.
    * @param {Array} urlsToFetch 需要获取的URL数组
    */
-  fetchUpdate(site, urlsToFetch) {
+  fetchUpdate(urlsToFetch) {
     let sumFetched = 0;
     const updateTimeArray = [];
     return new Promise((resolve, reject) => {
@@ -31,21 +35,22 @@ class Spider {
           const document = dom.window.document;
 
           // 获取视频地址
-          const videoUrls = this.xpath.selectAll(SELECTOR[site]['videoUrl'], document);
+          const videoUrls = this.xpath.selectAll(this.selector['videoUrl'], document);
           videoUrls.forEach((videoUrl) => {
             urlsToFetch.push(`${DOMAIN[site]}${videoUrl}`)
           });
         
           // 获取视频更新时间
-          const updateTimes = this.xpath.selectAll(SELECTOR[site]['updateTime'], document);
+          const updateTimes = this.xpath.selectAll(this.selector['updateTime'], document);
           updateTimes.forEach((updateTime) => {
-            updateTimeArray.push(updateTime.replace('\n\t',''))
-          });        
+            updateTimeArray.push(updateTime.trim());
+          });
         
           // 根据更新时间过滤视频
           updateTimeArray.forEach((updateTime, index) => {
             // 删除更新时间早于预定日期的视频地址
             if (Date.parse(updateTime) < this.timeStamp) {
+              updateTimeArray.pop(index);
               urlsToFetch.pop(index);
             }
           });
@@ -60,6 +65,10 @@ class Spider {
     });
   }
 
+  /**
+   * 请求与解析视频信息
+   * @param {string} url 视频地址
+   */
   parse(url) {
     return new Promise((resolve, reject) => {
       jsdom.JSDOM.fromURL(url).then((dom) => {
@@ -70,86 +79,86 @@ class Spider {
     });
   }
 
-  extractInfo(document, site=1) {
+  extractInfo(document) {
     const videoItem = new VideoItem();
 
     // 提取视频信息
-    videoItem.setSite(site);
-    videoItem.setName(this.extractName(site, document));
-    videoItem.setSummary(this.extractSummary(site, document));
-    videoItem.setImgUrl(this.extractImgUrl(site, document));
-    videoItem.setDirector(this.extractDirector(site, document));
-    videoItem.setActors(this.extractActors(site, document));
-    videoItem.setType(this.extractType(site, document));
-    videoItem.setYear(this.extractYear(site, document));
-    videoItem.setArea(this.extractArea(site, document));
-    videoItem.setLang(this.extractLang(site, document));
+    videoItem.setSite(this.site);
+    videoItem.setName(this.extractName(document));
+    videoItem.setSummary(this.extractSummary(document));
+    videoItem.setImgUrl(this.extractImgUrl(document));
+    videoItem.setDirector(this.extractDirector(document));
+    videoItem.setActors(this.extractActors(document));
+    videoItem.setType(this.extractType(document));
+    videoItem.setYear(this.extractYear(document));
+    videoItem.setArea(this.extractArea(document));
+    videoItem.setLang(this.extractLang(document));
     videoItem.setUpdate(getCurrentTime('datetime'));
 
     // 提取视频的播放与下载地址
-    videoItem.setPlAddrs(this.extractPlAddr(site, document));
-    videoItem.setDlAddrs(this.extractDlAddr(site, document));
+    videoItem.setPlAddrs(this.extractPlAddr(document));
+    videoItem.setDlAddrs(this.extractDlAddr(document));
     
     return videoItem;
   }
 
   // 提取视频名字
-  extractName(site, document) {
-    const result = this.xpath.select(SELECTOR[site]['name'], document);
+  extractName(document) {
+    const result = this.xpath.select(this.selector['name'], document);
     return result;
   }
 
   // 提取视频摘要
-  extractSummary(site, document) {
-    const result = this.xpath.select(SELECTOR[site]['summary'], document);
+  extractSummary(document) {
+    const result = this.xpath.select(this.selector['summary'], document);
     return result;
   }
 
   // 提取视频图片地址
-  extractImgUrl(site, document) {
-    const result = this.xpath.select(SELECTOR[site]['imgUrl'], document);
+  extractImgUrl(document) {
+    const result = this.xpath.select(this.selector['imgUrl'], document);
     return result;
   }
 
   // 提取视频导演
-  extractDirector(site, document) {
-    const result = this.xpath.select(SELECTOR[site]['director'], document);
+  extractDirector(document) {
+    const result = this.xpath.select(this.selector['director'], document);
     return result;
   }
 
   // 提取视频演员
-  extractActors(site, document) {
-    const result = this.xpath.select(SELECTOR[site]['actors'], document);
+  extractActors(document) {
+    const result = this.xpath.select(this.selector['actors'], document);
     return result;
   }
 
   // 提取视频类型
-  extractType(site, document) {
-    const result = this.xpath.select(SELECTOR[site]['type'], document);
+  extractType(document) {
+    const result = this.xpath.select(this.selector['type'], document);
     return result;
   }
 
   // 提取视频年份
-  extractYear(site, document) {
-    const result = this.xpath.select(SELECTOR[site]['years'], document);
+  extractYear(document) {
+    const result = this.xpath.select(this.selector['year'], document);
     return result;
   }
 
   // 提取视频地区
-  extractArea(site, document) {
-    const result = this.xpath.select(SELECTOR[site]['area'], document);
+  extractArea(document) {
+    const result = this.xpath.select(this.selector['area'], document);
     return result;
   }
 
   // 提取视频语言
-  extractLang(site, document) {
-    const result = this.xpath.select(SELECTOR[site]['lang'], document);
+  extractLang(document) {
+    const result = this.xpath.select(this.selector['lang'], document);
     return result;
   }
 
   // 提取视频播放地址
-  extractPlAddr(site, document) {
-    const results = this.xpath.selectAll(SELECTOR[site]['plAddr'], document);
+  extractPlAddr(document) {
+    const results = this.xpath.selectAll(this.selector['plAddr'], document);
     const plAddr = [];
     results.forEach((element) => {
       const matchResult = element.match('(http|https)://.*');
@@ -161,8 +170,8 @@ class Spider {
   }
 
   // 提取视频下载地址
-  extractDlAddr(site, document) {
-    const results = this.xpath.selectAll(SELECTOR[site]['dlAddr'], document);
+  extractDlAddr(document) {
+    const results = this.xpath.selectAll(this.selector['dlAddr'], document);
     const dlAddr = [];
     results.forEach((element) => {
       const matchResult = element.match('(http|https)://.*');
@@ -173,5 +182,6 @@ class Spider {
     return dlAddr;
   }
 }
+
 
 export { Spider }

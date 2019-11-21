@@ -12,13 +12,17 @@ import { STATEMENTS } from './config.mjs'
 class Storager {
   constructor() {
     this.db = new Database();
+    
+    // 存储器锁
     this.mutex = false;
-    this.videoItems = [];
+
+    // 待存储的视频信息条目数组
+    this.videoItems = [];    
+    
     this.makeImgDir();
-    this.imgs = [];
   }
 
-  // 将视频信息条目压入待存储的信息条目数组中
+  // 将新的视频信息压入待存储的信息条目数组中
   pushVideoItem(videoItem) {
     this.videoItems.push(videoItem);
   }
@@ -132,7 +136,6 @@ class Storager {
            */
           if (result.affectedRows == 1) {
             this.storageImg(videoItem.getImgUrl(), imgAddr['localAddr'],)
-            //console.log(videoItem.getImgUrl());
           }
           resolve();
         });
@@ -185,11 +188,10 @@ class Storager {
     try {
       request(imgUrl).pipe(fs.createWriteStream(imgAddr));
     } catch (error) {
-      console.log(imgUrl);
-      console.log(error);
     }
     
   }
 }
+
 
 export { Storager }

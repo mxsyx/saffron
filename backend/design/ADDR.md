@@ -13,7 +13,6 @@
 
   CDN 美国
 
-
 ### 线路2
 
   [八戒资源网](http://www.bajieziyuan.com)
@@ -21,7 +20,6 @@
   库存 22000+
   
   CDN 中国
-
 
 ### 线路3
 
@@ -31,19 +29,18 @@
 
   CDN 美国
 
-
 ### 线路4
 
-  [123资源网](http://123ku.com)
+  [速播资源网](http://www.subo8988.com)
 
   库存 30000+
 
-  CDN 中国
+  CDN 美国
 
 
 ### 线路5
 
-  [高清资源网](http://www.gaoqingzy.com)
+  [最新资源网](http://www.zuixinzy.cc)
 
   库存 31000+
 
@@ -52,9 +49,8 @@
 
 ### 线路6
 
-  [永久资源网](http://www.yongjiuzy.cc)
+  [123资源网](http://123ku.com)
 
   库存 30000+
 
-  CDN 美国
-  
+  CDN 中国

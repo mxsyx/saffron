@@ -1,6 +1,6 @@
 /**
  * 资源站点
- * 1号线 OK资源网 [okzyw](http://www.okzyw.com)
+ * 1号线 [OK资源网](http://www.okzyw.com)
  * 
  */
 
@@ -31,7 +31,7 @@ const SELECTOR = {
     'director'  : '/html[1]/body[1]/div[5]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[2]/span[1]',
     'actors'    : '/html[1]/body[1]/div[5]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[3]/span[1]',
     'type'      : '/html[1]/body[1]/div[5]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[4]/span[1]/text()',
-    'years'     : '/html[1]/body[1]/div[5]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[7]/span[1]',
+    'year'      : '/html[1]/body[1]/div[5]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[7]/span[1]',
     'area'      : '/html[1]/body[1]/div[5]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[5]/span[1]',
     'lang'      : '/html[1]/body[1]/div[5]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[6]/span[1]',  
     'plAddr'    : '/html[1]/body[1]/div[5]/div[4]/font[1]/div[1]/div[1]/div[2]/ul[1]/li',
@@ -83,13 +83,16 @@ const STATEMENTS = {
   'addInfo'   : 'INSERT INTO ?? (`name`,`summary`,`imgaddr`,`director`,`actors`,`type`,`year`,`area`,`lang`,`update`) values (?,?,?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE `update`=?',
   'addPlAddr' : 'INSERT INTO ?? (`vid`,`episode`, ??) VALUES (?,?,?) ON DUPLICATE KEY UPDATE ??=?',
   'addDlAddr' : 'INSERT IGNORE INTO ?? (`vid`,`episode`, `addr`) VALUES (?,?,?)',
-  'getMaxId'  : 'SELECT MAX(`id`) AS maxId FROM ??',
   'resetAutoInc': 'ALTER TABLE ?? AUTO_INCREMENT=0',
 }
 
+const PAGEINDEX = {
+  1: [1,2,3,4,5,6,7,8,9],
+
+}
 
 export {
   DOMAIN, URLTPL, SELECTOR, SITES, THRESHOLD,
   MVTYPES, TVTYPES, DMTYPES, YEARS, AREAS, LANGS,
-  STATEMENTS
+  PAGEINDEX, STATEMENTS
 }

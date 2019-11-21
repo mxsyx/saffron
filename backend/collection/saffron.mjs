@@ -8,7 +8,7 @@ import { Storager } from './storager.mjs'
 
 class Saffron {
   constructor() {
-    this.spider = new Spider();
+    this.spider = new Spider(1);
     this.filter = new Filter();
     this.storager = new Storager();
     this.urlsToFetch = [];
@@ -21,7 +21,7 @@ class Saffron {
    * 每次获取并完成信息的提取后向待存储条目数组压入新的条目
    */
   asyncFetch() {
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       this.urlsToFetch.forEach((url) => {
         this.spider.parse(url).then((videoItem) => {
           this.filter.filte(videoItem);          
@@ -35,8 +35,8 @@ class Saffron {
   }
 
   async start() {
-    // 获取更新地址
-    await this.spider.fetchUpdate(1, this.urlsToFetch);
+    // 获取视频更新地址
+    await this.spider.fetchUpdate(this.urlsToFetch);
     this.sumUrlsToFetch =  this.urlsToFetch.length;
     
     // 每隔一段时间存储数据
@@ -45,11 +45,9 @@ class Saffron {
 
     await this.asyncFetch();
     
-    clearInterval(interval);
-    
     // 完成数据的最终存储
+    clearInterval(interval);
     this.storager.clear();
-   
   }
 }
 

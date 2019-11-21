@@ -6,6 +6,15 @@ import { Spider } from './spider.mjs'
 import { Filter } from './filter.mjs'
 import { Storager } from './storager.mjs'
 
+const sleep = function(seconds) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    },
+    seconds)
+  })
+}
+
 class Saffron {
   constructor() {
     this.spider = new Spider(1);
@@ -20,18 +29,13 @@ class Saffron {
    * 异步获取网页并提取视频信息
    * 每次获取并完成信息的提取后向待存储条目数组压入新的条目
    */
-  asyncFetch() {
+  asyncFetch(url) {
     return new Promise((resolve, reject) => {
-      this.urlsToFetch.forEach((url) => {
-        this.spider.parse(url).then((videoItem) => {
-          this.filter.filte(videoItem);
-          console.log(this.sumCompleted);
-          this.storager.pushVideoItem(videoItem);
-          if (++this.sumCompleted == this.sumUrlsToFetch){
-            resolve();
-          }
+      this.spider.parse(url).then((videoItem) => {
+        this.filter.filte(videoItem);
+        this.storager.pushVideoItem(videoItem);
+        resolve();
         });
-      });
     });
   }
 
@@ -42,12 +46,15 @@ class Saffron {
     
     // 每隔一段时间存储数据
     const intervalFunction = this.storager.interval.bind(this.storager);
-    const interval = setInterval(intervalFunction, 5000);
+    const interval = setInterval(intervalFunction, 10000);
     
     console.log(`共${this.sumUrlsToFetch}条`);
 
-    await this.asyncFetch();
-    
+    for(let i = 0; i < this.sumUrlsToFetch; i++) {
+      await this.asyncFetch(this.urlsToFetch[i]);
+      console.log(i);
+    }
+   
     // 完成数据的最终存储
     clearInterval(interval);
     this.storager.clear();

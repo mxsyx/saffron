@@ -60,6 +60,8 @@ class Spider {
           if (sumFetched == this.pageIndexs.length) {
             resolve();
           }
+        }).catch((error) => {
+          // console.log(error);
         });
       });
     });
@@ -75,6 +77,8 @@ class Spider {
         const document = dom.window.document;
         const videoItem = this.extractInfo(document);
         resolve(videoItem);
+      }).catch((error) => {
+        //console.log(error);
       });
     });
   }

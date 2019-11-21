@@ -3,7 +3,8 @@
  */
 
 import mysql from 'mysql/index.js'
-import { DBHOST, DBPORT, DBUSER, DBPASSWORD, DBNAME } from './config.mjs'
+import { DBHOST, DBPORT, DBNAME } from './config.mjs'
+import { DBUSER, DBPASSWORD } from './config.mjs'
 
 class Database {
   constructor() {

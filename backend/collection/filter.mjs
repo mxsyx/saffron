@@ -6,7 +6,7 @@ import { YEARS, AREAS, LANGS } from './config.mjs'
 import { MVTYPES, TVTYPES, DMTYPES } from './config.mjs'
 
 class Filter {
-  constructor() { }
+  constructor() {}
 
   filte(videoItem) {
     switch(videoItem.getSite()) {

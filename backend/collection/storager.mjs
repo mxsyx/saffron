@@ -65,7 +65,7 @@ class Storager {
     // 函数被锁住，终止执行
     if (this.mutex) return ;
     
-    // 给函数上锁
+    // 给存储器上锁
     this.mutex = true;
     
     const len = this.videoItems.length;
@@ -80,7 +80,7 @@ class Storager {
       this.videoItems.pop(i);
     }
 
-    // 该函数解锁
+    // 该存储器解锁
     this.mutex = false;
   }
 
@@ -97,9 +97,7 @@ class Storager {
   storage(videoItem) {
     return new Promise((resolve, reject) => {
       // 检测该条目是否是可存储的
-      if (videoItem.getDrop()) {
-        return resolve();
-      }
+      if (videoItem.getDrop()) return resolve();
       
       // 该信息条目需要插入的表
       const infoTableName = videoItem.getInfoTableName();
@@ -124,7 +122,9 @@ class Storager {
       // 首先重置自增索引
       this.db.excute(STATEMENTS['resetAutoInc'], [infoTableName]).then((result) => {
         this.db.excute(STATEMENTS['addInfo'], params).then((result) => {
-          const vid = result.insertId
+          const vid = result.insertId;
+
+          // 存储视频的播放与下载地址
           if (vid) {
             this.storagePladdr(videoItem, vid);
             this.storageDladdr(videoItem, vid);

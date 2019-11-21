@@ -158,12 +158,16 @@ CREATE TABLE `message`
 
 );
 
-delete from `dladdrmv`;
-delete from `dladdrtv`;
-delete from `pladdrmv`;
-delete from `pladdrtv`;
-delete from `infomv`;
-delete from `infotv`;
-alter table `infomv` auto_increment = 0;
-alter table `infotv` auto_increment = 0;
-
+DELIMITER $$
+CREATE PROCEDURE delete_all()
+BEGIN
+  DELETE FROM `dladdrmv`;
+  DELETE FROM `dladdrtv`;
+  DELETE FROM `pladdrmv`;
+  DELETE FROM `pladdrtv`;
+  DELETE FROM `infomv`;
+  DELETE FROM `infotv`;
+  ALTER TABLE `infomv` AUTO_INCREMENT = 0;
+  ALTER TABLE `infotv` AUTO_INCREMENT = 0;
+END$$
+DELIMITER ;

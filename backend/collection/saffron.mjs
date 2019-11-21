@@ -26,7 +26,6 @@ class Saffron {
         this.spider.parse(url).then((videoItem) => {
           this.filter.filte(videoItem);          
           this.storager.pushVideoItem(videoItem);
-          console.log(this.sumCompleted);
           if (++this.sumCompleted == this.sumUrlsToFetch){
             resolve();
           }

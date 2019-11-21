@@ -15,6 +15,7 @@ class Storager {
     this.mutex = false;
     this.videoItems = [];
     this.makeImgDir();
+    this.imgs = [];
   }
 
   // 将视频信息条目压入待存储的信息条目数组中
@@ -131,6 +132,7 @@ class Storager {
            */
           if (result.affectedRows == 1) {
             this.storageImg(videoItem.getImgUrl(), imgAddr['localAddr'],)
+            //console.log(videoItem.getImgUrl());
           }
           resolve();
         });
@@ -183,6 +185,7 @@ class Storager {
     try {
       request(imgUrl).pipe(fs.createWriteStream(imgAddr));
     } catch (error) {
+      console.log(imgUrl);
       console.log(error);
     }
     

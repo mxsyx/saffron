@@ -1,6 +1,4 @@
 const arr = []
-for(let i = 51; i <= 100;i++)
+for(let i = 801; i <= 838; i++)
   arr.push(i);
-
-process.exit();
 console.log(arr);

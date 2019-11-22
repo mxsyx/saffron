@@ -171,3 +171,25 @@ BEGIN
   ALTER TABLE `infotv` AUTO_INCREMENT = 0;
 END$$
 DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE check_id()
+BEGIN
+  SELECT COUNT(*) FROM `infomv`;
+  SELECT MAX(`id`) FROM `infomv`;
+  SELECT COUNT(*) FROM `infotv`;
+  SELECT MAX(`id`) FROM `infotv`;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE count_all()
+BEGIN
+  SELECT COUNT(*) AS infomv FROM `infomv`;
+  SELECT COUNT(*) AS infotv FROM `infotv`;
+  SELECT COUNT(*) AS pladdrmv FROM `pladdrmv`;
+  SELECT COUNT(*) AS pladdrtv FROM `pladdrtv`;
+  SELECT COUNT(*) AS dladdrmv FROM `dladdrmv`;
+  SELECT COUNT(*) AS dladdrtv FROM `dladdrtv`;
+END$$
+DELIMITER ;

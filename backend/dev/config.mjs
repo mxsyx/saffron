@@ -51,21 +51,6 @@ const URLTPL = {
 
 // XPath 选择器
 const SELECTOR = {
-  1: {
-    'videoUrl'  : '/html[1]/body[1]/div[5]/ul/li[1]/span[2]/a[1]/@href',
-    'updateTime': '/html[1]/body[1]/div[5]/ul/li[1]/span[4]',
-    'name'      : '/html[1]/body[1]/div[5]/div[1]/div[1]/div[1]/div[2]/div[1]/h2[1]',
-    'summary'   : '/html[1]/body[1]/div[5]/div[3]/div[2]',
-    'imgUrl'    : '/html[1]/body[1]/div[5]/div[1]/div[1]/div[1]/div[1]/img[1]/@src',
-    'director'  : '/html[1]/body[1]/div[5]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[2]/span[1]',
-    'actors'    : '/html[1]/body[1]/div[5]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[3]/span[1]',
-    'type'      : '/html[1]/body[1]/div[5]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[4]/span[1]/text()',
-    'year'      : '/html[1]/body[1]/div[5]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[7]/span[1]',
-    'area'      : '/html[1]/body[1]/div[5]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[5]/span[1]',
-    'lang'      : '/html[1]/body[1]/div[5]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[6]/span[1]',  
-    'plAddr'    : '/html[1]/body[1]/div[5]/div[4]/font[1]/div[1]/div[1]/div[2]/ul[1]/li',
-    'dlAddr'    : '/html[1]/body[1]/div[5]/font[1]/div[1]/div[2]/div[1]/div[1]/ul[1]/li',
-  },
   2: {
     'videoUrl'  : '/html[1]/body[1]/div[4]/div[1]/table[1]/tbody[1]/tr/td[1]/a[1]/@href',
     'updateTime': '/html[1]/body[1]/div[4]/div[1]/table[1]/tbody[1]/tr/td[6]/font[1]',
@@ -131,14 +116,7 @@ const STATEMENTS = {
 }
 
 const PAGEINDEX = {
-  1: [
-    801, 802, 803, 804, 805, 806, 807,
-    808, 809, 810, 811, 812, 813, 814,
-    815, 816, 817, 818, 819, 820, 821,
-    822, 823, 824, 825, 826, 827, 828,
-    829, 830, 831, 832, 833, 834, 835,
-    836, 837, 838
-  ]
+  2: [1],
 }
 
 

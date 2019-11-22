@@ -9,6 +9,7 @@ import { Filter } from './filter.mjs'
 import { Storager } from './storager.mjs'
 import { URLTPL, PAGEINDEX } from './config.mjs'
 import { sleep } from '../common/utils.mjs'
+import { isMainThread } from 'worker_threads'
 
 class Saffron {
   constructor(site) {
@@ -90,7 +91,6 @@ class Saffron {
     this.storager.clear();
   }
 }
-
 
 const saffron = new Saffron(1);
 saffron.start();

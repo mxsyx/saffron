@@ -72,12 +72,10 @@ class Storager {
     
     // 同步存储数据
     for(let i = 0; i < len; i++) {
-      await this.storage(this.videoItems[i]);
-    }
-    
-    // 删除已完成存储的数据
-    for(let i = 0; i < len; i++) {
-      this.videoItems.pop(i);
+      const videoItem = this.videoItems[i];
+      if (videoItem.getDrop()) continue ;
+      await this.storage(videoItem);
+      videoItem.setDrop(true);
     }
 
     // 该存储器解锁
@@ -97,10 +95,7 @@ class Storager {
    * @param {object} videoItem 视频信息条目
    */
   storage(videoItem) {
-    return new Promise((resolve, reject) => {
-      // 检测该条目是否是可存储的
-      if (videoItem.getDrop()) return resolve();
-      
+    return new Promise((resolve, reject) => {      
       // 该信息条目需要插入的表
       const infoTableName = videoItem.getInfoTableName();
 

@@ -15,10 +15,8 @@ class Saffron {
     this.parser = new Parser();
     this.filter = new Filter();
     this.storager = new Storager();
-    this.urlsToFetch = [];
-    this.sumCompleted = 0;
     this.pageIndexs = PAGEINDEX[site];
-    this.selector = SELECTOR[site];
+    this.urlsToFetch = [];
   }
 
   /**
@@ -49,13 +47,16 @@ class Saffron {
     });
   }
 
-  asyncParse() {
+  crawl(url) {
     return new Promise((resolve, reject) => {
       jsdom.JSDOM.fromURL(url).then((dom) => {
         const document = dom.window.document;
         const videoItem = this.parser.parse(document);
+        
+        // 过滤并存储数据
         this.filter.filte(videoItem);
         this.storager.pushVideoItem(videoItem);
+        
         resolve();
       }).catch((error) => {
         // console.log(error);
@@ -71,12 +72,10 @@ class Saffron {
     const intervalFunction = this.storager.interval.bind(this.storager);
     const interval = setInterval(intervalFunction, 10000);
     
-
     const sumUrlsToFetch = this.urlsToFetch.length;
     for(let i = 0; i < sumUrlsToFetch; i++) {
-      await this.asyncFetch(this.urlsToFetch[i]);
-
-      console.log(i);
+      await this.crawl(this.urlsToFetch[i]);
+      console.log(i+1);
     }
 
     // 完成数据的最终存储

@@ -6,7 +6,7 @@ import fs from 'fs'
 import md5 from 'md5'
 import request from 'request'
 import { Database } from '../common/database.mjs'
-import { getCurrentTime } from '../common/utils.mjs'
+import { getCurrentTime, sleep } from '../common/utils.mjs'
 import { STATEMENTS } from './config.mjs'
 
 class Storager {
@@ -59,10 +59,10 @@ class Storager {
    * 如果数组不为空, 则将数组中的数据存储到数据库中,
    * 同时从数组删除这些数据.
    * 为防止在间隔时间内数据未完成存储, 
-   * 每次执行函数时给函数上锁, 数据执行完毕后将锁解开.
+   * 每次执行函数时给存储器上锁, 数据执行完毕后将锁解开.
    */
-  async interval() {  
-    // 函数被锁住，终止执行
+  async interval() {
+    // 存储器被锁住，终止执行
     if (this.mutex) return ;
     
     // 给存储器上锁
@@ -85,8 +85,10 @@ class Storager {
   }
 
   // 清理未完成的存储
-  clear() {
-    this.mutex = false;
+  async clear() {
+    while(this.mutex) {
+      await sleep(5);
+    }
     this.interval();
   }
 
@@ -126,8 +128,8 @@ class Storager {
 
           // 存储视频的播放与下载地址
           if (vid) {
-            this.storagePladdr(videoItem, vid);
-            this.storageDladdr(videoItem, vid);
+            this.storagePlAddr(videoItem, vid);
+            this.storageDlAddr(videoItem, vid);
           }
           
           /**
@@ -148,7 +150,7 @@ class Storager {
    * @param {object} videoItem 视频信息条目
    * @param {number} vid 视频ID
    */
-  storagePladdr(videoItem, vid) {
+  storagePlAddr(videoItem, vid) {
     const pladdrs = videoItem.getPlAddrs();
     const pladdrTableName = videoItem.getPlAddrTableName();
     const addrName = videoItem.getAddrName();
@@ -167,7 +169,7 @@ class Storager {
    * @param {object} videoItem 视频信息条目
    * @param {number} vid 视频ID
    */
-  storageDladdr(videoItem, vid) {
+  storageDlAddr(videoItem, vid) {
     const dladdrs = videoItem.getDlAddrs();
     const dladdrTableName = videoItem.getDlAddrTableName();
     dladdrs.forEach((dladdr, index) => {
@@ -188,8 +190,8 @@ class Storager {
     try {
       request(imgUrl).pipe(fs.createWriteStream(imgAddr));
     } catch (error) {
+      console.log(error);
     }
-    
   }
 }
 

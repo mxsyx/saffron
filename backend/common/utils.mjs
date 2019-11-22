@@ -55,7 +55,7 @@ const sleep = function(seconds) {
     setTimeout(() => {
       resolve();
     },
-    seconds)
+    seconds*1000);
   })
 }
 

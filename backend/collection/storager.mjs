@@ -186,7 +186,7 @@ class Storager {
    */
   storageImg(imgUrl, imgAddr) {
     try {
-      //request(imgUrl).pipe(fs.createWriteStream(imgAddr));
+      request(imgUrl).pipe(fs.createWriteStream(imgAddr));
     } catch (error) {
     }
     

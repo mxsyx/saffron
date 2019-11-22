@@ -42,7 +42,7 @@ class Saffron {
           // 判断是否结束更新
           if (!--sumToGet) resolve();
         }).catch((error) => {
-          // console.log(error);
+          console.log(error);
         });
       });
     });
@@ -64,7 +64,7 @@ class Saffron {
         console.log(++this.sumCompleted);
         resolve();
       }).catch((error) => {
-        // console.log(error);
+        console.log(error);
       });
     });
   }

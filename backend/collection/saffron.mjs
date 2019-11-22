@@ -2,52 +2,83 @@
  * 主调度文件
  */
 
-import { Spider } from './spider.mjs'
+import util from 'util'
+import jsdom from 'jsdom'
+import { Parser } from './parser.mjs'
 import { Filter } from './filter.mjs'
 import { Storager } from './storager.mjs'
-
-
+import { PAGEINDEX } from './config.mjs'
 
 class Saffron {
-  constructor() {
-    this.spider = new Spider(1);
+  constructor(site) {
+    this.site = site;
+    this.parser = new Parser();
     this.filter = new Filter();
     this.storager = new Storager();
     this.urlsToFetch = [];
-    this.sumUrlsToFetch = 0;
     this.sumCompleted = 0;
+    this.pageIndexs = PAGEINDEX[site];
+    this.selector = SELECTOR[site];
   }
 
   /**
-   * 异步获取网页并提取视频信息
-   * 每次获取并完成信息的提取后向待存储条目数组压入新的条目
+   * 获取视频的更新地址
+   * 函数解析采集站的视频更新地址,
+   * 将符合条件的更新地址填充到数组中.
    */
-  asyncFetch(url) {
+  getUpdate() {
+    let sumToGet = this.pageIndexs.length;
+
     return new Promise((resolve, reject) => {
-      this.spider.parse(url).then((videoItem) => {
+      this.pageIndexs.forEach((pageIndex) => {
+        const url = util.format(URLTPL[this.site]['home'], pageIndex);
+        
+        jsdom.JSDOM.fromURL(url).then((dom) => {
+          const document = dom.window.document;
+          
+          // 解析更新地址
+          const videoUrls = this.parser.parseUpdate(document);
+          this.urlsToFetch.push(...videoUrls);
+
+          // 判断是否结束更新
+          if (!--sumToGet) resolve();
+        }).catch((error) => {
+          // console.log(error);
+        });
+      });
+    });
+  }
+
+  asyncParse() {
+    return new Promise((resolve, reject) => {
+      jsdom.JSDOM.fromURL(url).then((dom) => {
+        const document = dom.window.document;
+        const videoItem = this.parser.parse(document);
         this.filter.filte(videoItem);
         this.storager.pushVideoItem(videoItem);
         resolve();
-        });
+      }).catch((error) => {
+        // console.log(error);
+      });
     });
   }
 
   async start() {
     // 获取视频更新地址
-    await this.spider.fetchUpdate(this.urlsToFetch);
-    this.sumUrlsToFetch =  this.urlsToFetch.length;
-    
+    await this.getUpdate();
+
     // 每隔一段时间存储数据
     const intervalFunction = this.storager.interval.bind(this.storager);
     const interval = setInterval(intervalFunction, 10000);
     
-    console.log(`共${this.sumUrlsToFetch}条`);
 
-    for(let i = 0; i < this.sumUrlsToFetch; i++) {
+    const sumUrlsToFetch = this.urlsToFetch.length;
+    for(let i = 0; i < sumUrlsToFetch; i++) {
       await this.asyncFetch(this.urlsToFetch[i]);
+
       console.log(i);
     }
-   
+
     // 完成数据的最终存储
     clearInterval(interval);
     this.storager.clear();
@@ -55,5 +86,5 @@ class Saffron {
 }
 
 
-const saffron = new Saffron();
+const saffron = new Saffron(1);
 saffron.start();

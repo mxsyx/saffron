@@ -1,27 +1,21 @@
-import request from 'request'
+/**
+ * 视频信息解析器 
+ */
+
+import { XPath } from './xpath.mjs'
+import { VideoItem } from './items.mjs'
+import { getCurrentTime } from '../common/utils.mjs'
+import { DOMAIN, SELECTOR, THRESHOLD } from './config.mjs'
 
 class Parser {
-  constructor() {
-
+  constructor(site) {
+    this.site = site;
+    this.xpath = new XPath();
+    this.timeStamp = Date.now() - THRESHOLD;
+    this.selector = SELECTOR[site];
   }
 
- /**
-   * 请求与解析视频信息
-   * @param {string} url 视频地址
-   */
-  parse(url) {
-    return new Promise((resolve, reject) => {
-      jsdom.JSDOM.fromURL(url).then((dom) => {
-        const document = dom.window.document;
-        const videoItem = this.extractInfo(document);
-        resolve(videoItem);
-      }).catch((error) => {
-        //console.log(error);
-      });
-    });
-  }
-
-  extractInfo(document) {
+  parse(document) {
     const videoItem = new VideoItem();
 
     // 提取视频信息
@@ -42,6 +36,33 @@ class Parser {
     videoItem.setDlAddrs(this.extractDlAddr(document));
     
     return videoItem;
+  }
+
+  parseUpdate(document) {
+    const videoUrlArray = [];
+    const updateTimeArray = [];
+
+    // 获取视频更新地址
+    const videoUrls = this.xpath.selectAll(this.selector['videoUrl'], document);
+    videoUrls.forEach((videoUrl) => {
+      videoUrlArray.push(`${DOMAIN[this.site]}${videoUrl}`)
+    });
+  
+    // 获取视频更新时间
+    const updateTimes = this.xpath.selectAll(this.selector['updateTime'], document);
+    updateTimes.forEach((updateTime) => {
+      updateTimeArray.push(updateTime.trim());
+    });
+
+    // 根据更新时间过滤视频
+    updateTimeArray.forEach((updateTime, index) => {
+      // 删除更新时间早于预定日期的视频地址
+      if (Date.parse(updateTime) < this.timeStamp) {
+        videoUrlArray.pop(index);
+        updateTimeArray.pop(index);
+      }
+    });
+    return videoUrlArray;
   }
 
   // 提取视频名字

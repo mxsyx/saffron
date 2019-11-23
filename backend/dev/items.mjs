@@ -73,8 +73,8 @@ class VideoItem {
     this.summary = summary;
   }
 
-  setImgUrl(imgaddr) {
-    this.imgaddr = imgaddr;
+  setImgUrl(imgUrl) {
+    this.imgUrl = imgUrl;
   }
 
   setDirector(director) {
@@ -148,7 +148,7 @@ class VideoItem {
   }
 
   getImgUrl() {
-    return this.imgaddr;
+    return this.imgUrl;
   }
 
   getDirector() {

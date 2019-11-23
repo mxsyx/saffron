@@ -19,7 +19,6 @@ class Saffron {
     this.storager = new Storager();
     this.pageIndexs = PAGEINDEX[site];
     this.urlsToFetch = [];
-    this.sumCompleted = 0;
   }
 
   /**
@@ -62,12 +61,23 @@ class Saffron {
         // 过滤并存储数据
         this.filter.filte(videoItem);
         this.storager.pushVideoItem(videoItem);
-        console.log(++this.sumCompleted);
+        console.log(this.sumTask);
         resolve();
+
+        if (!--this.sumTask) {
+          this.endTask();
+        }
       }).catch((error) => {
+        --this.sumTask;
         console.log(error);
       });
     });
+  }
+
+  // 完成数据的最终存储
+  endTask() {
+    clearInterval(this.interval);
+    this.storager.clear();
   }
 
   async start() {
@@ -76,19 +86,15 @@ class Saffron {
 
     // 每隔一段时间存储数据
     const intervalFunction = this.storager.interval.bind(this.storager);
-    const interval = setInterval(intervalFunction, 5000);
+    this.interval = setInterval(intervalFunction, 5000);
 
-    const sumUrlsToFetch = this.urlsToFetch.length;
-    for(let i = 0; i < sumUrlsToFetch; i++) {
+    this.sumTask = this.urlsToFetch.length;
+    for(let i = 0; i < this.sumTask; i++) {
       // 降低请求频率
       if (i % 10 == 0) await sleep(0.5);
       
       this.crawl(this.urlsToFetch[i]);
     }
-
-    // 完成数据的最终存储
-    clearInterval(interval);
-    this.storager.clear();
   }
 }
 

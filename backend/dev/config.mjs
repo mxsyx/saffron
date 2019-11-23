@@ -63,7 +63,7 @@ const SELECTOR = {
     'year'      : '/html[1]/body[1]/div[4]/div[1]/div[1]/div[2]/li[8]/div[2]',
     'area'      : '/html[1]/body[1]/div[4]/div[1]/div[1]/div[2]/li[7]/div[2]',
     'lang'      : '/html[1]/body[1]/div[4]/div[1]/div[1]/div[2]/li[7]/div[1]',  
-    'plAddr'    : '/html[1]/body[1]/div[5]/div[4]/font[1]/div[1]/div[1]/div[2]/ul[1]/li',
+    'plAddr'    : '/html[1]/body[1]/div[4]/div[2]/div[1]/div[1]/ul[1]/li/input[1]/@value',
     'dlAddr'    : '/html[1]/body[1]/div[5]/font[1]/div[1]/div[2]/div[1]/div[1]/ul[1]/li',
   },
 }

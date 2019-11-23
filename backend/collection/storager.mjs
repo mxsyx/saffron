@@ -4,10 +4,9 @@
 
 import fs from 'fs'
 import md5 from 'md5'
-import request from 'request'
 import { Database } from '../common/database.mjs'
-import { getCurrentTime, sleep } from '../common/utils.mjs'
 import { STATEMENTS } from './config.mjs'
+import { Downloader } from './downloader.mjs'
 
 class Storager {
   constructor() {
@@ -16,9 +15,14 @@ class Storager {
     // 存储器锁
     this.mutex = false;
 
-    // 待存储的视频信息条目数组
-    this.videoItems = [];    
+    // 待存储的视频信息条目
+    this.videoItems = [];
+    this.sumVideoItems = 0;
+    this.sumStoraged = 0;
     
+    // 图片下载器
+    this.downloader = new Downloader();
+
     this.makeImgDir();
   }
 
@@ -27,31 +31,9 @@ class Storager {
     this.videoItems.push(videoItem);
   }
 
-  /**
-   * 创建图片的本机存储目录
-   * 目录名为当天的日期(年/月/日)
-   */
-  makeImgDir() {
-    this.currenDate = `${getCurrentTime('date')}`;
-    this.localImgDir = `/opt/img/${this.currenDate}`;
-    
-    // 递归创建图片本机存储目录
-    fs.mkdirSync(this.localImgDir, {recursive: true})
-  }
 
-  /**
-   * 生成图片的远程地址与本地地址
-   * @param {object} videoItem 视频信息条目
-   * @returns 图片的远程地址与本地地址
-   */
-  makeImgAddr(videoItem) {
-    // 图片名(视频名字的MD5摘要)
-    const imgName = md5(videoItem.getName());
-    return {
-      'remoteAddr': `/img/${this.currenDate}/${imgName}.png`,
-      'localAddr' : `${this.localImgDir}/${imgName}.png`
-    }
-  }
+
+
 
   /**
    * 间隔时间存储数据
@@ -82,12 +64,8 @@ class Storager {
     this.mutex = false;
   }
 
-  // 清理未完成的存储
-  async clear() {
-    while(this.mutex) {
-      await sleep(5);
-    }
-    this.interval();
+  checkComplete() {
+    return this.sumVideoItems == this.sumStoraged;
   }
 
   /**
@@ -132,7 +110,15 @@ class Storager {
            * 则说明该视频为一个新的视频, 应该下载其图片
            */
           if (result.affectedRows == 1) {
-            this.storageImg(videoItem.getImgUrl(), imgAddr['localAddr'],)
+            const img = {
+              'url': videoItem.getImgUrl(),
+              'addr': imgAddr['localAddr'];
+            }
+            const imgName = md5(videoItem.getName());
+            return {
+              'remoteAddr': `/img/${this.currenDate}/${imgName}.png`,
+              'localAddr' : `${this.localImgDir}/${imgName}.png`
+            }
           }
           resolve();
         });
@@ -176,18 +162,7 @@ class Storager {
     });
   }
 
-  /**
-   * 存储图片到本机
-   * @param {string} imgUrl  图片远程URL
-   * @param {string} imgAddr 图片本机地址
-   */
-  storageImg(imgUrl, imgAddr) {
-    try {
-      request(imgUrl).pipe(fs.createWriteStream(imgAddr));
-    } catch (error) {
-      console.log(error);
-    }
-  }
+
 }
 
 

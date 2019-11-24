@@ -23,7 +23,7 @@ class Parser {
     videoItem.setName(this.extractName(document));
     videoItem.setSummary(this.extractSummary(document));
     videoItem.setImgUrl(this.extractImgUrl(document));
-    videoItem.setImgAddr(this.extractImgAddr(videoItem));
+    videoItem.setImgAddr(makeImgAddr(videoItem));
     videoItem.setDirector(this.extractDirector(document));
     videoItem.setActors(this.extractActors(document));
     videoItem.setType(this.extractType(document));
@@ -82,10 +82,6 @@ class Parser {
   extractImgUrl(document) {
     const result = this.xpath.select(this.selector['imgUrl'], document);
     return result;
-  }
-
-  extractImgAddr(videoItem) {
-    return makeImgAddr(videoItem);
   }
 
   // 提取视频导演

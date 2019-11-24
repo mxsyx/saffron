@@ -2,7 +2,6 @@
  * 图片下载器
  */
 import fs from 'fs'
-import md5 from 'md5'
 import syncRequest from 'sync-request'
 
 class Downloader {

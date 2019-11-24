@@ -4,6 +4,7 @@
 
 import url from 'url'
 import queryString from 'querystring'
+import md5 from 'md5'
 
 /**
  * 获取URL查询参数

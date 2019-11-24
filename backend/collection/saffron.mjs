@@ -9,16 +9,19 @@ import { Filter } from './filter.mjs'
 import { Storager } from './storager.mjs'
 import { URLTPL, PAGEINDEX } from './config.mjs'
 import { sleep } from '../common/utils.mjs'
-import { isMainThread } from 'worker_threads'
+import { Downloader } from './downloader.mjs'
 
 class Saffron {
   constructor(site) {
     this.site = site;
     this.parser = new Parser(site);
     this.filter = new Filter();
-    this.storager = new Storager();
+    this.downloader = new Downloader();
+    this.storager = new Storager(this.downloader);
     this.pageIndexs = PAGEINDEX[site];
     this.urlsToFetch = [];
+    this.sumTasks = 0;
+    this.sumCompleted = 0;
   }
 
   /**
@@ -42,6 +45,7 @@ class Saffron {
           // 判断是否结束更新
           if (!--sumToGet) resolve();
         }).catch((error) => {
+          --sumToGet;
           console.log(error);
         });
       });
@@ -64,20 +68,25 @@ class Saffron {
         console.log(this.sumTask);
         resolve();
 
-        if (!--this.sumTask) {
+        if (++this.sumCompleted == this.sumTasks) {
           this.endTask();
         }
       }).catch((error) => {
-        --this.sumTask;
+        ++this.sumCompleted;
         console.log(error);
       });
     });
   }
 
   // 完成数据的最终存储
-  endTask() {
-    clearInterval(this.interval);
-    this.storager.clear();
+  async endTask() {
+    while (!this.storager.checkComplete()) {
+      await sleep(5);
+    }
+    while (!this.downloader.checkComplete()) {
+      await sleep(5);
+    }
+    process.exit(0);
   }
 
   async start() {
@@ -85,14 +94,18 @@ class Saffron {
     await this.getUpdate();
 
     // 每隔一段时间存储数据
-    const intervalFunction = this.storager.interval.bind(this.storager);
-    this.interval = setInterval(intervalFunction, 5000);
+    const intervalFunction1 = this.storager.interval.bind(this.storager);
+    setInterval(intervalFunction1, 5000);
 
-    this.sumTask = this.urlsToFetch.length;
-    for(let i = 0; i < this.sumTask; i++) {
+    // 每个一段时间下载图片
+    const intervalFunction2 = this.downloader.interval.bind(this.downloader);
+    setInterval(intervalFunction2, 5000);
+
+    this.sumTasks = this.urlsToFetch.length;
+    for(let i = 0; i < this.sumTasks; i++) {
       // 降低请求频率
       if (i % 10 == 0) await sleep(0.5);
-      
+
       this.crawl(this.urlsToFetch[i]);
     }
   }

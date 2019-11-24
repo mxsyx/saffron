@@ -2,13 +2,11 @@
  * 数据存储器
  */
 
-import fs from 'fs'
 import { Database } from '../common/database.mjs'
 import { STATEMENTS } from './config.mjs'
-import { Downloader } from './downloader.mjs'
 
 class Storager {
-  constructor() {
+  constructor(downloader) {
     this.db = new Database();
     
     // 存储器锁
@@ -20,7 +18,7 @@ class Storager {
     this.sumStoraged = 0;
     
     // 图片下载器
-    this.downloader = new Downloader();
+    this.downloader = downloader;
 
     this.makeImgDir();
   }
@@ -28,6 +26,7 @@ class Storager {
   // 将新的视频信息压入待存储的信息条目数组中
   pushVideoItem(videoItem) {
     this.videoItems.push(videoItem);
+    ++this.sumVideoItems;
   }
 
   /**
@@ -59,12 +58,10 @@ class Storager {
     this.mutex = false;
   }
 
+  // 检测是否存储完成
   checkComplete() {
     return this.sumVideoItems == this.sumStoraged;
   }
-
-
-
 
   /**
    * 存储视频信息
@@ -92,6 +89,7 @@ class Storager {
         }
         this.downloader.pushImg(img);
       }
+      ++this.sumStoraged;
       resolve();
     });
   }

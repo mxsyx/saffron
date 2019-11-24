@@ -11,15 +11,23 @@ import { URLTPL, PAGEINDEX } from './config.mjs'
 import { sleep } from '../common/utils.mjs'
 
 class Saffron {
-  constructor(site) {
+  constructor(site, sta) {
     this.site = site;
     this.parser = new Parser(site);
     this.filter = new Filter();
     this.storager = new Storager(this.downloader);
-    this.pageIndexs = PAGEINDEX[site];
+    this.pageIndexs = []
     this.urlsToFetch = [];
     this.sumTasks = 0;
     this.sumCompleted = 0;
+    this.generateIndexs(sta);
+  }
+
+  generateIndexs(sta) {
+    for(let i = sta*50 + 1; i <= (sta+1)*50; i++) {
+      this.pageIndexs.push(i);
+    } 
+    console.log(this.pageIndexs);
   }
 
   /**
@@ -64,15 +72,15 @@ class Saffron {
         // 过滤并存储数据
         this.filter.filte(videoItem);
         this.storager.pushVideoItem(videoItem);
+        
         console.log(this.sumCompleted + 1);
         resolve();
-
+      }).catch((error) => {
+        console.log(error);
+      }).finally(() => {
         if (++this.sumCompleted == this.sumTasks) {
           this.endTask();
         }
-      }).catch((error) => {
-        ++this.sumCompleted;
-        console.log(error);
       });
     });
   }
@@ -104,5 +112,5 @@ class Saffron {
   }
 }
 
-const saffron = new Saffron(1);
+const saffron = new Saffron(1,parseInt(process.argv[2]));
 saffron.start();

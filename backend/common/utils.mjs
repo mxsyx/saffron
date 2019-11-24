@@ -74,27 +74,3 @@ export {
   getUrlParams, getClientIp, getCurrentTime ,
   makeImgAddr, sleep
 }
-
-/*
-a = [
-	'a','b','c','d','e','f','0','1',
-	'2','3','4','5','6','7','8','9',
-]
-for(let i = 0; i < a.length; i++) {
-   for(let j = 0; j < a.length; j++) {
-   		fs.mkdirSync(a[i]+a[j]);
-   }
-}
-
-function countFiles() {
-  let sum = 0;
-  const dirs = fs.readdirSync('/opt/img')
-  for(let i = 0; i < dirs.length; i++) {
-    const files = fs.readdirSync(`/opt/img/${dirs[i]}`);
-  	sum += files.length;
-  };
-  console.log(sum);
-}
-countFiles();
-
-*/

@@ -9,14 +9,12 @@ import { Filter } from './filter.mjs'
 import { Storager } from './storager.mjs'
 import { URLTPL, PAGEINDEX } from './config.mjs'
 import { sleep } from '../common/utils.mjs'
-import { Downloader } from './downloader.mjs'
 
 class Saffron {
   constructor(site) {
     this.site = site;
     this.parser = new Parser(site);
     this.filter = new Filter();
-    this.downloader = new Downloader();
     this.storager = new Storager(this.downloader);
     this.pageIndexs = PAGEINDEX[site];
     this.urlsToFetch = [];
@@ -80,11 +78,11 @@ class Saffron {
 
   // 完成数据的最终存储
   async endTask() {
-    while (!this.storager.checkComplete()) {
+    while (!this.storager.checkComplete1()) {
       console.log('等待1');
       await sleep(5);
     }
-    while (!this.downloader.checkComplete()) {
+    while (!this.storager.checkComplete2()) {
       console.log('等待2');
       await sleep(5);
     }
@@ -96,12 +94,8 @@ class Saffron {
     await this.getUpdate();
 
     // 每隔一段时间存储数据
-    const intervalFunction1 = this.storager.interval.bind(this.storager);
-    setInterval(intervalFunction1, 5000);
-
-    // 每个一段时间下载图片
-    const intervalFunction2 = this.downloader.interval.bind(this.downloader);
-    setInterval(intervalFunction2, 8000);
+    const intervalFunction = this.storager.interval.bind(this.storager);
+    setInterval(intervalFunction, 5000);
 
     this.sumTasks = this.urlsToFetch.length;
     for(let i = 0; i < this.sumTasks; i++) {

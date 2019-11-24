@@ -4,9 +4,10 @@
 
 import { Database } from '../common/database.mjs'
 import { STATEMENTS } from './config.mjs'
+import request from 'request'
 
 class Storager {
-  constructor(downloader) {
+  constructor() {
     this.db = new Database();
     
     // 存储器锁
@@ -16,9 +17,9 @@ class Storager {
     this.videoItems = [];
     this.sumVideoItems = 0;
     this.sumStoraged = 0;
-    
-    // 图片下载器
-    this.downloader = downloader;
+
+    this.sumImgs = 0;
+    this.sumDownloaded = 0;
   }
 
   // 将新的视频信息压入待存储的信息条目数组中
@@ -56,10 +57,15 @@ class Storager {
   }
 
   // 检测是否存储完成
-  checkComplete() {
+  checkComplete1() {
     return this.sumVideoItems == this.sumStoraged;
   }
-
+  
+  checkComplete2() {
+    console.log(`共${this.sumImgs}`);
+    console.log(`已完成${this.sumDownloaded}`);
+    return this.sumImgs == this.sumDownloaded;
+  }
   /**
    * 存储视频信息
    * @param {object} videoItem 视频信息条目
@@ -89,7 +95,8 @@ class Storager {
           'url' : videoItem.getImgUrl(),
           'addr': videoItem.getImgAddr()
         }
-        this.downloader.pushImg(img);
+        ++this.sumImgs;
+        this.storageImg(img);
       }
       ++this.sumStoraged;
       resolve();
@@ -161,6 +168,34 @@ class Storager {
         await this.db.excute(STATEMENTS['addDlAddr'], params);
       }
       resolve();
+    });
+  }
+
+  get(url) {
+    return new Promise((resolve, reject) => {
+      request.get(url, { timeout: 60000 }, function(error, res, body) {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(body);
+        }
+      });
+    });
+  }
+
+  /**
+   * 存储图片到本机
+   * @param {object} img 待下载的图片
+   */
+  storageImg(img) {
+    this.get(img['url']).then((content) => {
+      fs.writeFileSync(`/opt${img['addr']}`, content, (error) => {
+        console.log(error);
+      });
+      ++this.sumDownloaded;
+    }).catch((error) => {
+      console.log(error);
+      ++this.sumDownloaded;
     });
   }
 }

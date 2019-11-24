@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "aria2": "^4.1.0",
     "async-request": "^1.2.0",
     "jsdom": "^15.2.1",
     "md5": "^2.2.1",

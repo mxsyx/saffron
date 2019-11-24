@@ -2,9 +2,9 @@
  * 数据存储器
  */
 
+import { Aria2c } from './aria2c.mjs'
 import { Database } from '../common/database.mjs'
 import { STATEMENTS } from './config.mjs'
-import request from 'request'
 
 class Storager {
   constructor() {
@@ -18,8 +18,7 @@ class Storager {
     this.sumVideoItems = 0;
     this.sumStoraged = 0;
 
-    this.sumImgs = 0;
-    this.sumDownloaded = 0;
+    this.aria2c = new Aria2c();
   }
 
   // 将新的视频信息压入待存储的信息条目数组中
@@ -43,13 +42,13 @@ class Storager {
     // 给存储器上锁
     this.mutex = true;
     
-    const len = this.videoItems.length;
+    const videoItems = this.videoItems.slice(0);
+    this.videoItems.splice(0,this.videoItems.length);
+    
+    const len = videoItems.length;
     // 同步存储数据
     for(let i = 0; i < len; i++) {
-      await this.storage(this.videoItems[i]);
-    }
-    for(let i = 0; i < len; i++) {
-      this.videoItems.pop(i);
+      await this.storage(videoItems[i]);
     }
 
     // 该存储器解锁
@@ -57,15 +56,12 @@ class Storager {
   }
 
   // 检测是否存储完成
-  checkComplete1() {
+  checkComplete() {
+    console.log(`共${this.sumVideoItems}`);
+    console.log(`已完成${this.sumStoraged}`);
     return this.sumVideoItems == this.sumStoraged;
   }
-  
-  checkComplete2() {
-    console.log(`共${this.sumImgs}`);
-    console.log(`已完成${this.sumDownloaded}`);
-    return this.sumImgs == this.sumDownloaded;
-  }
+
   /**
    * 存储视频信息
    * @param {object} videoItem 视频信息条目
@@ -79,25 +75,21 @@ class Storager {
 
       const result = await this.storageInfo(videoItem);
       
+      /**
+       * 当返回的插入结果显示只影响了一行时,
+       * 则说明该视频为一个新的视频, 应该下载其图片
+      */
+      if (result.affectedRows == 1) {
+        this.storageImg(videoItem);
+      }
+
       // 存储视频播放与下载地址
       const vid = result.insertId;
       if (vid) {
         await this.storagePlAddr(videoItem, vid);
         await this.storageDlAddr(videoItem, vid);
       }
-      
-      /**
-       * 当返回的插入结果显示只影响了一行时,
-       * 则说明该视频为一个新的视频, 应该下载其图片
-      */
-      if (result.affectedRows == 1) {
-        const img = {
-          'url' : videoItem.getImgUrl(),
-          'addr': videoItem.getImgAddr()
-        }
-        ++this.sumImgs;
-        this.storageImg(img);
-      }
+
       ++this.sumStoraged;
       resolve();
     });
@@ -170,34 +162,16 @@ class Storager {
       resolve();
     });
   }
-
-  get(url) {
-    return new Promise((resolve, reject) => {
-      request.get(url, { timeout: 60000 }, function(error, res, body) {
-        if (error) {
-          reject(error);
-        } else {
-          resolve(body);
-        }
-      });
-    });
-  }
-
-  /**
-   * 存储图片到本机
-   * @param {object} img 待下载的图片
-   */
-  storageImg(img) {
-    this.get(img['url']).then((content) => {
-      fs.writeFileSync(`/opt${img['addr']}`, content, (error) => {
-        console.log(error);
-      });
-      ++this.sumDownloaded;
-    }).catch((error) => {
-      console.log(error);
-      ++this.sumDownloaded;
-    });
+  
+  // 存储视频的图片
+  storageImg(videoItem) {
+    const imgUrl = videoItem.getImgUrl();
+    const arr = videoItem.getImgAddr().split('/');
+    const imgDir = `/opt${arr.slice(0,3).join('/')}`;
+    const imgName = arr[3];
+    this.aria2c.addTask(imgUrl, imgDir, imgName);
   }
 }
+
 
 export { Storager }

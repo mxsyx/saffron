@@ -42,6 +42,7 @@ class Saffron {
           this.urlsToFetch.push(...videoUrls);
           // 判断是否结束更新
           if (!--sumToGet) resolve();
+          console.log(sumToGet);
         }).catch((error) => {
           --sumToGet;
           console.log(error);
@@ -78,12 +79,8 @@ class Saffron {
 
   // 完成数据的最终存储
   async endTask() {
-    while (!this.storager.checkComplete1()) {
-      console.log('等待1');
-      await sleep(5);
-    }
-    while (!this.storager.checkComplete2()) {
-      console.log('等待2');
+    while (!this.storager.checkComplete()) {
+      console.log('等待存储完成');
       await sleep(5);
     }
     process.exit(0);

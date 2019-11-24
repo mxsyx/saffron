@@ -31,19 +31,13 @@ class Filter {
   filteType(videoItem) {
     const type = videoItem.getType();
     if (MVTYPES.indexOf(type) != -1) {
-      videoItem.setInfoTableName('infomv');
-      videoItem.setPlAddrTableName('pladdrmv');
-      videoItem.setDlAddrTableName('dladdrmv');
+      videoItem.setBigType('mv');
     } else if (TVTYPES.indexOf(type) != -1) {
-      videoItem.setInfoTableName('infotv');
-      videoItem.setPlAddrTableName('pladdrtv');
-      videoItem.setDlAddrTableName('dladdrtv');
+      videoItem.setBigType('tv');
     } else if (DMTYPES.indexOf(type) != -1) {
       // 将动漫剧合并进多剧集类型中
       videoItem.setType('动漫剧')
-      videoItem.setInfoTableName('infotv')
-      videoItem.setPlAddrTableName('pladdrtv');
-      videoItem.setDlAddrTableName('dladdrtv');
+      videoItem.setBigType('tv');
     } else {
       // 未知类型舍弃
       videoItem.setDrop(true);

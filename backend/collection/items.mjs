@@ -4,18 +4,28 @@
 
 class VideoItem {
   constructor() {
-    this.name = null;
-    this.summary = null;
-    this.imgUrl = null;
+    this.name     = null;
+    this.summary  = null;
+    this.imgUrl   = null;    
+    this.imgAddr  = null;
     this.director = null;
-    this.actors = null;
-    this.type = null;
-    this.year = null;
-    this.area = null;
-    this.lang = null;
-    this.update = null;
-    this.pladdrs = null;
-    this.dladdrs = null;
+    this.actors   = null;
+    this.type     = null;
+    this.year     = null;
+    this.area     = null;
+    this.lang     = null;
+    this.update   = null;
+    this.pladdrs  = null;
+    this.dladdrs  = null;
+
+    /**
+     * 视频所属大类
+     * @type {string}
+     * mv 单剧集类型
+     * tv 多剧集类型
+     */
+    
+    this.bigType  = null;
 
     /**
      * 来源站点
@@ -29,30 +39,6 @@ class VideoItem {
      * @type {boolean}
      */
     this.drop = false;
-
-    /**
-     * 该条目存储到的信息表名
-     * infomv 单剧集视频信息表
-     * infotv 多剧集视频信息表
-     * @type {string}
-     */
-    this.infoTableName = null;
-
-    /**
-     * 该条目存储到的播放地址表名
-     * pladdrmv 单剧集播放地址表
-     * pladdrtv 多剧集播放地址表
-     * @type {string}
-     */
-    this.plAddrTableName = null;
-
-    /**
-     * 条目存储到哪个下载地址表名
-     * dladdrmv 单剧集下载地址表
-     * dladdrtv 多剧集下载地址表
-     * @type {string}
-     */
-    this.dlAddrTableName = null;
 
     /**
      * 该条目播放地址线路名
@@ -69,6 +55,10 @@ class VideoItem {
     this.name = name
   }
 
+  setBigType(bigType) {
+    this.bigType = bigType;
+  }
+
   setSummary(summary) {
     this.summary = summary;
   }
@@ -77,6 +67,10 @@ class VideoItem {
     this.imgUrl = imgUrl;
   }
 
+  setImgAddr(imgAddr) {
+    this.imgAddr = imgAddr;
+  }
+  
   setDirector(director) {
     this.director = director;
   }
@@ -121,18 +115,6 @@ class VideoItem {
     this.drop = drop;
   }
 
-  setInfoTableName(infoTableName) {
-    this.infoTableName = infoTableName;
-  }
-
-  setPlAddrTableName(plAddrTableName) {
-    this.plAddrTableName = plAddrTableName;
-  }
-
-  setDlAddrTableName(dlAddrTableName) {
-    this.dlAddrTableName = dlAddrTableName;
-  }
-
   setAddrName(addrName) {
     this.addrName = addrName;
   }
@@ -143,12 +125,20 @@ class VideoItem {
     return this.name;
   }
 
+  getBigType() {
+    return this.bigType;
+  }
+
   getSummary() {
     return this.summary;
   }
 
   getImgUrl() {
     return this.imgUrl;
+  }
+
+  getImgAddr() {
+    return this.imgAddr;
   }
 
   getDirector() {
@@ -193,18 +183,6 @@ class VideoItem {
 
   getDrop() {
     return this.drop;
-  }
-
-  getInfoTableName() {
-    return this.infoTableName;
-  }
-
-  getPlAddrTableName() {
-    return this.plAddrTableName;
-  }
-
-  getDlAddrTableName() {
-    return this.dlAddrTableName;
   }
 
   getAddrName() {

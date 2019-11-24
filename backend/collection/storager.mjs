@@ -3,7 +3,6 @@
  */
 
 import fs from 'fs'
-import md5 from 'md5'
 import { Database } from '../common/database.mjs'
 import { STATEMENTS } from './config.mjs'
 import { Downloader } from './downloader.mjs'
@@ -30,10 +29,6 @@ class Storager {
   pushVideoItem(videoItem) {
     this.videoItems.push(videoItem);
   }
-
-
-
-
 
   /**
    * 间隔时间存储数据
@@ -68,59 +63,61 @@ class Storager {
     return this.sumVideoItems == this.sumStoraged;
   }
 
+
+
+
   /**
    * 存储视频信息
    * @param {object} videoItem 视频信息条目
    */
   storage(videoItem) {
-    return new Promise((resolve, reject) => {      
-      // 该信息条目需要插入的表
-      const infoTableName = videoItem.getInfoTableName();
+    return new Promise( async (resolve, reject) => {
+      const result = await this.storageInfo(videoItem);
+      
+      // 存储视频播放与下载地址
+      const vid = result.insertId;
+      if (vid) {
+        await this.storagePlAddr(videoItem, vid);
+        await this.storageDlAddr(videoItem, vid);
+      }
+      
+      /**
+       * 当返回的插入结果显示只影响了一行时,
+       * 则说明该视频为一个新的视频, 应该下载其图片
+      */
+      if (result.affectedRows == 1) {
+        const img = {
+          'url' : videoItem.getImgUrl(),
+          'addr': videoItem.getImgAddr()
+        }
+        this.downloader.pushImg(img);
+      }
+      resolve();
+    });
+  }
 
-      const updateTime = videoItem.getUpdate();
-      const imgAddr = this.makeImgAddr(videoItem);
+  // 存储视频信息
+  storageInfo(videoItem) {
+    return new Promise((resolve, reject) => {
       const params = [
-        infoTableName,
         videoItem.getName(),
+        videoItem.getBigType(),
         videoItem.getSummary(),
-        imgAddr['remoteAddr'],
+        videoItem.getImgAddr(),
         videoItem.getDirector(), 
         videoItem.getActors(),
         videoItem.getType(),
         videoItem.getYear(),
         videoItem.getArea(),
         videoItem.getLang(),
-        updateTime,
-        updateTime,
+        videoItem.getUpdate(),
+        videoItem.getUpdate()
       ];
-
+  
       // 首先重置自增索引
-      this.db.excute(STATEMENTS['resetAutoInc'], [infoTableName]).then((result) => {
+      this.db.excute(STATEMENTS['resetAutoInc']).then((result) => {
         this.db.excute(STATEMENTS['addInfo'], params).then((result) => {
-          const vid = result.insertId;
-
-          // 存储视频的播放与下载地址
-          if (vid) {
-            this.storagePlAddr(videoItem, vid);
-            this.storageDlAddr(videoItem, vid);
-          }
-          
-          /**
-           * 当返回的插入结果显示只影响了一行时,
-           * 则说明该视频为一个新的视频, 应该下载其图片
-           */
-          if (result.affectedRows == 1) {
-            const img = {
-              'url': videoItem.getImgUrl(),
-              'addr': imgAddr['localAddr'];
-            }
-            const imgName = md5(videoItem.getName());
-            return {
-              'remoteAddr': `/img/${this.currenDate}/${imgName}.png`,
-              'localAddr' : `${this.localImgDir}/${imgName}.png`
-            }
-          }
-          resolve();
+          resolve(result)
         });
       });
     });
@@ -132,16 +129,19 @@ class Storager {
    * @param {number} vid 视频ID
    */
   storagePlAddr(videoItem, vid) {
-    const pladdrs = videoItem.getPlAddrs();
-    const pladdrTableName = videoItem.getPlAddrTableName();
-    const addrName = videoItem.getAddrName();
-    pladdrs.forEach((pladdr, index) => {
-      const params = [
-        pladdrTableName, 
-        addrName, vid, index + 1,
-        pladdr, addrName, pladdr,
-      ];
-      this.db.excute(STATEMENTS['addPlAddr'], params);
+    return new Promise( async (resolve, reject) => {
+      const pladdrs = videoItem.getPlAddrs();
+      const addrName = videoItem.getAddrName();
+      const len = pladdrs.length;
+      for (let i = 0; i < len; i++) {
+        const params = [
+          addrName, 
+          vid, index + 1, pladdrs[i],
+          addrName, pladdrs[i],
+        ];
+        await this.db.excute(STATEMENTS['addPlAddr'], params);
+      }
+      resolve();
     });
   }
 
@@ -151,19 +151,18 @@ class Storager {
    * @param {number} vid 视频ID
    */
   storageDlAddr(videoItem, vid) {
-    const dladdrs = videoItem.getDlAddrs();
-    const dladdrTableName = videoItem.getDlAddrTableName();
-    dladdrs.forEach((dladdr, index) => {
-      const params = [
-        dladdrTableName, 
-        vid, index + 1, dladdr,
-      ];
-      this.db.excute(STATEMENTS['addDlAddr'], params);
+    return new Promise( async (resolve, reject) => {
+      const dladdrs = videoItem.getDlAddrs();
+      const len = dladdrs.length;
+      for (let i = 0; i < len; i++) {
+        const params = [
+          vid, index + 1, dladdr,
+        ];
+        await this.db.excute(STATEMENTS['addDlAddr'], params);
+      }
+      resolve();
     });
   }
-
-
 }
-
 
 export { Storager }

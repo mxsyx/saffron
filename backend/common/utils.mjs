@@ -53,7 +53,23 @@ const sleep = function(seconds) {
   })
 }
 
+/**
+ * 生成图片本机存储地址
+ * @param {object} videoItem 视频信息条目
+ */
+const makeImgAddr = function(videoItem) {
+  const imgName = md5(videoItem.getName());
+  const imgUrl = videoItem.getImgUrl();
+  if (imgUrl.match(/.*\.jpg/)) {
+    var suffix = '.jpg';
+  } else {
+    var suffix = '.png';
+  }
+
+  return `/img/${imgName.slice(0,2)}/${imgName}/${suffix}`
+}
+
 export { 
   getUrlParams, getClientIp, getCurrentTime ,
-  sleep
+  makeImgAddr, sleep
 }

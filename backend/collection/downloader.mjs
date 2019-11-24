@@ -2,6 +2,7 @@
  * 图片下载器
  */
 import fs from 'fs'
+import md5 from 'md5'
 import syncRequest from 'sync-request'
 
 class Downloader {
@@ -10,19 +11,8 @@ class Downloader {
     this.sumImgs = 0;
     this.sumDownload = 0;
     this.mutex = false;
-
   }
-
-  makeImgDir() {
-    this.currenDate = `${getCurrentTime('date')}`;
-    this.localImgDir = `/opt/img/${this.currenDate}`;
-
-    // 递归创建图片本机存储目录
-    fs.mkdirSync(this.localImgDir, {recursive: true})
-  }
-
-
-
+  
   /**
    * 追加一个下载任务
    * @param {object} img

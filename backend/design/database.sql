@@ -16,32 +16,33 @@ CREATE TABLE `user`
   PRIMARY KEY (`id`)
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
--- 电影信息表
-CREATE TABLE `infomv`
+-- 视频信息表
+CREATE TABLE `info`
 (
-  `id` INT UNSIGNED AUTO_INCREMENT,     -- 电影ID
-  `name` VARCHAR(30) NOT NULL,          -- 电影名字  
-  `summary` VARCHAR(600) DEFAULT NULL,  -- 电影摘要
-  `imgaddr` CHAR(52) DEFAULT NULL,      -- 电影图片地址
-  `director` VARCHAR(20) DEFAULT NULL,  -- 电影导演
-  `actors` VARCHAR(260) DEFAULT NULL,   -- 电影主演
-  `type` CHAR(3) DEFAULT NULL,          -- 电影类型
-  `year` CHAR(4) DEFAULT NULL,          -- 电影年份
-  `area` CHAR(3) DEFAULT NULL,          -- 电影地区
-  `lang` CHAR(2) DEFAULT NULL,          -- 电影语言
+  `id` INT UNSIGNED AUTO_INCREMENT,     -- 视频ID
+  `name` VARCHAR(30) NOT NULL,          -- 视频名字
+  `bigtype` CHAR(2) NOT NULL,           -- 视频大类
+  `summary` VARCHAR(600) DEFAULT NULL,  -- 视频摘要
+  `imgaddr` CHAR(45) DEFAULT NULL,      -- 图片地址
+  `director` VARCHAR(20) DEFAULT NULL,  -- 视频导演
+  `actors` VARCHAR(260) DEFAULT NULL,   -- 视频主演
+  `type` CHAR(3) DEFAULT NULL,          -- 视频类型
+  `year` CHAR(4) DEFAULT NULL,          -- 视频年份
+  `area` CHAR(3) DEFAULT NULL,          -- 视频地区
+  `lang` CHAR(2) DEFAULT NULL,          -- 视频语言
   `volume` INT UNSIGNED DEFAULT 0,      -- 总播放量
   `love`   INT UNSIGNED DEFAULT 0,      -- 点赞数量
   `hate`   INT UNSIGNED DEFAULT 0,      -- 讨厌数量
   `update` DATETIME NOT NULL,           -- 更新时间
   PRIMARY KEY(`id`),
   UNIQUE KEY `name` (`name`)
-)ENGINE=InnoDB AUTO_INCREMENT=1000001 DEFAULT CHARSET=utf8mb4;
+)ENGINE=InnoDB AUTO_INCREMENT=100001 DEFAULT CHARSET=utf8mb4;
 
--- 电影播放地址表
-CREATE TABLE `pladdrmv`
+-- 视频播放地址表
+CREATE TABLE `pladdr`
 (
-  `vid` INT UNSIGNED NOT NULL,            -- 电影ID
-  `episode` SMALLINT UNSIGNED NOT NULL,   -- 电影剧集
+  `vid` INT UNSIGNED NOT NULL,            -- 视频ID
+  `episode` SMALLINT UNSIGNED NOT NULL,   -- 视频剧集
   `addr1` VARCHAR(255) DEFAULT NULL,      -- 播放地址1
   `addr2` VARCHAR(255) DEFAULT NULL,      -- 播放地址2
   `addr3` VARCHAR(255) DEFAULT NULL,      -- 播放地址3
@@ -49,62 +50,17 @@ CREATE TABLE `pladdrmv`
   `addr5` VARCHAR(255) DEFAULT NULL,      -- 播放地址5
   `addr6` VARCHAR(255) DEFAULT NULL,      -- 播放地址6
   PRIMARY KEY (`vid`,`episode`),
-  FOREIGN KEY (`vid`) REFERENCES `infomv`(`id`)
+  FOREIGN KEY (`vid`) REFERENCES `info`(`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- 电影下载地址表
-CREATE TABLE `dladdrmv`
+-- 视频下载地址表
+CREATE TABLE `dladdr`
 (
-  `vid` INT UNSIGNED NOT NULL,            -- 电影ID
-  `episode` SMALLINT UNSIGNED NOT NULL,   -- 电影剧集
-  `addr` VARCHAR(255) DEFAULT NULL,     -- 下载地址
-  PRIMARY KEY (`vid`,`episode`),
-  FOREIGN KEY (`vid`) REFERENCES `infomv`(`id`)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- 电视剧信息表
-CREATE TABLE `infotv`
-(
-  `id` INT UNSIGNED AUTO_INCREMENT,     -- 电视剧ID
-  `name` VARCHAR(30) NOT NULL,          -- 电视剧名字  
-  `summary` VARCHAR(600) DEFAULT NULL,  -- 电视剧摘要
-  `imgaddr` CHAR(52) DEFAULT NULL,      -- 电视剧图片地址
-  `director` VARCHAR(20) DEFAULT NULL,  -- 电视剧导演
-  `actors` VARCHAR(260) DEFAULT NULL,   -- 电视剧主演
-  `type` CHAR(3) DEFAULT NULL,          -- 电视剧类型
-  `year` CHAR(4) DEFAULT NULL,          -- 电视剧年份
-  `area` CHAR(3) DEFAULT NULL,          -- 电视剧地区
-  `lang` CHAR(2) DEFAULT NULL,          -- 电视剧语言
-  `volume` INT UNSIGNED DEFAULT 0,      -- 总播放量
-  `love`   INT UNSIGNED DEFAULT 0,      -- 点赞数量
-  `hate`   INT UNSIGNED DEFAULT 0,      -- 讨厌数量
-  `update` DATETIME NOT NULL,           -- 更新时间
-  PRIMARY KEY(`id`),
-  UNIQUE KEY `name` (`name`)
-)ENGINE=InnoDB AUTO_INCREMENT=6000001 DEFAULT CHARSET=utf8mb4;
-
--- 电视剧播放地址表
-CREATE TABLE `pladdrtv`
-(
-  `vid` INT UNSIGNED NOT NULL,            -- 电视剧ID
-  `episode` SMALLINT UNSIGNED NOT NULL,   -- 电视剧剧集
-  `addr1` VARCHAR(255) DEFAULT NULL,      -- 播放地址1
-  `addr2` VARCHAR(255) DEFAULT NULL,      -- 播放地址2
-  `addr3` VARCHAR(255) DEFAULT NULL,      -- 播放地址3
-  `addr4` VARCHAR(255) DEFAULT NULL,      -- 播放地址4
-  `addr5` VARCHAR(255) DEFAULT NULL,      -- 播放地址5
-  `addr6` VARCHAR(255) DEFAULT NULL,      -- 播放地址6
-  PRIMARY KEY (`vid`,`episode`),
-  FOREIGN KEY (`vid`) REFERENCES `infotv`(`id`)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-CREATE TABLE `dladdrtv`
-(
-  `vid` INT UNSIGNED NOT NULL,            -- 电视剧ID
-  `episode` SMALLINT UNSIGNED NOT NULL,   -- 电视剧剧集
+  `vid` INT UNSIGNED NOT NULL,            -- 视频ID
+  `episode` SMALLINT UNSIGNED NOT NULL,   -- 视频剧集
   `addr` VARCHAR(255) DEFAULT NULL,       -- 下载地址
   PRIMARY KEY (`vid`,`episode`),
-  FOREIGN KEY (`vid`) REFERENCES `infotv`(`id`)
+  FOREIGN KEY (`vid`) REFERENCES `info`(`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- 弹幕数据表
@@ -158,38 +114,20 @@ CREATE TABLE `message`
 
 );
 
-DELIMITER $$
-CREATE PROCEDURE delete_all()
-BEGIN
-  DELETE FROM `dladdrmv`;
-  DELETE FROM `dladdrtv`;
-  DELETE FROM `pladdrmv`;
-  DELETE FROM `pladdrtv`;
-  DELETE FROM `infomv`;
-  DELETE FROM `infotv`;
-  ALTER TABLE `infomv` AUTO_INCREMENT = 0;
-  ALTER TABLE `infotv` AUTO_INCREMENT = 0;
-END$$
-DELIMITER ;
 
 DELIMITER $$
 CREATE PROCEDURE check_id()
 BEGIN
-  SELECT COUNT(*) FROM `infomv`;
-  SELECT MAX(`id`) FROM `infomv`;
-  SELECT COUNT(*) FROM `infotv`;
-  SELECT MAX(`id`) FROM `infotv`;
+  SELECT COUNT(*) FROM `info`;
+  SELECT MAX(`id`) FROM `info`;
 END$$
 DELIMITER ;
 
 DELIMITER $$
 CREATE PROCEDURE count_all()
 BEGIN
-  SELECT COUNT(*) AS infomv FROM `infomv`;
-  SELECT COUNT(*) AS infotv FROM `infotv`;
-  SELECT COUNT(*) AS pladdrmv FROM `pladdrmv`;
-  SELECT COUNT(*) AS pladdrtv FROM `pladdrtv`;
-  SELECT COUNT(*) AS dladdrmv FROM `dladdrmv`;
-  SELECT COUNT(*) AS dladdrtv FROM `dladdrtv`;
+  SELECT COUNT(*) AS info FROM `info`;
+  SELECT COUNT(*) AS pladdr FROM `pladdr`;
+  SELECT COUNT(*) AS dladdr FROM `dladdr`;
 END$$
 DELIMITER ;

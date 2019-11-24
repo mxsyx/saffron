@@ -4,7 +4,7 @@
 
 import { XPath } from './xpath.mjs'
 import { VideoItem } from './items.mjs'
-import { getCurrentTime } from '../common/utils.mjs'
+import { getCurrentTime, makeImgAddr } from '../common/utils.mjs'
 import { DOMAIN, SELECTOR, THRESHOLD } from './config.mjs'
 
 class Parser {
@@ -23,6 +23,7 @@ class Parser {
     videoItem.setName(this.extractName(document));
     videoItem.setSummary(this.extractSummary(document));
     videoItem.setImgUrl(this.extractImgUrl(document));
+    videoItem.setImgAddr(this.extractImgAddr(videoItem));
     videoItem.setDirector(this.extractDirector(document));
     videoItem.setActors(this.extractActors(document));
     videoItem.setType(this.extractType(document));
@@ -81,6 +82,10 @@ class Parser {
   extractImgUrl(document) {
     const result = this.xpath.select(this.selector['imgUrl'], document);
     return result;
+  }
+
+  extractImgAddr(videoItem) {
+    return makeImgAddr(videoItem);
   }
 
   // 提取视频导演

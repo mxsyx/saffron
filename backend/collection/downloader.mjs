@@ -2,7 +2,7 @@
  * 图片下载器
  */
 import fs from 'fs'
-import syncRequest from 'sync-request'
+import request from 'request'
 
 class Downloader {
   constructor() {
@@ -22,6 +22,8 @@ class Downloader {
   }
 
   checkComplete() {
+    console.log(`共${this.sumImgs}`);
+    console.log(`已完成${this.sumDownload}`);
     return this.sumImgs == this.sumDownload;
   }
 
@@ -41,16 +43,32 @@ class Downloader {
     this.mutex = false;
   }
   
+  get(url) {
+    return new Promise((resolve, reject) => {
+      request.get(url, { timeout: 30000 }, function(error, res, body) {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(body);
+        }
+      });
+    });
+  }
+
   /**
    * 存储图片到本机
    * @param {object} img 待下载的图片
    */
-  downloadImg(img) {
-    const res = syncRequest('GET', img['url']);
-    fs.writeFileSync(img['addr'], res.getBody(), (error) => {
-      // console.log(error);
+  async downloadImg(img) {
+    this.get(img['url']).then((content) => {
+      fs.writeFileSync(`/opt${img['addr']}`, content, (error) => {
+        console.log(error);
+      });
+      ++this.sumDownload;
+    }).catch((error) => {
+      console.log(error.code);
+      ++this.sumDownload;
     });
-    ++this.sumDownload;
   }
 }
 

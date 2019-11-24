@@ -19,8 +19,6 @@ class Storager {
     
     // 图片下载器
     this.downloader = downloader;
-
-    this.makeImgDir();
   }
 
   // 将新的视频信息压入待存储的信息条目数组中
@@ -45,13 +43,12 @@ class Storager {
     this.mutex = true;
     
     const len = this.videoItems.length;
-    
     // 同步存储数据
     for(let i = 0; i < len; i++) {
-      const videoItem = this.videoItems[i];
-      if (videoItem.getDrop()) continue ;
-      await this.storage(videoItem);
-      videoItem.setDrop(true);
+      await this.storage(this.videoItems[i]);
+    }
+    for(let i = 0; i < len; i++) {
+      this.videoItems.pop(i);
     }
 
     // 该存储器解锁
@@ -69,6 +66,11 @@ class Storager {
    */
   storage(videoItem) {
     return new Promise( async (resolve, reject) => {
+      if (videoItem.getDrop()) {
+        ++this.sumStoraged;
+        return resolve();
+      }
+
       const result = await this.storageInfo(videoItem);
       
       // 存储视频播放与下载地址
@@ -134,7 +136,7 @@ class Storager {
       for (let i = 0; i < len; i++) {
         const params = [
           addrName, 
-          vid, index + 1, pladdrs[i],
+          vid, i + 1, pladdrs[i],
           addrName, pladdrs[i],
         ];
         await this.db.excute(STATEMENTS['addPlAddr'], params);
@@ -154,7 +156,7 @@ class Storager {
       const len = dladdrs.length;
       for (let i = 0; i < len; i++) {
         const params = [
-          vid, index + 1, dladdr,
+          vid, i + 1, dladdrs[i],
         ];
         await this.db.excute(STATEMENTS['addDlAddr'], params);
       }

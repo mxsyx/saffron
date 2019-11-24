@@ -65,7 +65,7 @@ class Saffron {
         // 过滤并存储数据
         this.filter.filte(videoItem);
         this.storager.pushVideoItem(videoItem);
-        console.log(this.sumTask);
+        console.log(this.sumCompleted + 1);
         resolve();
 
         if (++this.sumCompleted == this.sumTasks) {
@@ -81,9 +81,11 @@ class Saffron {
   // 完成数据的最终存储
   async endTask() {
     while (!this.storager.checkComplete()) {
+      console.log('等待1');
       await sleep(5);
     }
     while (!this.downloader.checkComplete()) {
+      console.log('等待2');
       await sleep(5);
     }
     process.exit(0);
@@ -99,7 +101,7 @@ class Saffron {
 
     // 每个一段时间下载图片
     const intervalFunction2 = this.downloader.interval.bind(this.downloader);
-    setInterval(intervalFunction2, 5000);
+    setInterval(intervalFunction2, 8000);
 
     this.sumTasks = this.urlsToFetch.length;
     for(let i = 0; i < this.sumTasks; i++) {

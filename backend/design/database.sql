@@ -7,7 +7,7 @@ CREATE TABLE `user`
 (
   `id` INT UNSIGNED AUTO_INCREMENT,     -- 用户ID
   `email` VARCHAR(254) NOT NULL,        -- 电子邮件(作账号)
-  `pwd` CHAR(44) NOT NULL,              -- 用户密码
+  `pwd` CHAR(43) NOT NULL,              -- 用户密码
   `nickname` VARCHAR(26) DEFAULT NULL,  -- 用户昵称
   `is_staff` TINYINT(1)  DEFAULT 0,     -- 是否为管理人员
   `is_active` TINYINT(1) DEFAULT 0,     -- 账号是否可用
@@ -129,5 +129,14 @@ BEGIN
   SELECT COUNT(*) AS info FROM `info`;
   SELECT COUNT(*) AS pladdr FROM `pladdr`;
   SELECT COUNT(*) AS dladdr FROM `dladdr`;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE delete_all()
+BEGIN
+  DELETE FROM `pladdr`;
+  DELETE FROM `dladdr`;
+  DELETE FROM `info`;
 END$$
 DELIMITER ;

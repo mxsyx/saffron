@@ -85,6 +85,13 @@ class Filter {
   // 执行站点2特殊过滤
   makeFilteSite2(videoItem) {
     videoItem.setAddrName('addr2');
+    videoItem.setDirector(videoItem.getDirector().replace('影片导演:','').trim());
+    videoItem.setActors(videoItem.getActors().replace('影片主演:','').trim());
+    videoItem.setName(videoItem.getName().replace('影片名称:','').trim());
+    videoItem.setType(videoItem.getType().replace('栏目分类:','').trim());
+    videoItem.setYear(videoItem.getYear().replace('上映年份:','').trim());
+    videoItem.setArea(videoItem.getArea().replace('影片地区:','').trim());
+    videoItem.setLang(videoItem.getLang().replace('语言分类:','').trim());
   }
   
   // 执行站点3特殊过滤

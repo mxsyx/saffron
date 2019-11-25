@@ -125,7 +125,7 @@ class Parser {
     const results = this.xpath.selectAll(this.selector['plAddr'], document);
     const plAddr = [];
     results.forEach((element) => {
-      const matchResult = element.match('(http|https)://.*');
+      const matchResult = element.match('(http|https)://.*\.m3u8');
       if (matchResult) {
         plAddr.push(matchResult[0]);
       }
@@ -138,7 +138,7 @@ class Parser {
     const results = this.xpath.selectAll(this.selector['dlAddr'], document);
     const dlAddr = [];
     results.forEach((element) => {
-      const matchResult = element.match('(http|https)://.*');
+      const matchResult = element.match('(http|https)://.*\.mp4');
       if (matchResult) {
         dlAddr.push(matchResult[0]);
       }

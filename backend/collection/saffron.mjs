@@ -112,5 +112,5 @@ class Saffron {
   }
 }
 
-const saffron = new Saffron(1,parseInt(process.argv[2]));
+const saffron = new Saffron(parseInt(process.argv[2]),parseInt(process.argv[3]));
 saffron.start();

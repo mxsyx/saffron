@@ -1,11 +1,11 @@
 /**
  * 资源站点
  * 1号线 [OK资源网](http://www.okzyw.com)
- * 2号线 [八戒资源网](http://bajieziyuan.com)
- * 3号线 [最大资源网](http://zuidazy1.net)
+ * 2号线 [8K资源网](http://www.8k.cm)
+ * 3号线 [最大资源网](http://www.zuidazy1.net)
  * 4号线 [速播资源网](http://www.subo8988.com)
  * 5号线 [最新资源网](http://www.zuixinzy.cc)
- * 6号线 [123资源网](http://123ku.com)
+ * 6号线 [123资源网](http://www.123ku.com)
  */
 
 // 已注册站点
@@ -14,11 +14,11 @@ const SITES = [1,2,3,4,5,6];
 // 站点域名
 const DOMAIN = {
   1: 'http://www.okzyw.com',
-  2: 'http://bajieziyuan.com',
-  3: 'http://zuidazy1.net',
+  2: 'http://www.8k.cm/',
+  3: 'http://www.zuidazy1.net',
   4: 'http://www.subo8988.com',
   5: 'http://www.zuixinzy.cc',
-  6: 'http://123ku.com'
+  6: 'http://www.123ku.com'
 }
 
 // URL地址模板
@@ -28,12 +28,12 @@ const URLTPL = {
     'info': 'http://www.okzyw.com/?m=vod-detail-id-%s.html'
   },
   2: {
-    'home': 'http://bajieziyuan.com/?m=vod-index-pg-%s.html',
-    'info': 'http://bajieziyuan.com/?m=vod-detail-id-%s.html'
+    'home': 'http://www.8k.cm/?m=vod-index-pg-%s.html',
+    'info': 'http://www.8k.cm/?m=vod-detail-id-%s.html'
   },
   3: {
-    'home': 'http://zuidazy1.net/?m=vod-index-pg-%s.html',
-    'info': 'http://zuidazy1.net/?m=vod-detail-id-%s.html'
+    'home': 'http://www.zuidazy1.net/?m=vod-index-pg-%s.html',
+    'info': 'http://www.zuidazy1.net/?m=vod-detail-id-%s.html'
   },
   4: {
     'home': 'http://www.subo8988.com/?m=vod-index-pg-%s.html',
@@ -44,8 +44,8 @@ const URLTPL = {
     'info': 'http://www.zuixinzy.cc/?m=vod-detail-id-%s.html'
   },
   6: {
-    'home': 'http://123ku.com/?m=vod-index-pg-%s.html',
-    'info': 'http://123ku.com/?m=vod-detail-id-%s.html'
+    'home': 'http://www.123ku.com/?m=vod-index-pg-%s.html',
+    'info': 'http://www.123ku.com/?m=vod-detail-id-%s.html'
   }
 }
 
@@ -67,19 +67,19 @@ const SELECTOR = {
     'dlAddr'    : '/html[1]/body[1]/div[5]/font[1]/div[1]/div[2]/div[1]/div[1]/ul[1]/li/input[1]/@value',
   },
   2: {
-    'videoUrl'  : '/html[1]/body[1]/div[4]/div[1]/table[1]/tbody[1]/tr/td[1]/a[1]/@href',
-    'updateTime': '/html[1]/body[1]/div[4]/div[1]/table[1]/tbody[1]/tr/td[6]/font[1]',
-    'name'      : '/html[1]/body[1]/div[4]/div[1]/div[1]/div[2]/li[1]',
-    'summary'   : '/html[1]/body[1]/div[4]/div[3]/div[1]/div[2]/div[1]/div[1]/p[2]',
-    'imgUrl'    : '/html[1]/body[1]/div[4]/div[1]/div[1]/div[1]/img[1]/@src',
-    'director'  : '/html[1]/body[1]/div[4]/div[1]/div[1]/div[2]/li[5]',
-    'actors'    : '/html[1]/body[1]/div[4]/div[1]/div[1]/div[2]/li[4]',
-    'type'      : '/html[1]/body[1]/div[4]/div[1]/div[1]/div[2]/li[6]/div[1]',
-    'year'      : '/html[1]/body[1]/div[4]/div[1]/div[1]/div[2]/li[8]/div[2]',
-    'area'      : '/html[1]/body[1]/div[4]/div[1]/div[1]/div[2]/li[7]/div[2]',
-    'lang'      : '/html[1]/body[1]/div[4]/div[1]/div[1]/div[2]/li[7]/div[1]',  
-    'plAddr'    : '/html[1]/body[1]/div[4]/div[2]/div[1]/div[1]/ul[1]/li/input[1]/@value',
-    'dlAddr'    : '/html[1]/body[1]/div[5]/font[1]/div[1]/div[2]/div[1]/div[1]/ul[1]/li',
+    'videoUrl'  : '/html[1]/body[1]/div[4]/ul/li[1]/span[2]/a[1]/@href',
+    'updateTime': '/html[1]/body[1]/div[4]/ul/li[1]/span[4]',
+    'name'      : '/html[1]/body[1]/div[4]/div[1]/div[1]/div[1]/div[2]/div[1]/h2[1]',                              
+    'summary'   : '/html[1]/body[1]/div[4]/div[3]/div[2]',
+    'imgUrl'    : '/html[1]/body[1]/div[4]/div[1]/div[1]/div[1]/div[1]/img[1]/@src',
+    'director'  : '/html[1]/body[1]/div[4]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[2]/span[1]/a[1]',
+    'actors'    : '/html[1]/body[1]/div[4]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[3]/span[1]',
+    'type'      : '/html[1]/body[1]/div[4]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[4]/span[1]',
+    'year'      : '/html[1]/body[1]/div[4]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[7]/span[1]/a[1]',
+    'area'      : '/html[1]/body[1]/div[4]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[5]/span[1]/a[1]',
+    'lang'      : '/html[1]/body[1]/div[4]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[6]/span[1]/a[1]',  
+    'plAddr'    : '/html[1]/body[1]/div[4]/div[4]/div[2]/div[1]/div/ul[1]/li/input[1]/@value',
+    'dlAddr'    : '/html[1]/body[1]/div[5]/font[1]/div[1]/div[2]/div[1]/div[1]/ul[1]/li/input[1]/@value',
   },
   3: {
     'videoUrl'  : '/html[1]/body[1]/div[5]/ul/li[1]/span[2]/a[1]/@href',

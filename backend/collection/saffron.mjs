@@ -24,7 +24,7 @@ class Saffron {
   }
 
   generateIndexs(sta) {
-    for(let i = sta*50 + 1; i <= (sta+1)*50; i++) {
+    for(let i = (sta*50) + 1; i <= (sta+1)*50; i++) {
       this.pageIndexs.push(i);
     } 
     console.log(this.pageIndexs);
@@ -36,7 +36,7 @@ class Saffron {
    * 将符合条件的更新地址填充到数组中.
    */
   getUpdate() {
-    let sumToGet = this.pageIndexs.length;
+    let sumUpdated = this.pageIndexs.length;
 
     return new Promise((resolve, reject) => {
       this.pageIndexs.forEach((pageIndex) => {
@@ -49,10 +49,10 @@ class Saffron {
           const videoUrls = this.parser.parseUpdate(document);
           this.urlsToFetch.push(...videoUrls);
           // 判断是否结束更新
-          if (!--sumToGet) resolve();
-          console.log(sumToGet);
+          if (!--sumUpdated) resolve();
+          console.log(sumUpdated);
         }).catch((error) => {
-          --sumToGet;
+          --sumUpdated;
           console.log(error);
         });
       });
@@ -71,8 +71,8 @@ class Saffron {
         
         // 过滤并存储数据
         this.filter.filte(videoItem);
-        this.storager.pushVideoItem(videoItem);
-        
+        //this.storager.pushVideoItem(videoItem);
+        console.log(videoItem);
         console.log(this.sumCompleted + 1);
         resolve();
       }).catch((error) => {
@@ -99,8 +99,8 @@ class Saffron {
     await this.getUpdate();
 
     // 每隔一段时间存储数据
-    const intervalFunction = this.storager.interval.bind(this.storager);
-    setInterval(intervalFunction, 5000);
+   // const intervalFunction = this.storager.interval.bind(this.storager);
+    //setInterval(intervalFunction, 5000);
 
     this.sumTasks = this.urlsToFetch.length;
     for(let i = 0; i < this.sumTasks; i++) {

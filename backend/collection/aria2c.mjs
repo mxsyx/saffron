@@ -25,6 +25,9 @@ class Aria2c {
    */
   addTask(url, dir, out) {
     this.aria2.call('addUri', [url], { dir: dir, out: out})
+      .catch((error) => {
+        // console.log(error)
+      })
   }
 }
 

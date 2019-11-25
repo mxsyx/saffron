@@ -41,10 +41,9 @@ class Saffron {
     return new Promise((resolve, reject) => {
       this.pageIndexs.forEach((pageIndex) => {
         const url = util.format(URLTPL[this.site]['home'], pageIndex);
-        
+
         jsdom.JSDOM.fromURL(url).then((dom) => {
           const document = dom.window.document;
-
           // 解析更新地址
           const videoUrls = this.parser.parseUpdate(document);
           this.urlsToFetch.push(...videoUrls);
@@ -71,8 +70,8 @@ class Saffron {
         
         // 过滤并存储数据
         this.filter.filte(videoItem);
-        //this.storager.pushVideoItem(videoItem);
-        console.log(videoItem);
+        this.storager.pushVideoItem(videoItem);
+
         console.log(this.sumCompleted + 1);
         resolve();
       }).catch((error) => {
@@ -99,14 +98,13 @@ class Saffron {
     await this.getUpdate();
 
     // 每隔一段时间存储数据
-   // const intervalFunction = this.storager.interval.bind(this.storager);
-    //setInterval(intervalFunction, 5000);
-
+    const intervalFunction = this.storager.interval.bind(this.storager);
+    setInterval(intervalFunction, 5000);
+    
     this.sumTasks = this.urlsToFetch.length;
     for(let i = 0; i < this.sumTasks; i++) {
       // 降低请求频率
       if (i % 10 == 0) await sleep(0.5);
-
       this.crawl(this.urlsToFetch[i]);
     }
   }

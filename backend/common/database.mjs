@@ -2,7 +2,7 @@
  * 数据库模型
  */
 
-import mysql from 'mysql/index.js'
+import mysql from 'mysql'
 import { DBHOST, DBPORT, DBNAME } from './config.mjs'
 import { DBUSER, DBPASSWORD } from './config.mjs'
 
@@ -56,4 +56,6 @@ class Database {
 }
 
 
-export { Database };
+const db = new Database();
+
+export default db;

@@ -1,5 +1,5 @@
 // 数据库地址
-const DBHOST = '172.17.5.144';
+const DBHOST = '127.0.0.1';
 
 // 数据库端口
 const DBPORT = '3306'

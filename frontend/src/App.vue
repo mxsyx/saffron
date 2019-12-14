@@ -1,23 +1,23 @@
 <template>
   <div id="app">
-    <MyHeader></MyHeader>
-    <Navigation></Navigation>
+    <TheHeader/>
+    <TheNavigation/>
     <router-view></router-view>
-    <MyBottom></MyBottom>
+    <TheBottom/>
   </div>
 </template>
 
 <script>
-import MyHeader from '@/components/MyHeader'
-import Navigation from '@/components/Navigation'
-import MyBottom from '@/components/MyBottom'
+import TheHeader from '@/components/TheHeader'
+import TheNavigation from '@/components/TheNavigation'
+import TheBottom from '@/components/TheBottom'
 
 export default {
   name: 'app',
   components: {
-    MyHeader,
-    Navigation,
-    MyBottom
+    TheHeader,
+    TheNavigation,
+    TheBottom
   },
   methods: {
     resize: function() {

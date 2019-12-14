@@ -50,12 +50,12 @@
         </button>
       </div>
     </header>
-    <VideoInfo></VideoInfo>
+    <InfoBox></InfoBox>
   </div>
 </template>
 
 <script>
-import VideoInfo from "@/components/VideoInfo";
+import InfoBox from "@/components/InfoBox";
 
 export default {
   props: ['headerTip', 'types'],
@@ -82,7 +82,7 @@ export default {
   },
 
   components: {
-    VideoInfo
+    InfoBox
   }
 };
 </script>

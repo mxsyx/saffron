@@ -3,8 +3,8 @@ import VueRouter from 'vue-router'
 import routes from '@/router'
 import App  from  '@/App.vue'
 
-import '@/assets/saffron.css'
-import '@/assets/font-awesome.min.css'
+import '@/assets/css/saffron.css'
+import '@/assets/css/font-awesome.min.css'
 
 
 // 定义页面路由

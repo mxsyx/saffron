@@ -11,9 +11,10 @@ app.use(function(req, res, next) {
   next();
 });
 
+app.get('/main/latest', video.getMain),
+app.get('/main/random', video.getMain),
 app.get('/info/:vid', video.getInfo);
 app.get('/play/:vid/:addr/:episode', video.getPlAddr);
 app.get('/download/:vid/:episode', video.getDlAddr);
-
 
 app.listen(8000, () => console.log('Service listening on port 127.0.0.1:8000!'))

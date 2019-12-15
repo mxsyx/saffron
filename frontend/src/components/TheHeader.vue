@@ -1,7 +1,7 @@
 <!-- 页面头部 -->
 
 <template>
-  <div id="my-header" class="row">
+  <div id="the-header" class="row">
     <div id="logo" class="col-sm-12 col-md-6 col-lg-4">
       <a href="/">自在仙</a>
       <span>浮云轻入鹤撩雾，青山深处自在仙</span>
@@ -19,7 +19,7 @@ export default {
 </script>
 
 <style scoped>
-#my-header {
+#the-header {
   height: 3.5rem;
   background-color: #34495E;
 }

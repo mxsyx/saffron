@@ -14,21 +14,24 @@ import TheBottom from '@/components/TheBottom'
 
 export default {
   name: 'app',
+
   components: {
     TheHeader,
     TheNavigation,
     TheBottom
   },
+
+  mounted() {
+    this.resize();
+  },
+  
   methods: {
-    resize: function() {
+    resize() {
       const ua = navigator.userAgent;
       if(/Android|iPhone|iPod/i.test(ua)) {
         document.documentElement.style.fontSize = '16px'
       }
     }
-  },
-  mounted: function() {
-    this.resize();
   },
 };
 </script>

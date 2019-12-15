@@ -1,9 +1,14 @@
+<!-- 轮播组件 -->
+
 <template>
-  <div id="lb-1" class="lb-box"
-       v-on:mouseover="pause"
-       v-on:mouseleave="start"
-       v-on:touchstart="touchScreen"
-       v-on:touchend="touchScreen">
+  <div 
+    id="lb-1"
+    class="lb-box"
+    v-on:mouseover="pause"
+    v-on:mouseleave="start"
+    v-on:touchstart="touchScreen"
+    v-on:touchend="touchScreen"
+  >
     <div class="lb-content">
       <div v-for="lbItem in lbItems"
            v-bind:key="lbItem.id" 
@@ -15,12 +20,13 @@
       </div>
     </div>
     <ol class="lb-sign">
-      <li v-for="lbSign in lbSigns"
-          v-bind:key="lbSign.id"
-          v-bind:slide-to="lbSign.index"
-          v-bind:class="lbSign.className"
-          v-on:click="clickSign">
-        {{ lbSign.index + 1 }}
+      <li
+        v-for="lbSign in lbSigns"
+        v-bind:key="lbSign.id"
+        v-bind:slide-to="lbSign.index"
+        v-bind:class="lbSign.className"
+        v-on:click="clickSign">
+      {{ lbSign.index + 1 }}
       </li>
     </ol>
     <div class="lb-ctrl left"  v-on:click="clickCtrl('left')">＜</div>

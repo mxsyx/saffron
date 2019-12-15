@@ -3,18 +3,18 @@
 <template>
   <div class="page">
     <Carousel></Carousel>
-    <VideoShow
+    <DisplayBox
       v-bind:headerTip="'最新电影'"
       v-bind:videoItems="movieItems"
-    ></VideoShow>
+    ></DisplayBox>
     <Random 
       v-bind:headerTip="'随机看电影'"
       v-bind:types="movieTypes"
     ></Random>
-    <VideoShow
+    <DisplayBox
       v-bind:headerTip="'最新电视剧'"
       v-bind:videoItems="tvItems"
-    ></VideoShow>
+    ></DisplayBox>
     <Random
       v-bind:headerTip="'随机看电视剧'"
       v-bind:types="tvTypes"
@@ -24,11 +24,11 @@
 
 <script>
 import Carousel from '@/components/Carousel'
-import VideoShow from '@/components/VideoShow'
+import DisplayBox from '@/components/DisplayBox'
 import Random from '@/components/Random'
 
 export default {
-  data: function() {
+  data() {
     return {
       movieItems: [
         {
@@ -184,7 +184,7 @@ export default {
   },
   components: {
     Carousel,
-    VideoShow,
+    DisplayBox,
     Random,
   }
 }

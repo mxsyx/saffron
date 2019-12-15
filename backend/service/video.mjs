@@ -7,6 +7,40 @@ import { STATEMENTS } from './config.mjs'
 
 
 /**
+ * 获取主页信息
+ */
+function getLatest(req, res) {
+  db.excute(STATEMENTS['getLatest'])
+  .then(data => {
+    if (data.length) {
+      res.send(JSON.stringify(data[0]));
+    } else {
+      res.send(JSON.stringify({error: true}));
+    }
+  })
+  .catch(err => {
+    console.log(err);
+  })
+}
+
+/**
+ * 随机获取12部影视剧
+ */
+function getRandom(req, res) {
+  db.excute(STATEMENTS['getRandom'])
+  .then(data => {
+    if (data.length) {
+      res.send(JSON.stringify(data[0]));
+    } else {
+      res.send(JSON.stringify({error: true}));
+    }
+  })
+  .catch(err => {
+    console.log(err);
+  })
+}
+
+/**
  * 获取视频信息
  */
 function getInfo(req, res) {
@@ -51,4 +85,4 @@ function getDlAddr(req, res) {
 }
 
 
-export { getInfo, getPlAddr, getDlAddr }
+export { getInfo, getPlAddr, getDlAddr, getLatest, getRandom }

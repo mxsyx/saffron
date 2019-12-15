@@ -8,17 +8,17 @@
     <AddrBox
       v-bind:vid="vid"
     />
-    <VideoShow
+    <DisplayBox
       v-bind:headerTip="'最新电影'"
       v-bind:videoItems="movieItems"
-    ></VideoShow>
+    ></DisplayBox>
   </div>
 </template>
 
 <script>
 import InfoBox from "@/components/InfoBox";
 import AddrBox from '@/components/AddrBox';
-import VideoShow from '@/components/VideoShow';
+import DisplayBox from '@/components/DisplayBox';
 
 export default {
   props: ['vid'],
@@ -34,7 +34,7 @@ export default {
   components: {
     InfoBox,
     AddrBox,
-    VideoShow,
+    DisplayBox,
   },
   
   beforeRouteEnter: function(to, from, next) {

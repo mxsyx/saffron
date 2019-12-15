@@ -7,25 +7,25 @@
       </div>
     </header>
     <div class="row">
-      <VideoBox
+      <DisplayBoxItem
         v-for="videoItem in videoItems"
         v-bind:key="videoItem.id"
         v-bind:href="videoItem.href"
         v-bind:imgSrc="videoItem.imgSrc"
         v-bind:name="videoItem.name"
         v-bind:actors="videoItem.actors"
-      ></VideoBox>
+      />
     </div>
   </div>
 </template>
 
 <script>
-import VideoBox from '@/components/VideoBox'
+import DisplayBoxItem from '@/components/DisplayBoxItem'
 
 export default {
   props: ['headerTip', 'videoItems'],
   components: {
-    VideoBox
+    DisplayBoxItem
   }
 };
 </script>

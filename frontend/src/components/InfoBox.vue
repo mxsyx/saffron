@@ -17,8 +17,8 @@
       <div>
         <span class="info-tip">主演：</span>
         <span class="info-content">
-          <a 
-            v-for="actor in videoInfo.actors" 
+          <a
+            v-for="actor in splitActors(videoInfo.actors)" 
             v-bind:key="actor.key"
             v-bind:href="'search/' + actor">{{ actor }}、
           </a>
@@ -127,11 +127,11 @@
         </button>
         <button class="btn btn-score hidden-sm hidden-md">
           <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
-          <span>顶({{ love }})</span>
+          <span>顶({{ videoInfo.love }})</span>
         </button>
         <button class="btn btn-score hidden-sm hidden-md">
           <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
-          <span>踩({{ hate }})</span>
+          <span>踩({{ videoInfo.hate }})</span>
         </button>
         <button class="btn btn-share" v-on:click="openShareModal">
           <i class="fa fa-share-alt" aria-hidden="true"></i>
@@ -170,7 +170,7 @@ export default {
       showSummaryDetaile: false
     };
   },
-  
+
   methods: {
     openShareModal: function() {
       this.$refs.shareModal.openModal();
@@ -179,6 +179,11 @@ export default {
     switchShowSummaryDetaile: function() {
       this.showSummaryDetaile = !this.showSummaryDetaile;
     },
+    
+    splitActors(actors) {
+      console.log(actors);
+      return actors.split(' ');
+    }
   },
 
   components: {

@@ -37,11 +37,15 @@ export default {
     DisplayBox,
   },
   
-  beforeRouteEnter: function(to, from, next) {
+  mounted() {
+    window.scrollTo(0,0);
+  },
+
+  beforeCreate() {
     const axios = require('axios').default;
-    axios.get(`http://zizaixian.top/info/${to.params.vid}`)
+    axios.get(`http://zizaixian.top/info/${this.$route.params.vid}`)
       .then(response => {
-        next(vm => { vm.setVideoInfo(response.data); });
+        this.setVideoInfo(response.data);
       })
       .catch(error => {
         console.error(error);

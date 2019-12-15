@@ -54,11 +54,5 @@ export default {
       this.videoInfo = videoInfo;
     }
   }
-
-
 }
 </script>
-
-<style>
-
-</style>

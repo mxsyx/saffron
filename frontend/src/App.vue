@@ -2,7 +2,9 @@
   <div id="app">
     <TheHeader/>
     <TheNavigation/>
-    <router-view></router-view>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
     <TheBottom/>
   </div>
 </template>
@@ -18,7 +20,7 @@ export default {
   components: {
     TheHeader,
     TheNavigation,
-    TheBottom
+    TheBottom,
   },
 
   mounted() {
@@ -72,5 +74,16 @@ ul {
   width: 90%;
   margin: auto;
   margin-top: 1.5rem;
+}
+
+
+/** 页间过渡动画 */
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
 }
 </style>

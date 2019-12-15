@@ -8,7 +8,7 @@
       <span></span>
     </a>
     <div class="video-desc">
-      <a v-bind:href="`/info/${id}`">{{ name }}</a>
+      <router-link v-bind:to="`info/${id}`">{{ name }}</router-link>
       <span>{{ actors }}</span>
     </div>
   </div>

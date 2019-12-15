@@ -11,8 +11,8 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.get('/main/latest', video.getMain),
-app.get('/main/random', video.getMain),
+app.get('/main/latest', video.getLatest),
+app.get('/main/random', video.getRandom),
 app.get('/info/:vid', video.getInfo);
 app.get('/play/:vid/:addr/:episode', video.getPlAddr);
 app.get('/download/:vid/:episode', video.getDlAddr);

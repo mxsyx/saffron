@@ -10,9 +10,9 @@
       <DisplayBoxItem
         v-for="videoItem in videoItems"
         v-bind:key="videoItem.id"
-        v-bind:href="videoItem.href"
-        v-bind:imgSrc="videoItem.imgSrc"
+        v-bind:id="videoItem.id"
         v-bind:name="videoItem.name"
+        v-bind:imgaddr="videoItem.imgaddr"
         v-bind:actors="videoItem.actors"
       />
     </div>
@@ -23,7 +23,13 @@
 import DisplayBoxItem from '@/components/DisplayBoxItem'
 
 export default {
-  props: ['headerTip', 'videoItems'],
+  name: "DisplayBox",
+
+  props: {
+    'headerTip': String,
+    'videoItems': Array,
+  },
+  
   components: {
     DisplayBoxItem
   }

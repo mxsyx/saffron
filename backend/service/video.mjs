@@ -12,11 +12,7 @@ import { STATEMENTS } from './config.mjs'
 function getLatest(req, res) {
   db.excute(STATEMENTS['getLatest'])
   .then(data => {
-    if (data.length) {
-      res.send(JSON.stringify(data[0]));
-    } else {
-      res.send(JSON.stringify({error: true}));
-    }
+    res.send(JSON.stringify(data));
   })
   .catch(err => {
     console.log(err);
@@ -29,11 +25,7 @@ function getLatest(req, res) {
 function getRandom(req, res) {
   db.excute(STATEMENTS['getRandom'])
   .then(data => {
-    if (data.length) {
-      res.send(JSON.stringify(data[0]));
-    } else {
-      res.send(JSON.stringify({error: true}));
-    }
+    res.send(JSON.stringify(data));
   })
   .catch(err => {
     console.log(err);

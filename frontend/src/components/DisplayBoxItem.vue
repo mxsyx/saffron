@@ -2,12 +2,12 @@
   <div class="videobox col-sm-4 col-md-3 col-lg-2">
     <div class="video-img">
       <a v-bind:href="href">
-        <img v-bind:src="imgSrc" alt="loss">
+        <img v-bind:src="imgaddr | concatImgAddr" alt="loss">
         <span></span>
       </a>
     </div>
     <div class="video-desc">
-      <a v-bind:href="href">{{ name }}</a>
+      <a v-bind:href="`/info/${id}`">{{ name }}</a>
       <span>{{ actors }}</span>
     </div>
   </div>
@@ -15,8 +15,15 @@
 
 <script>
 export default {
-  props: ['href', 'imgSrc', 'name', 'actors']
+  props: ['id', 'imgaddr', 'name', 'actors'],
+
+  filters: {
+    concatImgAddr(imgaddr) {
+      return `http://zizaixian.top${imgaddr}`;
+    }
+  }
 }
+
 </script>
 
 <style>

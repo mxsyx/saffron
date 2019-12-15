@@ -1,5 +1,5 @@
 <template>
-  <div class="video-show">
+  <div class="display-box">
     <header>
       <div>
         <h5>{{ headerTip }}</h5>
@@ -26,8 +26,8 @@ export default {
   name: "DisplayBox",
 
   props: {
-    'headerTip': String,
-    'videoItems': Array,
+    headerTip: String,
+    videoItems: Array,
   },
   
   components: {
@@ -37,21 +37,21 @@ export default {
 </script>
 
 <style>
-.video-show .row {
+.display-box .row {
   padding-bottom: 0.75rem;
   margin-bottom: 1.2rem;
 }
 
-.video-show header {
+.display-box header {
   padding: 0rem 0.375rem;
 }
 
-.video-show header div {
+.display-box header div {
   border-bottom: solid 1px #CDCDCD;
   padding: 0.4rem 0rem;
 }
 
-.video-show header div h5 {
+.display-box header div h5 {
   margin: 0px;
   font-size: 1.2rem;
   color: #414141;
@@ -61,14 +61,14 @@ export default {
   user-select: none;
 }
 
-.video-show header div a {
+.display-box header div a {
   float: right;
   color:#555;
   font-size: 0.7rem;
   line-height: 1.2rem;
   margin-right: 0.5rem;
 }
-.video-show header div a:hover {
+.display-box header div a:hover {
   color: var(--sub-color);
 }
 </style>

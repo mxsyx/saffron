@@ -1,11 +1,12 @@
 <template>
-  <div class="videobox col-sm-4 col-md-3 col-lg-2">
-    <div class="video-img">
-      <a v-bind:href="href">
-        <img v-bind:src="imgaddr | concatImgAddr" alt="loss">
-        <span></span>
-      </a>
-    </div>
+  <div class="display-box-item col-sm-4 col-md-3 col-lg-2">
+    <a
+      class="video-img"
+      v-bind:href="`/info/${id}`"
+      v-bind:style="{ backgroundImage: handleBackgroudImage(imgaddr)}"
+    >
+      <span></span>
+    </a>
     <div class="video-desc">
       <a v-bind:href="`/info/${id}`">{{ name }}</a>
       <span>{{ actors }}</span>
@@ -15,36 +16,39 @@
 
 <script>
 export default {
-  props: ['id', 'imgaddr', 'name', 'actors'],
+  name: "DisplayBoxItem",
+  
+  props: {
+    id: Number,
+    imgaddr: String,
+    name: String,
+    actors: String,
+  },
 
-  filters: {
-    concatImgAddr(imgaddr) {
-      return `http://zizaixian.top${imgaddr}`;
+  methods: {
+    handleBackgroudImage(imgaddr) {
+      return `url(http://zizaixian.top${imgaddr}),
+              url(http://zizaixian.top/img/404/bg404.png)`
     }
   }
-}
-
+};
 </script>
 
 <style>
-.videobox {
+.display-box-item {
   overflow: hidden;
   margin: 0.5rem 0rem 0rem;
   padding: 0rem 0.375rem;
   box-sizing: border-box;
 }
 
-/* 视频图片  */
-.video-img a {
-  width: 100%;
+.video-img {
   display: block;
-  position: relative;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
   height: 0px;
   padding-bottom: 138%;
-}
-
-.video-img a img {
-  width: 100%;
+  position: relative;
   border-radius: 5px;
 }
 
@@ -60,9 +64,9 @@ export default {
   background-repeat: no-repeat;
   background-size: 30% 30%;
   background-position: center;
-  background-color: rgba(0,0,0,0.3);
+  background-color: rgba(0, 0, 0, 0.3);
 }
-.video-img a:hover span {
+.video-img:hover span {
   display: block;
 }
 
@@ -81,7 +85,7 @@ export default {
 }
 
 .video-desc a {
-  color:#333;
+  color: #333;
   font-size: 0.8rem;
   font-weight: 700;
   padding: 0.3rem 0rem;

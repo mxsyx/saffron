@@ -17,26 +17,29 @@
 </template>
 
 <script>
+import axios from 'axios'
+import mixin from '@/mixin'
 import InfoBox from "@/components/InfoBox";
 import AddrBox from '@/components/AddrBox';
 import DisplayBox from '@/components/DisplayBox';
-import axios from 'axios'
 
 export default {
   props: ['vid'],
 
+  components: {
+    InfoBox,
+    AddrBox,
+    DisplayBox,
+  },
+  
+  mixins: [mixin],
+  
   data: function() {
     return {
       videoInfo: null,
       movieItems: [],
       movieTypes: ['动作片','喜剧片','爱情片','科幻片','恐怖片','剧情片','战争片','动漫片','微电影'],
     }
-  },
-
-  components: {
-    InfoBox,
-    AddrBox,
-    DisplayBox,
   },
 
   mounted() {
@@ -56,7 +59,7 @@ export default {
   methods: {    
     setVideoInfo(videoInfo) {
       this.videoInfo = videoInfo;
-      this.$emit('loaded');
+      this.loaded();
     }
   }
 }

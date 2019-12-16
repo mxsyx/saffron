@@ -47,8 +47,12 @@ export default {
         this.setLatestVideoInfo(response.data);
       })
       .catch(error => {
-        alert('网站加载数据失败')
+        alert('加载数据失败')
     });
+  },
+
+  activated() {
+    this.loaded();
   },
 
   methods: {

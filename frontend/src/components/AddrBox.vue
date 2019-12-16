@@ -7,25 +7,28 @@
         <h5>播放线路</h5>
         <div class="btn-box">
           <button
-              class="btn btn-channel"
-              v-for="channel in channels"
-              v-bind:key="channel.key"
-              v-on:click="changeChannel(channel.id)">
-            线路 {{ channel.id + 1 }}
+            class="btn btn-addr"
+            v-for="addr in addrs"
+            v-bind:key="addr.key"
+            v-on:click="changeAddr(addr.id)"
+          >
+            线路 {{ addr.id }}
           </button>
         </div>
       </div>
     </header>
-    <ul class="row channel-box"
-        v-for="channel in channels"
-        v-bind:key="channel.key"
-        v-bind:class="{hidden: channel.hidden}">
-      <li class="col-sm-3 col-md-2 col-lg-1"
-          v-for="index in generateArray(channel.numEpisode)"
-          v-bind:key="index.key">
-        <a v-bind:href="`/play/${vid}/${channel.id}/${index}`">
+    <ul class="row addr-box"
+        v-for="addr in addrs"
+        v-bind:key="addr.key"
+        v-bind:class="{hidden: addr.hidden}">
+      <li
+        class="col-sm-3 col-md-2 col-lg-1"
+        v-for="index in generateArray(addr.numEpisode)"
+        v-bind:key="index.key"
+      >
+        <router-link v-bind:to="`/play/${vid}/${addr.id}/${index+1}`">
           第 {{ index + 1 }} 集
-        </a>
+        </router-link>
       </li>
     </ul>
   </div>
@@ -33,32 +36,29 @@
 
 <script>
 export default {
-  props: ['vid'],
+  props: {
+    vid: String,
+  },
   
   data: function() {
     return {
       // 活动线路ID
-      activeChannel: 0,
-      channels: [
+      activeAddr: 1,
+      addrs: [
         {
-          id: 0,
-          hidden: true,
-          numEpisode: 32
-        },
-        { 
           id: 1,
           hidden: true,
           numEpisode: 32
         },
-        {
+        { 
           id: 2,
           hidden: true,
-          numEpisode: 32 
+          numEpisode: 32
         },
         {
           id: 3,
           hidden: true,
-          numEpisode: 32
+          numEpisode: 32 
         },
         {
           id: 4,
@@ -69,19 +69,18 @@ export default {
           id: 5,
           hidden: true,
           numEpisode: 32
+        },
+        {
+          id: 6,
+          hidden: true,
+          numEpisode: 32
         }
       ]
     }
   },
 
   mounted: function(){
-    this.channels[this.activeChannel].hidden = false;
-  },
-
-  computers: {
-    getPlayAddr(vid, channelId, index) {
-      return `/play/${vid}/${channelId}/${index}`
-    }
+    this.addrs[this.activeAddr - 1].hidden = false;
   },
 
   methods: {
@@ -89,15 +88,19 @@ export default {
      * 切换线路
      * @param {Number} channeId 线路ID
      */
-    changeChannel: function(channelId) {
-      this.channels[this.activeChannel].hidden = true;
-      this.channels[channelId].hidden = false;
-      this.activeChannel = channelId;
+    changeAddr: function(addrId) {
+      this.addrs[this.activeAddr].hidden = true;
+      this.addrs[addrId].hidden = false;
+      this.activeAddr = addrId;
     },
 
     generateArray: function(n) {
       return Array.from(new Array(n).keys());
-    }
+    },
+    
+    getPlayAddr(vid, addrId, index) {
+      return `/play/${vid}/${addrId}/${index}`
+    },
   }
 }
 </script>
@@ -107,12 +110,12 @@ export default {
   display: none !important;
 }
 
-.channel-box li {
+.addr-box li {
   padding: 0.3rem;
   box-sizing: border-box;
 }
 
-.channel-box li a {
+.addr-box li a {
   display: block;
   color: #333333;
   text-align: center;
@@ -121,7 +124,7 @@ export default {
   border-radius: 0.25rem;
   background-color: #eee
 }
-.channel-box li a:hover {
+.addr-box li a:hover {
   color: #fff;
   background-color: var(--third-color);
 }

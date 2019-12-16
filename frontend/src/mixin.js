@@ -5,10 +5,15 @@ export default {
     next();
   },
 
+  beforeRouteUpdate(to, from, next) {
+    this.$emit('loading');
+    next();
+  },
+
   methods: {
     // 页面加载完成之后触发
     loaded() {
       this.$emit('loaded');
-    }
+    },
   }
 }

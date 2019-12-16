@@ -11,12 +11,12 @@ import { STATEMENTS } from './config.mjs'
  */
 function getLatest(req, res) {
   db.excute(STATEMENTS['getLatest'])
-  .then(data => {
-    res.send(JSON.stringify(data));
-  })
-  .catch(err => {
-    console.log(err);
-  })
+    .then(data => {
+      res.send(JSON.stringify(data));
+    })
+    .catch(err => {
+      console.log(err);
+    })
 }
 
 /**
@@ -24,12 +24,12 @@ function getLatest(req, res) {
  */
 function getRandom(req, res) {
   db.excute(STATEMENTS['getRandom'])
-  .then(data => {
-    res.send(JSON.stringify(data));
-  })
-  .catch(err => {
-    console.log(err);
-  })
+    .then(data => {
+      res.send(JSON.stringify(data));
+    })
+    .catch(err => {
+      console.log(err);
+    })
 }
 
 /**
@@ -37,16 +37,16 @@ function getRandom(req, res) {
  */
 function getInfo(req, res) {
   db.excute(STATEMENTS['getInfo'], req.params.vid)
-  .then(data => {
-    if (data.length) {
-      res.send(JSON.stringify(data[0]));
-    } else {
-      res.send(JSON.stringify({error: true}));
-    }
-  })
-  .catch(err => {
-    console.log(err);
-  })
+    .then(data => {
+      if (data.length) {
+        res.send(JSON.stringify(data[0]));
+      } else {
+        res.send(JSON.stringify({error: true}));
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    })
 }
 
 /**
@@ -55,12 +55,16 @@ function getInfo(req, res) {
 function getPlAddr(req, res) {
   const addr = `addr${req.params.addr}`;
   db.excute(STATEMENTS['getPlAddr'], [addr,req.params.vid,req.params.episode])
-  .then(data => {
-    res.send(JSON.stringify(data));
-  })
-  .catch(err => {
-    console.log(err);
-  })
+    .then(data => {
+      if (data.length) {
+        res.send(JSON.stringify(data[0]));
+      } else {
+        res.send(JSON.stringify({error: true}));
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    })
 }
 
 /**
@@ -68,12 +72,12 @@ function getPlAddr(req, res) {
  */
 function getDlAddr(req, res) {
   db.excute(STATEMENTS['getDlAddr'], [req.params.vid,req.params.episode])
-  .then(data => {
-    res.send(JSON.stringify(data));
-  })
-  .catch(err => {
-    console.log(err);
-  })
+    .then(data => {
+      res.send(JSON.stringify(data));
+    })
+    .catch(err => {
+      console.log(err);
+    })
 }
 
 

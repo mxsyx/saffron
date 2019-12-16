@@ -18,7 +18,7 @@ const routes = [
   },
   // 播放页路由
   {
-    path: '/play/:vid/:channel/:episode',
+    path: '/play/:vid/:addr/:episode',
     component: Play,
     props: true
   },

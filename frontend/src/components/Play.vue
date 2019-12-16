@@ -1,52 +1,84 @@
+<!-- Play Page-->
+
 <template>
   <div class="page">
     <div ref="player"></div>
     <AddrBox
       v-bind:vid="vid"
-    ></AddrBox>
+    />
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+import mixin from '@/mixin'
 import Hls from 'hls'
 import DPlayer from 'dplayer';
 import 'dplayer/dist/DPlayer.min.css';
 import AddrBox from '@/components/AddrBox';
 
 export default {
+  name: "Play",
+  
   props: ['vid'],
-
-  mounted: function() {
-    window.Hls = Hls;
-    const options = {
-      container: this.$refs.player,
-      autoplay: false,
-      screenshot: true,
-      hotkey: true,
-      volume: 0.7,
-      video: {
-        type: 'hls',
-        url: 'https://vip.okokbo.com/20171214/EyioIJsB/index.m3u8',
-      },
-      danmaku: {
-        id: '10101470022',
-        api: 'http://danmaku.zizaixian.top/',
-        token: 'tokendemo',
-        maximum: 1000,
-        user: '1059',
-        bottom: '15%',
-        unlimited: false,
-      },
-    };
-    this.dp = new DPlayer(options);
-  },
-
+  
   components: {
     AddrBox,
+  },
+  
+  mixins: [mixin],
+
+  beforeRouteEnter(to, from, next) {
+    const url = `http://zizaixian.top/play/${to.params.vid}/`
+                + `${to.params.addr}/${to.params.episode}/`;
+    axios.get(url)
+      .then(response => {
+        next(vm => vm.setPlayInfo(response.data));
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  },
+
+  beforeRouteUpdate(to, from, next) {
+    const url = `http://zizaixian.top/play/${to.params.vid}/`
+                + `${to.params.addr}/${to.params.episode}/`;
+    console.log(url);
+    axios.get(url)
+      .then(response => {
+        this.setPlayInfo(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  },
+
+  methods: {
+    setPlayInfo(playInfo) {
+      if (playInfo.error) {
+        alert('加载数据失败');
+      } else {
+        const url = Object.values(playInfo)[0];
+        this.initPlayer(url);
+        this.loaded();
+      }
+    },
+
+    initPlayer(url) {
+      window.Hls = Hls;
+      const options = {
+        container: this.$refs.player,
+        autoplay: true,
+        screenshot: true,
+        hotkey: true,
+        volume: 0.7,
+        video: {
+          type: 'hls',
+          url: url,
+        },
+      };
+      this.dp = new DPlayer(options);
+    },
   }
 }
 </script>
-
-<style>
-
-</style>

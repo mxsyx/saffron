@@ -1,15 +1,22 @@
 <template>
   <div id="app">
+    <Loading v-if="isLoading"/>
+    <Progress v-if="isProgress"/>
     <TheHeader/>
     <TheNavigation/>
-    <keep-alive>
-      <router-view></router-view>
+    <keep-alive include="Main">
+      <router-view 
+        v-on:loading="showProgress"
+        v-on:loaded="showPage"
+      ></router-view>
     </keep-alive>
     <TheBottom/>
   </div>
 </template>
 
 <script>
+import Loading from '@/components/Loading'
+import Progress from '@/components/Progress'
 import TheHeader from '@/components/TheHeader'
 import TheNavigation from '@/components/TheNavigation'
 import TheBottom from '@/components/TheBottom'
@@ -18,21 +25,39 @@ export default {
   name: 'app',
 
   components: {
+    Loading,
+    Progress,
     TheHeader,
     TheNavigation,
     TheBottom,
+  },
+  
+  data() {
+    return {
+      isLoading: true,
+      isProgress: false,
+    }
   },
 
   mounted() {
     this.resize();
   },
-  
+
   methods: {
     resize() {
       const ua = navigator.userAgent;
       if(/Android|iPhone|iPod/i.test(ua)) {
         document.documentElement.style.fontSize = '16px'
       }
+    },
+
+    showProgress() {
+      this.isProgress = true;
+    },
+    
+    showPage() {
+      this.isLoading = false;
+      this.isProgress = false;
     }
   },
 };
@@ -74,16 +99,5 @@ ul {
   width: 90%;
   margin: auto;
   margin-top: 1.5rem;
-}
-
-
-/** 页间过渡动画 */
-.fade-enter,
-.fade-leave-active {
-  opacity: 0;
-}
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
 }
 </style>

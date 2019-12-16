@@ -1,12 +1,12 @@
 <template>
   <div class="display-box-item col-sm-4 col-md-3 col-lg-2">
-    <a
+    <router-link
       class="video-img"
-      v-bind:href="`/info/${id}`"
+      v-bind:to="`/info/${id}`"
       v-bind:style="{ backgroundImage: handleBackgroudImage(imgaddr)}"
     >
       <span></span>
-    </a>
+    </router-link>
     <div class="video-desc">
       <router-link v-bind:to="`info/${id}`">{{ name }}</router-link>
       <span>{{ actors }}</span>

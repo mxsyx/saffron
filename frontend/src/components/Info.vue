@@ -3,6 +3,7 @@
 <template>
   <div class="page">
     <InfoBox
+      v-if="videoInfo"
       v-bind:videoInfo="videoInfo"
     />
     <AddrBox
@@ -11,7 +12,7 @@
     <DisplayBox
       v-bind:headerTip="'最新电影'"
       v-bind:videoItems="movieItems"
-    ></DisplayBox>
+    />
   </div>
 </template>
 
@@ -19,6 +20,7 @@
 import InfoBox from "@/components/InfoBox";
 import AddrBox from '@/components/AddrBox';
 import DisplayBox from '@/components/DisplayBox';
+import axios from 'axios'
 
 export default {
   props: ['vid'],
@@ -36,26 +38,25 @@ export default {
     AddrBox,
     DisplayBox,
   },
-  
-  mounted() {
-    window.scrollTo(0,0);
-  },
 
-  beforeCreate() {
-    const axios = require('axios').default;
-    axios.get(`http://zizaixian.top/info/${this.$route.params.vid}`)
+  mounted() {
+    window.scroll(0,0);
+  },
+  
+  beforeRouteEnter(to, from, next) {
+    axios.get(`http://zizaixian.top/info/${to.params.vid}`)
       .then(response => {
-        this.setVideoInfo(response.data);
+        next(vm => vm.setVideoInfo(response.data));
       })
       .catch(error => {
         console.error(error);
       });
   },
 
-  methods: {
+  methods: {    
     setVideoInfo(videoInfo) {
-      console.log(videoInfo);
       this.videoInfo = videoInfo;
+      this.$emit('loaded');
     }
   }
 }

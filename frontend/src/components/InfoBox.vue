@@ -20,7 +20,7 @@
           <a
             v-for="actor in splitActors(videoInfo.actors)" 
             v-bind:key="actor.key"
-            v-bind:href="'search/' + actor">{{ actor }}、
+            v-bind:href="'search/' + actor">{{ actor }}
           </a>
         </span>
       </div>
@@ -49,9 +49,9 @@
       <div class="hidden-sm hidden-md">
         <span class="info-tip">主演：</span>
         <span class="info-content">
-          <a v-for="actor in videoInfo.actors"
+          <a v-for="actor in splitActors(videoInfo.actors)"
              v-bind:key="actor.key"
-             v-bind:href="'search/' + actor">{{ actor }}、
+             v-bind:href="'search/' + actor">{{ actor }}
           </a>
         </span>
       </div>
@@ -107,7 +107,7 @@
       <div class="row hidden-sm hidden-md">
         <div class="col-sm-12 col-md-12 col-lg-3">
           <span class="info-tip">更新日期：</span>
-          <span class="info-content">{{ videoInfo.update }}</span>
+          <span class="info-content">{{ videoInfo.update | formatDate }}</span>
         </div>
       </div>
 
@@ -159,11 +159,12 @@ import Modal from "@/components/Modal.vue";
 
 export default {
   name: 'InfoBox',
+  
   props: {
     videoInfo: Object
   },
 
-  data: function() {
+  data() {
     return {
       href: 'https://zizaixian.top/info/movie/18724/',
       modalTip: "喜欢就分享给好友吧",
@@ -171,19 +172,24 @@ export default {
     };
   },
 
+  filters: {
+    formatDate(date) {
+      return new Date(date).toLocaleDateString();
+    }
+  },
+
   methods: {
-    openShareModal: function() {
+    openShareModal() {
       this.$refs.shareModal.openModal();
     },
     
-    switchShowSummaryDetaile: function() {
+    switchShowSummaryDetaile() {
       this.showSummaryDetaile = !this.showSummaryDetaile;
     },
     
     splitActors(actors) {
-      console.log(actors);
-      return actors.split(' ');
-    }
+      return actors.split(',');
+    },
   },
 
   components: {

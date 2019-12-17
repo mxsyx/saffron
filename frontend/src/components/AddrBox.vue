@@ -1,35 +1,21 @@
 <!-- 播放线路盒 -->
 
 <template>
-  <div class="addr-box">
-    <header>
-      <div>
-        <h5>播放线路</h5>
-        <div class="btn-box">
-          <button
-            class="btn btn-addr"
-            v-for="addr in addrs"
-            v-bind:key="addr.key"
-            v-on:click="changeAddr(addr.id)"
-          >
-            线路 {{ addr.id }}
-          </button>
-        </div>
-      </div>
-    </header>
-
-    <ul class="row addr-box"
-        v-for="plAddr in plAddrs"
-        v-bind:key="plAddr.key"
-        v-bind:class="{hidden: addr.hidden}">
+  <div>
+    <ul
+      class="row addr-box"
+      v-for="addr in addrs"
+      v-bind:key="addr.key"
+      v-bind:class="{hidden: addr.hidden}"
+    >
       <li
         class="col-sm-3 col-md-2 col-lg-1"
-        v-for="index in generateArray(addr.numEpisode)"
+        v-for="index in generateArray(addr.length)"
         v-bind:key="index.key"
       >
-        <router-link v-bind:to="`/play/${vid}/${addr.id}/${index+1}`">
+        <a v-if="addr[index]" v-bind:href="addr[index]">
           第 {{ index + 1 }} 集
-        </router-link>
+        </a>
       </li>
     </ul>
   </div>
@@ -38,20 +24,14 @@
 <script>
 export default {
   props: {
-    plAddrs: Array,
+    plAddrs: Array
   },
-  
+
   watch: {
     plAddrs: function() {
-      const tatal = this.plAddrs.length;
-      const tatals = [0,0,0,0,0,0];
-      for(let i = 0; i < tatal; i++) {
-        if (this.plAddrs[i].addr1) tatals[1]++;
-        if (this.plAddrs[i].addr1) tatals[1]++;
-        if (this.plAddrs[i].addr1) tatals[1]++;
-        if (this.plAddrs[i].addr1) tatals[1]++;
-        if (this.plAddrs[i].addr1) tatals[1]++;
-      }
+      const plAddrArray = 
+          this.objectsToArray(this.plAddrs);
+      this.addrs = this.transpose(plAddrArray);
     }
   },
 
@@ -59,47 +39,32 @@ export default {
     return {
       // 活动线路ID
       activeAddr: 1,
-      addrs: [
-        {
-          id: 1,
-          hidden: true,
-          numEpisode: 32
-        },
-        { 
-          id: 2,
-          hidden: true,
-          numEpisode: 32
-        },
-        {
-          id: 3,
-          hidden: true,
-          numEpisode: 32 
-        },
-        {
-          id: 4,
-          hidden: true,
-          numEpisode: 32
-        },
-        {
-          id: 5,
-          hidden: true,
-          numEpisode: 32
-        },
-        {
-          id: 6,
-          hidden: true,
-          numEpisode: 32
-        }
-      ]
-    }
+      addrs: null,  
+    };
   },
 
-
-
   methods: {
+    // 将对象的值转换为二维数组
+    objectsToArray(obj) {
+      return obj.map((ele, i) => {
+        return Object.values(ele);
+      });
+    },
 
+    // 转置二维数组
+    transpose(array) {
+      return array[0].map((col, i) => {
+        return array.map(row => row[i]);
+      });
+    },
+
+    // 生成内容为数字1-n的数组
+    generateArray: function(n) {
+      return Array.from(new Array(n).keys());
+    },
+    
   }
-}
+};
 </script>
 
 <style scoped>

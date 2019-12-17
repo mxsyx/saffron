@@ -1,0 +1,10 @@
+d = a.map(ele => {
+	return ele.filter(val => {
+		return val !== null;
+	});
+});
+
+
+d.filter(val => { 
+	return val.length !== 0;
+})

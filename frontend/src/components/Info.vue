@@ -59,7 +59,7 @@ export default {
   methods: {    
     setVideoInfo(videoInfo) {
       this.videoInfo = videoInfo;
-      this.loaded();
+      this.$loaded();
     }
   }
 }

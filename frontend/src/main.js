@@ -6,6 +6,11 @@ import App  from  '@/App.vue'
 import '@/assets/css/saffron.css'
 import '@/assets/css/font-awesome.min.css'
 
+import { MessagePlugin } from '@/plugin'
+import { LoadingPlugin } from '@/plugin'
+
+Vue.use(MessagePlugin);
+Vue.use(LoadingPlugin);
 
 // 定义页面路由
 Vue.use(VueRouter)

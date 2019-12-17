@@ -52,14 +52,14 @@ export default {
   },
 
   activated() {
-    this.loaded();
+    this.$loaded();
   },
 
   methods: {
     setLatestVideoInfo(latestVideoInfo) {
       this.mvItems = latestVideoInfo.slice(0, 12);
       this.tvItems = latestVideoInfo.slice(12,24);
-      this.loaded();
+      this.$loaded();
     }
   }
 }

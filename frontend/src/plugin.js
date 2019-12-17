@@ -1,19 +1,60 @@
-import MessageBox from '@components/MessageBox.vue'
+import Loading from '@/components/Loading.vue'
+import Progress from '@/components/Progress.vue'
+import Message from '@/components/Message.vue'
 
-const Alert = {
+const LoadingPlugin = {
   install(Vue) {
-    const Constructor = Vue.extend(AlertComponent) //创建一个alert子实例
-    let instance = new Constructor({
-      el: document.createElement('div') //将alert实例挂载到创建的div上
-    })
-    document.body.appendChild(instance.$el) //添加到body中
-    //绑定到vue原型上，以供全局使用
-    Vue.prototype.$alert = (msg, confirmSure = () => {}) => {
-      instance.message = msg //需要显示的信息
-      instance.show = true //在调用alert时显示组件
-      instance.confirmSure = confirmSure //点击关闭的时候触发的回调函数
+    const Constructor = Vue.extend(Loading);
+    const instance = new Constructor({
+      el: document.createElement('div')
+    });
+    
+    document.body.insertBefore(
+      instance.$el, 
+      document.body.firstElementChild
+    );
+
+    Vue.prototype.$loading = () => {
+      instance.show = true;
+    },
+    Vue.prototype.$loaded = () => {
+      instance.show = false;
     }
   }
 }
 
-export default Alert
+const ProgressPlugin = {
+  install(Vue) {
+    const Constructor = Vue.extend(Progress);
+    const instance = new Constructor({
+      el: document.createElement('div')
+    });
+    document.body.appendChild(instance.$el);
+
+    Vue.prototype.$loading = () => {
+      instance.show = true;
+    },
+    Vue.prototype.$loaded = () => {
+      instance.show = false;
+    }
+  }
+}
+
+const MessagePlugin = {
+  install(Vue) {
+    const Constructor = Vue.extend(Message);
+    const instance = new Constructor({
+      el: document.createElement('div')
+    });
+    document.body.appendChild(instance.$el);
+
+    Vue.prototype.$message = (type, msg) => {
+      instance.type = type
+      instance.message = msg;
+      instance.show = true;
+      setTimeout(instance.close, 4500);
+    }
+  }
+}
+
+export { MessagePlugin, LoadingPlugin, Progress}

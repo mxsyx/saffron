@@ -1,22 +1,15 @@
 <template>
   <div id="app">
-    <Loading v-if="isLoading"/>
-    <Progress v-if="isProgress"/>
     <TheHeader/>
     <TheNavigation/>
     <keep-alive include="Main">
-      <router-view 
-        v-on:loading="showProgress"
-        v-on:loaded="showPage"
-      ></router-view>
+      <router-view></router-view>
     </keep-alive>
     <TheBottom/>
   </div>
 </template>
 
 <script>
-import Loading from '@/components/Loading'
-import Progress from '@/components/Progress'
 import TheHeader from '@/components/TheHeader'
 import TheNavigation from '@/components/TheNavigation'
 import TheBottom from '@/components/TheBottom'
@@ -25,18 +18,9 @@ export default {
   name: 'app',
 
   components: {
-    Loading,
-    Progress,
     TheHeader,
     TheNavigation,
     TheBottom,
-  },
-  
-  data() {
-    return {
-      isLoading: true,
-      isProgress: false,
-    }
   },
 
   mounted() {
@@ -51,14 +35,6 @@ export default {
       }
     },
 
-    showProgress() {
-      this.isProgress = true;
-    },
-    
-    showPage() {
-      this.isLoading = false;
-      this.isProgress = false;
-    }
   },
 };
 </script>

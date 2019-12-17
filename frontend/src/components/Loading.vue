@@ -1,5 +1,5 @@
 <template>
-  <div class="loading">
+  <div class="loading" v-show="show">
     <span class="bounce1"></span>
     <span class="bounce2"></span>
     <span class="bounce3"></span>
@@ -10,7 +10,13 @@
 
 <script>
 export default {
-  name: 'Loading'
+  name: 'Loading',
+
+  data() {
+    return {
+      show: true,
+    }
+  }
 }
 </script>
 

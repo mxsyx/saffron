@@ -56,7 +56,8 @@ export default {
   methods: {
     setPlayInfo(playInfo) {
       if (playInfo.error) {
-        alert('加载数据失败');
+        this.$message('error','加载网站数据失败');
+        this.loaded();
       } else {
         const url = Object.values(playInfo)[0];
         this.initPlayer(url);

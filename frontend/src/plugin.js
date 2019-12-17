@@ -1,7 +1,10 @@
+/**
+ * 插件定义
+ */
 import Loading from '@/components/Loading.vue'
-import Progress from '@/components/Progress.vue'
 import Message from '@/components/Message.vue'
 
+// 加载插件
 const LoadingPlugin = {
   install(Vue) {
     const Constructor = Vue.extend(Loading);
@@ -15,31 +18,16 @@ const LoadingPlugin = {
     );
 
     Vue.prototype.$loading = () => {
-      instance.show = true;
+      instance.showProgress = true;
     },
     Vue.prototype.$loaded = () => {
-      instance.show = false;
+      instance.showWaiting = false;
+      instance.showProgress = false;
     }
   }
 }
 
-const ProgressPlugin = {
-  install(Vue) {
-    const Constructor = Vue.extend(Progress);
-    const instance = new Constructor({
-      el: document.createElement('div')
-    });
-    document.body.appendChild(instance.$el);
-
-    Vue.prototype.$loading = () => {
-      instance.show = true;
-    },
-    Vue.prototype.$loaded = () => {
-      instance.show = false;
-    }
-  }
-}
-
+// 消息插件
 const MessagePlugin = {
   install(Vue) {
     const Constructor = Vue.extend(Message);
@@ -57,4 +45,4 @@ const MessagePlugin = {
   }
 }
 
-export { MessagePlugin, LoadingPlugin, Progress}
+export { MessagePlugin, LoadingPlugin }

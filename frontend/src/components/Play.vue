@@ -20,8 +20,10 @@ import AddrBox from '@/components/AddrBox';
 export default {
   name: "Play",
   
-  props: ['vid'],
-  
+  props: {
+    vid: String
+  },
+
   components: {
     AddrBox,
   },
@@ -57,11 +59,11 @@ export default {
     setPlayInfo(playInfo) {
       if (playInfo.error) {
         this.$message('error','加载网站数据失败');
-        this.loaded();
+        this.$loaded();
       } else {
         const url = Object.values(playInfo)[0];
         this.initPlayer(url);
-        this.loaded();
+        this.$loaded();
       }
     },
 

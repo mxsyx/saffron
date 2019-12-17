@@ -3,11 +3,11 @@ import VueRouter from 'vue-router'
 import routes from '@/router'
 import App  from  '@/App.vue'
 
-import '@/assets/css/saffron.css'
-import '@/assets/css/font-awesome.min.css'
-
 import { MessagePlugin } from '@/plugin'
 import { LoadingPlugin } from '@/plugin'
+
+import '@/assets/css/saffron.css'
+import '@/assets/css/font-awesome.min.css'
 
 Vue.use(MessagePlugin);
 Vue.use(LoadingPlugin);

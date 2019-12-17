@@ -1,10 +1,13 @@
 <template>
-  <div class="loading" v-show="show">
-    <span class="bounce1"></span>
-    <span class="bounce2"></span>
-    <span class="bounce3"></span>
-    <span class="bounce4"></span>
-    <span class="bounce5"></span>
+  <div id="loading-plugin">
+    <div class="waiting" v-if="showWaiting">
+      <span class="bounce1"></span>
+      <span class="bounce2"></span>
+      <span class="bounce3"></span>
+      <span class="bounce4"></span>
+      <span class="bounce5"></span>
+    </div>
+    <div class="progress" v-show="showProgress"></div>
   </div>
 </template>
 
@@ -14,20 +17,21 @@ export default {
 
   data() {
     return {
-      show: true,
+      showWaiting: true,
+      showProgress: false
     }
   }
 }
 </script>
 
 <style scoped>
-.loading {
+.waiting {
   width: 100vw;
   height: 100vh;
   z-index: 1000;
 }
 
-.loading {
+.waiting {
   position: fixed;
   left: 0px;
   top: 0px;
@@ -40,7 +44,7 @@ export default {
   flex-wrap: wrap;
 }
  
-.loading span {
+.waiting span {
   flex: 0 0 40px;
   height: 40px;
   background-color: #67CF22;
@@ -48,23 +52,23 @@ export default {
   animation: bouncedelay 1.4s infinite ease-in-out;
 }
 
-.loading .bounce1 {
+.waiting .bounce1 {
   animation-delay: -0.64s;
 }
  
-.loading .bounce2 {
+.waiting .bounce2 {
   animation-delay: -0.48s;
 }
 
-.loading .bounce3 {
+.waiting .bounce3 {
   animation-delay: -0.32s;
 }
 
-.loading .bounce4 {
+.waiting .bounce4 {
   animation-delay: -0.16s;
 }
 
-.loading .bounce5 {
+.waiting .bounce5 {
   animation-delay: 0s;
 }
 
@@ -75,6 +79,26 @@ export default {
   }
   40% {
     transform: scale(1.0);
+  }
+}
+
+/** 顶部进度条 */
+.progress {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 60%;
+  height: 2px;
+  z-index: 1000;
+  background: #B91F1F;
+  animation: pulse 2s linear;
+}
+@keyframes pulse {
+  from {
+    width: 10%;
+  }
+  to {
+    width: 60%;
   }
 }
 </style>

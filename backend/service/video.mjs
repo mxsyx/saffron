@@ -36,16 +36,25 @@ function getRandom(req, res) {
  * 获取视频信息
  */
 function getInfo(req, res) {
+  const resData = {info: null, plAddrs: null}
+  
   db.excute(STATEMENTS['getInfo'], req.params.vid)
     .then(data => {
-      if (data.length) {
-        res.send(JSON.stringify(data[0]));
-      } else {
-        res.send(JSON.stringify({error: true}));
-      }
+      resData.info = data[0];
+      db.excute(STATEMENTS['getAllPlAddr'], req.params.vid)
+        .then(data => {
+          resData.plAddrs = data;
+        })
+        .catch(err => {
+          console.error(err);
+        })
+        .finally(() => {
+          res.send(JSON.stringify(resData));
+        });
     })
     .catch(err => {
-      console.log(err);
+      res.send(JSON.stringify(resData));
+      console.error(err);
     })
 }
 

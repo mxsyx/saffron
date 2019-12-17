@@ -46,6 +46,7 @@ export default {
   border-radius: 3px;
   border: solid 1px #ebccd1;
   transition: all .3s;
+  z-index: 1001;
 }
 
 .message span {

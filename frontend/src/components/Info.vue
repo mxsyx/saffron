@@ -7,7 +7,7 @@
       v-bind:videoInfo="videoInfo"
     />
     <AddrBox
-      v-bind:vid="vid"
+      v-bind:plAddrs="plAddrs"
     />
     <DisplayBox
       v-bind:headerTip="'最新电影'"
@@ -37,6 +37,7 @@ export default {
   data: function() {
     return {
       videoInfo: null,
+      plAddrs: null,
       movieItems: [],
       movieTypes: ['动作片','喜剧片','爱情片','科幻片','恐怖片','剧情片','战争片','动漫片','微电影'],
     }
@@ -49,17 +50,23 @@ export default {
   beforeRouteEnter(to, from, next) {
     axios.get(`http://zizaixian.top/info/${to.params.vid}`)
       .then(response => {
-        next(vm => vm.setVideoInfo(response.data));
+        next(vm => vm.setVideoData(response.data));
       })
       .catch(error => {
         console.error(error);
       });
   },
 
-  methods: {    
-    setVideoInfo(videoInfo) {
-      this.videoInfo = videoInfo;
-      this.$loaded();
+  methods: { 
+    setVideoData(videoData) {
+      if (videoData.info) {
+        this.videoInfo = videoData.info;
+        this.plAddrs = videoData.plAddrs;
+        this.$loaded();
+      } else {
+        this.$message('error','加载网站数据失败');
+        setTimeout(this.$router.go, 1000, -1);
+      }
     }
   }
 }

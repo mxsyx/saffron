@@ -5,7 +5,7 @@ const STATEMENTS = {
   'getDlAddr'   : "SELECT `addr` FROM  `dladdr` WHERE `vid`=? AND `episode`=?",
   'getAllPlAddr': 'SELECT `addr1`,`addr2`,`addr3`,`addr4`,`addr5`,`addr6` FROM `pladdr` WHERE vid=?',
   'getLatest'   : "(SELECT `id`,`name`,`imgaddr`,`actors` FROM `info` WHERE `bigtype`='mv' ORDER BY `update` DESC LIMIT 12) UNION (SELECT `id`,`name`,`imgaddr`,`actors` FROM `info` WHERE `bigtype`='tv' ORDER BY `update` DESC LIMIT 12)",
-  'getRandom'   : "SELECT `id`,`name`,'imgaddr',`actors` FROM `info` AS t1 JOIN (SELECT ROUND(RAND() * ((SELECT MAX(id) FROM `info`)-(SELECT MIN(id) FROM `info`))+(SELECT MIN(id) FROM `info`)) AS _id) AS t2 WHERE t1.id > t2._id LIMIT 12",
+  'getRandom'   : "SELECT `id`,`name`,`imgaddr`,`actors` FROM `info` AS t1 JOIN (SELECT ROUND(RAND() * ((SELECT MAX(id) FROM `info`)-(SELECT MIN(id) FROM `info`))+(SELECT MIN(id) FROM `info`)) AS _id) AS t2 WHERE t1.id > t2._id LIMIT 12",
   'getDanmaku'  : "SELECT `time`,`type`,`color`,`author`,`text` FROM danmaku WHERE `id`=? LIMIT ?",
   'addDanmaku'  : "INSERT INTO `danmaku` (`id`,`author`,`text`,`color`,`type`,`time`,`date`,`addr`) values (?,?,?,?,?,?,?,?)",
 }

@@ -58,7 +58,6 @@ export default {
 
   data() {
     return {
-      // 活动线路ID
       activeAddr: 1,
       addrs: [],
     };
@@ -68,6 +67,16 @@ export default {
     // 生成内容为数字1-n的数组
     generateArray: function(n) {
       return Array.from(new Array(n).keys());
+    },
+
+    /**
+     * 切换线路
+     * @param {Number} index 线路ID
+     */
+    changeAddr: function(index) {
+      this.addrs[this.activeAddr].hidden = true;
+      this.addrs[index].hidden = false;
+      this.activeAddr = addrId;
     },
   }
 };

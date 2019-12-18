@@ -7,7 +7,7 @@ import { STATEMENTS } from './config.mjs'
 
 
 /**
- * 获取主页信息
+ * 获取最新视频
  */
 function getLatest(req, res) {
   db.excute(STATEMENTS['getLatest'])
@@ -20,7 +20,7 @@ function getLatest(req, res) {
 }
 
 /**
- * 随机获取12部影视剧
+ * 随机获取视频
  */
 function getRandom(req, res) {
   db.excute(STATEMENTS['getRandom'])
@@ -36,26 +36,17 @@ function getRandom(req, res) {
  * 获取视频信息
  */
 function getInfo(req, res) {
-  const resData = {info: null, plAddrs: null}
-  
+  const resData = {info: null};
   db.excute(STATEMENTS['getInfo'], req.params.vid)
     .then(data => {
       resData.info = data[0];
-      db.excute(STATEMENTS['getAllPlAddr'], req.params.vid)
-        .then(data => {
-          resData.plAddrs = data;
-        })
-        .catch(err => {
-          console.error(err);
-        })
-        .finally(() => {
-          res.send(JSON.stringify(resData));
-        });
     })
     .catch(err => {
-      res.send(JSON.stringify(resData));
       console.error(err);
     })
+    .finally(() => {
+      res.send(JSON.stringify(resData));
+    });
 }
 
 /**

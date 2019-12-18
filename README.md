@@ -16,3 +16,19 @@
         bottom: '15%',
         unlimited: false,
       },
+
+
+
+// 将对象数组转换为二维数组
+function objectsToArray(obj) {
+  return obj.map((ele, i) => {
+    return Object.values(ele);
+  });
+}
+
+// 转置二维数组
+function transpose(array) {
+  return array[0].map((col, i) => {
+    return array.map(row => row[i]);
+  });
+}

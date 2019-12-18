@@ -34,6 +34,12 @@ CREATE TABLE `info`
   `love`   INT UNSIGNED DEFAULT 0,      -- 点赞数量
   `hate`   INT UNSIGNED DEFAULT 0,      -- 讨厌数量
   `update` DATETIME NOT NULL,           -- 更新时间
+  `tatal1` SMALLINT UNSIGNED DEFAULT 0, -- 线路1剧集总数
+  `tatal2` SMALLINT UNSIGNED DEFAULT 0, -- 线路2剧集总数
+  `tatal3` SMALLINT UNSIGNED DEFAULT 0, -- 线路3剧集总数
+  `tatal4` SMALLINT UNSIGNED DEFAULT 0, -- 线路4剧集总数
+  `tatal5` SMALLINT UNSIGNED DEFAULT 0, -- 线路5剧集总数
+  `tatal6` SMALLINT UNSIGNED DEFAULT 0, -- 线路6剧集总数
   PRIMARY KEY(`id`),
   UNIQUE KEY `name` (`name`)
 )ENGINE=InnoDB AUTO_INCREMENT=100001 DEFAULT CHARSET=utf8mb4;

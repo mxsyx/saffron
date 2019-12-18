@@ -31,10 +31,9 @@ export default {
     resize() {
       const ua = navigator.userAgent;
       if(/Android|iPhone|iPod/i.test(ua)) {
-        document.documentElement.style.fontSize = '16px'
+        document.documentElement.style.fontSize = '18px'
       }
     },
-
   },
 };
 </script>
@@ -47,24 +46,6 @@ export default {
   --sub-color: #f50000;
   --third-color: #1B9AF7;
   --nav-color: #344950;
-}
-
-body{
-  margin: 0px;
-}
-
-a {
-  text-decoration: none;
-  color: #000000;
-}
-
-button {
-  cursor: pointer;
-}
-
-ul {
-  list-style: none;
-  padding-left: 0px;
 }
 
 #app {

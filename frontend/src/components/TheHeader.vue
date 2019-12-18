@@ -3,7 +3,7 @@
 <template>
   <div id="the-header" class="row">
     <div id="logo" class="col-sm-12 col-md-6 col-lg-4">
-      <a href="/">自在仙</a>
+      <router-link v-bind:to="`/`">自在仙</router-link>
       <span>浮云轻入鹤撩雾，青山深处自在仙</span>
     </div>
     <div id="search-box" class="hidden-sm col-md-6 col-lg-8">
@@ -15,6 +15,7 @@
 
 <script>
 export default {
+  name: "TheHeader"
 }
 </script>
 

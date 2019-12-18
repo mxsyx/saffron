@@ -1,3 +1,5 @@
+<!-- 视频展示盒条目 -->
+
 <template>
   <div class="display-box-item col-sm-4 col-md-3 col-lg-2">
     <router-link

@@ -1,5 +1,6 @@
-// 页面路由配置
-
+/**
+ * 页面路由配置
+ */
 import Main from '@/components/Main'
 import Info from '@/components/Info'
 import Play from '@/components/Play'
@@ -23,5 +24,6 @@ const routes = [
     props: true
   },
 ]
+
 
 export default routes;

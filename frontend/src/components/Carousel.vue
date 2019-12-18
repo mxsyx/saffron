@@ -36,7 +36,16 @@
 
 <script>
 export default {
-  data: function() {
+  name: "Carousel",
+  
+  mounted() {
+    if (this.moniterKeyEvent) {
+      window.addEventListener('keydown', this.keyDown.bind(this));
+    }
+    this.start();
+  },
+
+  data() {
     return {
       // 轮播速度
       speed: 600,
@@ -102,13 +111,6 @@ export default {
         }
       ]
     };
-  },
-
-  mounted: function() {
-    if (this.moniterKeyEvent) {
-      window.addEventListener('keydown', this.keyDown.bind(this));
-    }
-    this.start();
   },
 
   methods: {

@@ -1,3 +1,5 @@
+<!-- 分享组件 -->
+
 <template>
   <ul class="share-box">
     <li v-on:click="shareToWeibo">
@@ -54,7 +56,19 @@
 import QRCode from "qrcodejs2";
 
 export default {
-  props: ["name", "href", "summary", "imgSrc"],
+  name: "Share",
+  
+  props: {
+    name: String,
+    href: String,
+    summary: String,
+    imgSrc: String,
+  },
+
+  mounted: function() {
+    this.createQrcode(this.$refs.qrcode);
+    this.$refs.copy.setAttribute('value',this.href);
+  },
 
   data: function() {
     return {
@@ -62,11 +76,6 @@ export default {
       desc: "我发现了一部超好看的影片，推荐给你吧！",
       showQRCode: false,
     };
-  },
-
-  mounted: function() {
-    this.createQrcode(this.$refs.qrcode);
-    this.$refs.copy.setAttribute('value',this.href);
   },
 
   methods: {

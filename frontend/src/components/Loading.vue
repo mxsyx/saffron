@@ -1,3 +1,5 @@
+<!-- 加载组件 -->
+
 <template>
   <div id="loading-plugin">
     <div class="waiting" v-if="showWaiting">

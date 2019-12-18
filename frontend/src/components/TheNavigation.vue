@@ -1,3 +1,5 @@
+<!-- 菜单栏 -->
+
 <template>
   <div id="nav">
     <div id="nav-header" class="visible-sm">
@@ -33,7 +35,7 @@
           </span>
         </a>
         <ul>
-          <li v-for="movieItem in movieItems" v-bind:key="movieItem.id">
+          <li v-for="movieItem in mvTypes" v-bind:key="movieItem.id">
             <a href="#" class="three-d">
               <span class="three-d-box">
                 <span class="front">{{ movieItem.name }}</span>
@@ -51,7 +53,7 @@
           </span>
         </a>
         <ul>
-          <li v-for="tvItem in tvItems" v-bind:key="tvItem.id">
+          <li v-for="tvItem in tvTypes" v-bind:key="tvItem.id">
             <a href="#" class="three-d">
               <span class="three-d-box">
                 <span class="front">{{ tvItem.name }}</span>
@@ -75,10 +77,10 @@
 
 <script>
 export default {
-  data: function() {
+  data() {
     return {
       navDisplay: true,
-      movieItems: [
+      mvTypes: [
         { name: '动作片'},
         { name: '喜剧片'},
         { name: '爱情片'},
@@ -87,7 +89,7 @@ export default {
         { name: '剧情片'},
         { name: '战争片'}
       ],
-      tvItems: [
+      tvTypes: [
         { name: '国产剧'},
         { name: '港台剧'},
         { name: '日韩剧'},

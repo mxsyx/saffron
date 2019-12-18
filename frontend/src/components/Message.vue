@@ -1,3 +1,5 @@
+<!-- 消息组件 -->
+
 <template>
   <transition name="message-fade">
     <div v-show="show" class="message" v-bind:class="type">

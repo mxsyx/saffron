@@ -1,4 +1,5 @@
 <!-- 通用模态框 -->
+
 <template>
   <div class="modal modal-top" v-bind:class="{show: showModal}">
     <header>
@@ -13,9 +14,13 @@
 
 <script>
 export default {
-  props: ['modalTip'],
+  name: "Modal",
+  
+  props: {
+    modalTip: String,
+  },
 
-  data: function() {
+  data() {
     return {
       position: 'center',
       showModal: false,

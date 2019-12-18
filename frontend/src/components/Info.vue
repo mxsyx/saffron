@@ -53,7 +53,7 @@ export default {
         next(vm => vm.setVideoInfo(response.data));
       })
       .catch(error => {
-        console.error(error);
+        this.$message('error','加载网站数据失败');
       });
   },
 

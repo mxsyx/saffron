@@ -30,20 +30,19 @@ export default {
         next(vm => vm.setPlayInfo(response.data));
       })
       .catch(error => {
-        console.error(error);
+        this.$message('error','加载网站数据失败');
       });
   },
 
   beforeRouteUpdate(to, from, next) {
     const url = `http://zizaixian.top/play/${to.params.vid}/`
                 + `${to.params.addr}/${to.params.episode}/`;
-    console.log(url);
     axios.get(url)
       .then(response => {
         this.setPlayInfo(response.data);
       })
       .catch(error => {
-        console.error(error);
+        this.$message('error','加载网站数据失败');
       });
   },
 

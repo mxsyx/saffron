@@ -306,3 +306,23 @@
   color: var(--third-color);
   text-decoration: underline;
 }
+
+
+/** 统一样式 */
+body{
+  margin: 0px;
+}
+
+a {
+  color: #000000;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+ul {
+  list-style: none;
+  padding-left: 0px;
+}

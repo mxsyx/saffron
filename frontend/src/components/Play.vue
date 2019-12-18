@@ -3,9 +3,6 @@
 <template>
   <div class="page">
     <div ref="player"></div>
-    <AddrBox
-      v-bind:vid="vid"
-    />
   </div>
 </template>
 
@@ -15,7 +12,6 @@ import mixin from '@/mixin'
 import Hls from 'hls'
 import DPlayer from 'dplayer';
 import 'dplayer/dist/DPlayer.min.css';
-import AddrBox from '@/components/AddrBox';
 
 export default {
   name: "Play",
@@ -24,10 +20,6 @@ export default {
     vid: String
   },
 
-  components: {
-    AddrBox,
-  },
-  
   mixins: [mixin],
 
   beforeRouteEnter(to, from, next) {

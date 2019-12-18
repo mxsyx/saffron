@@ -1,16 +1,16 @@
 <!-- 播放线路盒 -->
 
 <template>
-  <div>
+  <div class="addr-box">
     <header>
       <div>
         <h5>播放线路</h5>
         <div class="btn-box">
           <button
             class="btn btn-addr"
-            v-for="addr in addrs"
-            v-bind:key="addr.key"
-            v-on:click="changeAddr(addr.id)"
+            v-for="(addr, key) in addrs"
+            v-bind:key="key"
+            v-on:click="changeAddr(key)"
           >线路 {{ addr.index }}</button>
         </div>
       </div>
@@ -23,12 +23,13 @@
     >
       <li
         class="col-sm-3 col-md-2 col-lg-1"
-        v-for="index in generateArray(addr.length)"
+        v-for="index in generateArray(addr.tatal)"
         v-bind:key="index.key"
       >
-        <a v-bind:href="`/play/${videoInfo.id}/${addr.index}/${index}`">
-          第 {{ index + 1 }} 集
-        </a>
+        <router-link 
+          v-bind:to="`/play/${videoInfo.id}/${addr.index}/${index + 1}`">
+          {{ generatePrompt(index) }}
+        </router-link>
       </li>
     </ul>
   </div>
@@ -58,25 +59,30 @@ export default {
 
   data() {
     return {
-      activeAddr: 1,
+      activeAddr: 0,
       addrs: [],
     };
   },
 
   methods: {
     // 生成内容为数字1-n的数组
-    generateArray: function(n) {
+    generateArray(n) {
       return Array.from(new Array(n).keys());
     },
 
-    /**
-     * 切换线路
-     * @param {Number} index 线路ID
-     */
-    changeAddr: function(index) {
+    // 切换线路 
+    changeAddr(addrIndex) {
       this.addrs[this.activeAddr].hidden = true;
-      this.addrs[index].hidden = false;
-      this.activeAddr = addrId;
+      this.addrs[addrIndex].hidden = false;
+      this.activeAddr = addrIndex;
+    },
+
+    generatePrompt(index) {
+      if (this.videoInfo.bigtype == 'tv') {
+        return `第${index+1} 集`;
+      } else {
+        return '高清云播';
+      }
     },
   }
 };
@@ -131,5 +137,13 @@ export default {
 
 .btn-box {
   float: right;
+}
+
+.btn-addr {
+  color: #414141;
+  background-color: transparent;
+}
+.btn-addr:hover {
+  text-decoration: underline;
 }
 </style>

@@ -19,7 +19,6 @@ import axios from 'axios'
 import mixin from '@/mixin'
 import Carousel from '@/components/Carousel'
 import DisplayBox from '@/components/DisplayBox'
-import Loading from '@/components/Loading'
 
 export default {
   name: "Main",
@@ -62,4 +61,4 @@ export default {
     }
   }
 }
-</script>
+</script> 

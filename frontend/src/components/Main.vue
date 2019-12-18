@@ -27,7 +27,6 @@ export default {
   components: {
     Carousel,
     DisplayBox,
-    Loading,
   },
 
   mixins: [mixin],
@@ -38,7 +37,7 @@ export default {
         next(vm => vm.setLatestVideoInfo(response.data));
       })
       .catch(error => {
-        alert('加载数据失败')
+        this.$message('error', '加载网站数据失败')
     });
   },
 

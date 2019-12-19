@@ -49,7 +49,7 @@ export default {
   background-repeat: no-repeat;
   background-size: 100% 100%;
   height: 0px;
-  padding-bottom: 138%;
+  padding-bottom: 140%;
   position: relative;
   border-radius: 5px;
 }

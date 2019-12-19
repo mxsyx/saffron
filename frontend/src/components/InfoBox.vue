@@ -1,12 +1,17 @@
+<!-- 视频信息盒组件 -->
+
 <template>
-  <div class="video-info row">
+  <div class="info-box row">
     <!-- 视频图片展示 -->
-    <div class="video-info-img col-sm-4 col-md-2 col-lg-2">
-      <img v-bind:src="'http://zizaixian.top'+videoInfo.imgaddr" alt="图片找不到了" >
+    <div class="info-box-img col-sm-4 col-md-2 col-lg-2">
+      <a 
+        v-bind:style="{ backgroundImage: 
+            handleBackgroudImage(videoInfo.imgaddr)}">
+      </a>
     </div>
 
     <!-- 只在小型/中型设备上显示 -->
-    <div class="video-info-detail col-sm-8 col-md-10 hidden-lg">
+    <div class="info-box-detail col-sm-8 col-md-10 hidden-lg">
       <h2>{{ videoInfo.name }}</h2>
       <div>
         <span class="info-tip">导演：</span>
@@ -35,7 +40,7 @@
     </div>
     
     <!-- 视频信息详情 -->
-    <div class="video-info-detail col-sm-12 col-md-12 col-lg-10">
+    <div class="info-box-detail col-sm-12 col-md-12 col-lg-10">
       <!-- 名字 -->
       <h2 class="hidden-sm hidden-md">{{ videoInfo.name }}</h2>
       <!-- 导演 -->
@@ -91,7 +96,7 @@
       </div>
 
       <!-- 视频简介 -->
-      <div class="row summary">
+      <div class="row summary hidden-sm">
         <div class="col-sm-11 col-md-11 col-lg-11">
           <span class="info-tip">简介：</span>
           <span class="info-content" 
@@ -190,6 +195,11 @@ export default {
     splitActors(actors) {
       return actors.split(',');
     },
+
+    handleBackgroudImage(imgaddr) {
+      return `url(http://zizaixian.top${imgaddr}),
+              url(http://zizaixian.top/img/404/bg404.gif)`
+    }
   },
 
   components: {
@@ -200,64 +210,73 @@ export default {
 </script>
 
 <style scoped>
-.video-info {
+.info-box {
   width: 100%;
-  padding: 0.8rem;
+  padding: 0rem;
   box-sizing: border-box;
   background: linear-gradient(
     to bottom, 
     var(--nav-color),
-    var(--nav-color), 20%,
-    var(--nav-color), 20%,
+    var(--nav-color), 50px,
+    var(--nav-color), 50px,
     #ffffff);
 }
 @media (max-width: 1119px) {
-  .video-info {
+  .info-box {
     background: linear-gradient(
       to bottom, 
       var(--nav-color),
-      var(--nav-color), 25%,
-      var(--nav-color), 25%,
+      var(--nav-color), 50px,
+      var(--nav-color), 50px,
       #ffffff);
   }
 }
 
 /* 左侧侧视频图片 */
-.video-info-img img {
+.info-box-img {
   width: 100%;
-  border-radius: 8px;
+}
+
+.info-box-img a {
+  width: 100%;
+  height: 0px;
+  display: block;
+  padding-bottom: 140%;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 }
 
 /* 右侧视频信息 */
-.video-info-detail {
+.info-box-detail {
   overflow: hidden;
   padding: 0rem 1rem;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 @media (max-width: 1119px) {
-  .video-info-detail {
+  .info-box-detail {
     padding: 0rem;
   }
-  .video-info-detail.hidden-lg {
+  .info-box-detail.hidden-lg {
     padding: 0rem 0.5rem;
   }
 }
 
-.video-info-detail h2 {
+.info-box-detail h2 {
   color: #fff;
   font-size: 1.2rem;
   font-weight: 400;
   margin: 0.6rem 0rem;
 }
 
-.video-info-detail > div {
+.info-box-detail > div {
   padding: 0.3rem 0rem;
 }
-.video-info-detail > div:nth-child(2) {
-  padding: 0.6rem 0rem 0.3rem;
-}
+
 @media (max-width: 1119px) {
-  .video-info-detail > div {
+  .info-box-detail > div {
     padding: 0.1rem 0rem;
   }
 }

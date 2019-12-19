@@ -5,7 +5,7 @@
     <header>
       <div>
         <h5>播放线路</h5>
-        <div class="btn-box">
+        <div class="btn-box hidden-sm">
           <button
             class="btn btn-addr"
             v-for="(addr, key) in addrs"

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { AsyncLimiter } from './async-limiter.mjs'
 
-const aslimiter = new AsyncLimiter(500);
+const aslimiter = new AsyncLimiter(100);
 
 const urls = [
   'http://zizaixian.top/v2/main',
@@ -11,10 +11,10 @@ const urls = [
   'http://zizaixian.top/v2/download/172020'
 ]
 
-let reqNum = 1000;
+let reqNum = 3000;
  
 function httpGet(down) {
-  axios.get(urls[2])
+  axios.get(urls[Math.floor(Math.random()*5)])
     .then(response => {
       console.log(response.data);
     })

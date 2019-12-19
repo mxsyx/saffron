@@ -16,7 +16,7 @@
       </div>
     </header>
     <ul
-      class="row addr-box"
+      class="row"
       v-for="addr in addrs"
       v-bind:key="addr.key"
       v-bind:class="{hidden: addr.hidden}"
@@ -94,27 +94,8 @@ export default {
   display: none !important;
 }
 
-.addr-box li {
-  padding: 0.3rem;
-  box-sizing: border-box;
-}
-
-.addr-box li a {
-  display: block;
-  color: #333333;
-  text-align: center;
-  font-size: 0.7rem;
-  line-height: 1.7rem;
-  border-radius: 0.25rem;
-  background-color: #eee
-}
-.addr-box li a:hover {
-  color: #fff;
-  background-color: var(--third-color);
-}
-
 .addr-box {
-  margin: 1rem 0rem;
+  margin: 1.5rem 0rem;
 }
 
 .addr-box header {
@@ -134,6 +115,25 @@ export default {
   line-height: 0.8rem;
   display: inline-block;
   user-select: none;
+}
+
+.addr-box li {
+  padding: 0.3rem;
+  box-sizing: border-box;
+}
+
+.addr-box li a {
+  display: block;
+  color: #333333;
+  text-align: center;
+  font-size: 0.7rem;
+  line-height: 1.7rem;
+  border-radius: 0.25rem;
+  background-color: #eee
+}
+.addr-box li a:hover {
+  color: #fff;
+  background-color: var(--third-color);
 }
 
 .btn-box {

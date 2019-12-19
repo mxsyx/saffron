@@ -217,8 +217,8 @@ export default {
   background: linear-gradient(
     to bottom, 
     var(--nav-color),
-    var(--nav-color), 50px,
-    var(--nav-color), 50px,
+    var(--nav-color), 2.5rem,
+    var(--nav-color), 2.5rem,
     #ffffff);
 }
 @media (max-width: 1119px) {
@@ -226,21 +226,17 @@ export default {
     background: linear-gradient(
       to bottom, 
       var(--nav-color),
-      var(--nav-color), 50px,
-      var(--nav-color), 50px,
+      var(--nav-color), 2.5rem,
+      var(--nav-color), 2.5rem,
       #ffffff);
   }
 }
 
 /* 左侧侧视频图片 */
-.info-box-img {
-  width: 100%;
-}
-
 .info-box-img a {
+  display: block;
   width: 100%;
   height: 0px;
-  display: block;
   padding-bottom: 140%;
   background-repeat: no-repeat;
   background-size: 100% 100%;

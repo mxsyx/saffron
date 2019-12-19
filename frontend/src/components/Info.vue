@@ -48,7 +48,7 @@ export default {
   mounted() {
     this.scrollToTop();
   },
-  
+    
   beforeRouteEnter(to, from, next) {
     axios.all([
       axios.get(`http://zizaixian.top/info/${to.params.vid}`),

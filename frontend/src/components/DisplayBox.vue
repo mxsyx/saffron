@@ -39,9 +39,12 @@ export default {
   props: {
     type: String,
     headerTip: String,
-    videoItems: Array,
+    videoItems: {
+      type: Array,
+      default: []
+    }
   },
-  
+
   components: {
     DisplayBoxItem
   },

@@ -5,7 +5,15 @@
     <header>
       <div>
         <h5>{{ headerTip }}</h5>
-        <a href>More ></a>
+        <a v-if="type === 'latest'" href>More ></a>
+        <button
+          v-if="type === 'random'" 
+          class="btn btn-switch"
+          v-on:click="fetchRandomVideoData"
+        >
+          <i class="fa fa-random"></i>
+          换一批
+        </button>
       </div>
     </header>
     <div class="row">
@@ -22,18 +30,32 @@
 </template>
 
 <script>
+import axios from 'axios'
 import DisplayBoxItem from '@/components/DisplayBoxItem'
 
 export default {
   name: "DisplayBox",
 
   props: {
+    type: String,
     headerTip: String,
     videoItems: Array,
   },
   
   components: {
     DisplayBoxItem
+  },
+
+  methods: {
+    fetchRandomVideoData() {
+      axios.get('http://zizaixian.top/main/random')
+        .then(response => {
+          this.videoItems = response.data;
+        })
+        .catch(error => {
+          this.$message('error','随机获取视频数据失败')
+        })
+    },
   }
 };
 </script>

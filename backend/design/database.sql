@@ -119,30 +119,3 @@ CREATE TABLE `message`
 (
 
 );
-
-
-DELIMITER $$
-CREATE PROCEDURE check_id()
-BEGIN
-  SELECT COUNT(*) FROM `info`;
-  SELECT MAX(`id`) FROM `info`;
-END$$
-DELIMITER ;
-
-DELIMITER $$
-CREATE PROCEDURE count_all()
-BEGIN
-  SELECT COUNT(*) AS info FROM `info`;
-  SELECT COUNT(*) AS pladdr FROM `pladdr`;
-  SELECT COUNT(*) AS dladdr FROM `dladdr`;
-END$$
-DELIMITER ;
-
-DELIMITER $$
-CREATE PROCEDURE delete_all()
-BEGIN
-  DELETE FROM `pladdr`;
-  DELETE FROM `dladdr`;
-  DELETE FROM `info`;
-END$$
-DELIMITER ;

@@ -30,7 +30,7 @@ export default {
   methods: {
     handleBackgroudImage(imgaddr) {
       return `url(http://zizaixian.top${imgaddr}),
-              url(http://zizaixian.top/img/404/bg404.png)`
+              url(http://zizaixian.top/img/404/bg404.gif)`
     }
   }
 };

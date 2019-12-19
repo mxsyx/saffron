@@ -4,14 +4,17 @@
   <div class="page">
     <Carousel/>
     <DisplayBox
+      type="latest"
       headerTip="最新电影"
       v-bind:videoItems="mvItems"
     />
     <DisplayBox
+      type="latest"
       headerTip="最新电视剧"
       v-bind:videoItems="tvItems"
     />
     <DisplayBox
+      type="random"
       headerTip="随机推荐"
       v-bind:videoItems="rdItems"
     />
@@ -48,7 +51,9 @@ export default {
   },
 
   activated() {
-    this.$loaded();
+    if (this.firstLoaded) {
+      this.$loaded();
+    }
   },
 
   data() {
@@ -56,6 +61,7 @@ export default {
       mvItems: null,
       tvItems: null,
       rdItems: null,
+      firstLoaded: false,
       movieTypes: ['动作片','喜剧片','爱情片','科幻片','恐怖片','剧情片','战争片','动漫片','微电影'],
       tvTypes: ['国产剧','港台剧','日韩剧','欧美剧','动漫剧'],
     }
@@ -66,7 +72,8 @@ export default {
       this.mvItems = latestVideoData.slice(0, 12);
       this.tvItems = latestVideoData.slice(12,24);
       this.rdItems = randomVideoData;
-      this.$loaded();
+      this.firstLoaded = true;
+      setTimeout(this.$loaded, 100);
     },
 
     setRandomVideoInfo(randomVideoInfo) {

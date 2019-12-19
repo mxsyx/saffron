@@ -138,12 +138,4 @@ export default {
 .btn-box {
   float: right;
 }
-
-.btn-addr {
-  color: #414141;
-  background-color: transparent;
-}
-.btn-addr:hover {
-  text-decoration: underline;
-}
 </style>

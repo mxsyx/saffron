@@ -43,6 +43,7 @@ export default {
 
   watch: {
     videoInfo: function() {
+      this.addrs = [];
       for(let i = 1; i <= 6; i++) {
         const tatal = this.videoInfo[`tatal${i}`];
         if (tatal > 0) {
@@ -60,7 +61,7 @@ export default {
   data() {
     return {
       activeAddr: 0,
-      addrs: [],
+      addrs: null,
     };
   },
 

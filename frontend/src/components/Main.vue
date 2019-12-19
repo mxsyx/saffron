@@ -74,12 +74,7 @@ export default {
       this.rdItems = randomVideoData;
       this.firstLoaded = true;
       setTimeout(this.$loaded, 100);
-    },
-
-    setRandomVideoInfo(randomVideoInfo) {
-      console.log('xxx');
-      this.rdItems = randomVideoInfo;
-    },
+    }
   }
 }
-</script> 
+</script>

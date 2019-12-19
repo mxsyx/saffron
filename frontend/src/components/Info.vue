@@ -10,8 +10,9 @@
       v-bind:videoInfo="videoInfo"
     />
     <DisplayBox
-      v-bind:headerTip="'最新电影'"
-      v-bind:videoItems="movieItems"
+      type="random"
+      headerTip="随机推荐"
+      v-bind:videoItems="rdItems"
     />
   </div>
 </template>
@@ -38,34 +39,63 @@ export default {
     return {
       videoInfo: null,
       plAddrs: null,
+      rdItems: [],
       movieItems: [],
       movieTypes: ['动作片','喜剧片','爱情片','科幻片','恐怖片','剧情片','战争片','动漫片','微电影'],
     }
   },
 
   mounted() {
-    window.scroll(0,0);
+    this.scrollToTop();
   },
   
   beforeRouteEnter(to, from, next) {
-    axios.get(`http://zizaixian.top/info/${to.params.vid}`)
-      .then(response => {
-        next(vm => vm.setVideoInfo(response.data));
-      })
+    axios.all([
+      axios.get(`http://zizaixian.top/info/${to.params.vid}`),
+      axios.get('http://zizaixian.top/main/random'),
+    ])
+      .then(axios.spread((resInfo, resRandom) => {
+        next(vm => vm.setVideoData(resInfo.data, resRandom.data));
+      }))
       .catch(error => {
-        this.$message('error','加载网站数据失败');
+        this.$message('error', '加载网站数据失败')
       });
   },
 
-  methods: { 
-    setVideoInfo(videoInfo) {
-      if (videoInfo.info) {
-        this.videoInfo = videoInfo.info;
+  beforeRouteUpdate(to, from, next) {
+    axios.get(`http://zizaixian.top/info/${to.params.vid}`)
+      .then(response => {
+        this.flushVideoInfo(response.data);
+      })
+      .catch(error => {
+        this.$message('error', '加载网站数据失败')
+      });
+  },
+
+  methods: {
+    setVideoData(videoInfoData, randomVideoData) {
+      if (videoInfoData.info) {
+        this.videoInfo = videoInfoData.info;
+        this.rdItems = randomVideoData;
         this.$loaded();
       } else {
         this.$message('error','加载网站数据失败');
         setTimeout(this.$router.go, 1000, -1);
       }
+    },
+
+    flushVideoInfo(videoInfoData) {
+      if (videoInfoData.info) {
+        this.videoInfo = videoInfoData.info;
+        this.scrollToTop();
+        this.$loaded();
+      } else {
+        this.$message('error','加载网站数据失败');
+      }
+    },
+
+    scrollToTop() {
+      window.scroll(0,0);
     }
   }
 }

@@ -274,7 +274,9 @@
   transform: translateY(-5px);
   background-color: var(--nav-color);
 }
-.btn-switch
+.btn-switch:hover {
+  opacity: 0.8;
+}
 
 /** 统一样式 */
 body{

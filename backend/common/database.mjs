@@ -13,7 +13,8 @@ class Database {
       port      : DBPORT,
       user      : DBUSER,
       password  : DBPASSWORD,
-      database  : DBNAME
+      database  : DBNAME,
+      multipleStatements: true
     });
   }
 

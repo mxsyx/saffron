@@ -1,45 +1,58 @@
 /**
  * 视频信息处理函数
  */
-
 import db from '../common/database.mjs'
 import { STATEMENTS } from './config.mjs'
 
 
 /**
- * 获取最新视频
+ * 获取主页数据
  */
-function getLatest(req, res) {
-  db.excute(STATEMENTS['getLatest'])
+function fetchMainPageData(req, res) {
+  const resData = {latestVideo: null, randomVideo: null,};
+  const statement = 
+      `${STATEMENTS['main']['latest']}` +
+      `${STATEMENTS['main']['random']}`;
+
+  db.excute(statement)
     .then(data => {
-      res.send(JSON.stringify(data));
+      resData.latestVideo = data[0];
+      resData.randomVideo = data[1];
     })
     .catch(err => {
-      console.log(err);
+      console.error(err);
     })
+    .finally(() => {
+      res.send(JSON.stringify(resData));
+    })               
 }
+
 
 /**
  * 随机获取视频
  */
-function getRandom(req, res) {
-  db.excute(STATEMENTS['getRandom'])
+function fetchRandom(req, res) {
+  const resData = {randomVideo: null};
+  db.excute(STATEMENTS['main']['random'])
     .then(data => {
-      res.send(JSON.stringify(data));
+      resData.randomVideo = data;
     })
     .catch(err => {
       console.log(err);
     })
+    .finally(() => {
+      res.send(JSON.stringify(resData));
+    })
 }
 
 /**
- * 获取视频信息
+ * 获取信息页数据
  */
-function getInfo(req, res) {
-  const resData = {info: null};
-  db.excute(STATEMENTS['getInfo'], req.params.vid)
+function fetchInfoPageData(req, res) {
+  const resData = {videoInfo: null};
+  db.excute(STATEMENTS['info']['info'], req.params.vid)
     .then(data => {
-      resData.info = data[0];
+      resData.videoInfo = data[0];
     })
     .catch(err => {
       console.error(err);
@@ -50,35 +63,54 @@ function getInfo(req, res) {
 }
 
 /**
- * 获取视频播放地址
+ * 获取播放页数据
  */
-function getPlAddr(req, res) {
-  const addr = `addr${req.params.addr}`;
-  db.excute(STATEMENTS['getPlAddr'], [addr,req.params.vid,req.params.episode])
+function fetchPlayPageData(req, res) {
+  const resData = {info: null, plAddr: null};
+  const statement = `${STATEMENTS['play']['info']}` +
+                    `${STATEMENTS['play']['plAddr']}`;
+  const values = [
+    req.params.vid,
+    `addr${req.params.addr}`,
+    req.params.vid,
+    req.params.episode
+  ];
+
+  db.excute(statement, values)
     .then(data => {
-      if (data.length) {
-        res.send(JSON.stringify(data[0]));
-      } else {
-        res.send(JSON.stringify({error: true}));
-      }
+      resData.info = data[0][0];
+      resData.plAddr = data[1][0];
     })
     .catch(err => {
-      console.log(err);
+      console.error(err);
+    })
+    .finally(() => {
+      res.send(JSON.stringify(resData));
     })
 }
 
 /**
  * 获取视频下载地址
  */
-function getDlAddr(req, res) {
-  db.excute(STATEMENTS['getDlAddr'], [req.params.vid,req.params.episode])
+function fetchDlAddr(req, res) {
+  const resData = {dlAddrs: null};
+  db.excute(STATEMENTS['info']['dlAddr'], req.params.vid)
     .then(data => {
-      res.send(JSON.stringify(data));
+      resData.dlAddrs = data;
     })
     .catch(err => {
       console.log(err);
     })
+    .finally(() => {
+      res.send(JSON.stringify(resData));
+    })
 }
 
 
-export { getInfo, getPlAddr, getDlAddr, getLatest, getRandom }
+export { 
+  fetchMainPageData, 
+  fetchInfoPageData, 
+  fetchPlayPageData,
+  fetchRandom,
+  fetchDlAddr,
+}

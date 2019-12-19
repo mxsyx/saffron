@@ -40,8 +40,11 @@ export default {
   name: "Play",
 
   data() {
-    
-  }
+    return {
+      url: null,
+      videoInfo: null,
+    }
+  },
 
   mixins: [mixin],
 

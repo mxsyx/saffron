@@ -74,7 +74,7 @@ function fetchInfoPageData(req, res) {
  * 获取播放页数据
  */
 function fetchPlayPageData(req, res) {
-  const resData = {info: null, plAddr: null};
+  const resData = {videoInfo: null, plAddr: null};
   const statement = `${STATEMENTS['play']['info']}` +
                     `${STATEMENTS['play']['plAddr']}`;
   const values = [
@@ -86,7 +86,7 @@ function fetchPlayPageData(req, res) {
 
   db.excute(statement, values)
     .then(data => {
-      resData.info = data[0][0];
+      resData.videoInfo = data[0][0];
       resData.plAddr = data[1][0];
     })
     .catch(err => {

@@ -6,7 +6,7 @@
       v-if="videoInfo"
       v-bind:videoInfo="videoInfo"
     />
-    <AddrBox
+    <AddrBoxBottom
       v-bind:videoInfo="videoInfo"
     />
     <DisplayBox
@@ -22,7 +22,7 @@
 import axios from 'axios'
 import mixin from '@/mixin'
 import InfoBox from "@/components/InfoBox";
-import AddrBox from '@/components/AddrBox';
+import AddrBoxBottom from '@/components/AddrBoxBottom';
 import DisplayBox from '@/components/DisplayBox';
 
 export default {
@@ -30,7 +30,7 @@ export default {
 
   components: {
     InfoBox,
-    AddrBox,
+    AddrBoxBottom,
     DisplayBox,
   },
   
@@ -53,7 +53,7 @@ export default {
   beforeRouteEnter(to, from, next) {
     axios.get(`http://zizaixian.top/v2/info/${to.params.vid}`)
       .then(response => {
-        next(vm => vm.setVideoData(response.data));
+        next(vm => vm.setData(response.data));
       })
       .catch(error => {
         this.$message('error', '加载网站数据失败')
@@ -63,7 +63,7 @@ export default {
   beforeRouteUpdate(to, from, next) {
     axios.get(`http://zizaixian.top/v2/info/${to.params.vid}`)
       .then(response => {
-        this.setVideoData(response.data);
+        this.setData(response.data);
       })
       .catch(error => {
         this.$message('error', '加载网站数据失败')
@@ -71,7 +71,7 @@ export default {
   },
 
   methods: {
-    setVideoData(data) {
+    setData(data) {
       if (data.videoInfo) {
         this.videoInfo = data.videoInfo;
         this.rdItems = data.randomVideo;

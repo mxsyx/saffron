@@ -1,18 +1,9 @@
 <!-- 播放线路盒 -->
 
 <template>
-  <div class="addr-box">
+  <div class="addr-box row">
     <header>
       <div>
-        <h5>播放线路</h5>
-        <div class="btn-box hidden-sm">
-          <button
-            class="btn btn-addr"
-            v-for="(addr, key) in addrs"
-            v-bind:key="key"
-            v-on:click="changeAddr(key)"
-          >线路 {{ addr.index }}</button>
-        </div>
       </div>
     </header>
     <ul
@@ -90,53 +81,5 @@ export default {
 </script>
 
 <style scoped>
-.hidden {
-  display: none !important;
-}
 
-.addr-box {
-  margin: 1.5rem 0rem;
-}
-
-.addr-box header {
-  padding: 0rem 0.375rem;
-}
-
-.addr-box header > div {
-  border-bottom: solid 1px #CDCDCD;
-  padding: 0.4rem 0rem;
-}
-
-.addr-box header > div h5 {
-  margin: 0px;
-  font-size: 1.2rem;
-  color: #414141;
-  font-weight: 400;
-  line-height: 0.8rem;
-  display: inline-block;
-  user-select: none;
-}
-
-.addr-box li {
-  padding: 0.3rem;
-  box-sizing: border-box;
-}
-
-.addr-box li a {
-  display: block;
-  color: #333333;
-  text-align: center;
-  font-size: 0.7rem;
-  line-height: 1.7rem;
-  border-radius: 0.25rem;
-  background-color: #eee
-}
-.addr-box li a:hover {
-  color: #fff;
-  background-color: var(--third-color);
-}
-
-.btn-box {
-  float: right;
-}
 </style>

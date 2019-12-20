@@ -61,7 +61,8 @@ export default {
                 + `${to.params.addr}/${to.params.episode}/`;
     axios.get(url)
       .then(response => {
-        this.data(response.data);
+        this.setData(response.data);
+        next();
       })
       .catch(error => {
         this.$message('error','加载网站数据失败');

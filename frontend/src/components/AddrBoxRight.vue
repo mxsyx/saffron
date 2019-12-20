@@ -28,7 +28,9 @@
         v-bind:key="index.key"
       >
         <router-link 
-          v-bind:to="`/play/${videoInfo.id}/${addr.index}/${index + 1}`">
+          v-bind:to="`/play/${videoInfo.id}/${addr.index}/${index + 1}`"
+          v-bind:class="{'btn-active': btnIsActive(index + 1)}"
+          >
           {{ generatePrompt(index) }}
         </router-link>
       </li>
@@ -86,6 +88,10 @@ export default {
         return '高清云播';
       }
     },
+
+    btnIsActive(index) {
+      return parseInt(this.$route.params.episode) === index;
+    }
   }
 };
 </script>
@@ -123,13 +129,30 @@ export default {
 
 .addr-box-right header h3 {
   color: #fff;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   padding-left: 0.5rem;
+  font-weight: 400;
 }
 
 .addr-box-right header small {
   color: red;
-  font-size: 1rem;
+  font-size: 0.9rem;
   margin: 0px;
+}
+
+@media (min-width: 1200px) {
+  .btn-box {
+    text-align: center;
+  }
+}
+
+.btn {
+  padding: 0rem;
+  color: #aaa;
+}
+
+.btn-active {
+  background-image: none !important;
+  background-color: var(--third-color);
 }
 </style>

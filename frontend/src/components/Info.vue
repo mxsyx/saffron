@@ -64,6 +64,7 @@ export default {
     axios.get(`http://zizaixian.top/v2/info/${to.params.vid}`)
       .then(response => {
         this.setData(response.data);
+        next();
       })
       .catch(error => {
         this.$message('error', '加载网站数据失败')

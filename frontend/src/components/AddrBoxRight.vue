@@ -1,9 +1,19 @@
 <!-- 播放线路盒 -->
 
 <template>
-  <div class="addr-box row">
+  <div class="addr-box-right">
     <header>
-      <div>
+      <h3>
+          {{ videoInfo.name }}
+          <small>第 {{ this.$route.params.episode }} 集</small>
+      </h3>
+      <div class="btn-box hidden-sm">
+        <button
+          class="btn btn-addr"
+          v-for="(addr, key) in addrs"
+          v-bind:key="key"
+          v-on:click="changeAddr(key)"
+        >线路 {{ addr.index }}</button>
       </div>
     </header>
     <ul
@@ -13,7 +23,7 @@
       v-bind:class="{hidden: addr.hidden}"
     >
       <li
-        class="col-sm-3 col-md-2 col-lg-1"
+        class="col-sm-3 col-md-2 col-lg-4"
         v-for="index in generateArray(addr.tatal)"
         v-bind:key="index.key"
       >
@@ -29,7 +39,7 @@
 <script>
 export default {
   props: {
-    videoInfo: Object
+    videoInfo: Object,
   },
 
   watch: {
@@ -81,5 +91,45 @@ export default {
 </script>
 
 <style scoped>
+.addr-box-right {
+  max-height: 80vh;
+  overflow: auto;
+  background-color: #232325;
+}
 
+.addr-box-right ul {
+  width: 100%;
+}
+
+.addr-box-right li {
+  padding: 0.3rem;
+  box-sizing: border-box;
+}
+
+.addr-box-right li a {
+  display: block;
+  color: #eeeeee;
+  text-align: center;
+  font-size: 0.7rem;
+  line-height: 1.7rem;
+  border-radius: 0.25rem;
+  background-image: linear-gradient(to right, rgb(40, 40, 40) 0px, rgb(59, 59, 59) 100%);
+}
+.addr-box-right li a:hover {
+  color: #fff;
+  background-image: none;
+  background-color: var(--third-color);
+}
+
+.addr-box-right header h3 {
+  color: #fff;
+  font-size: 1.2rem;
+  padding-left: 0.5rem;
+}
+
+.addr-box-right header small {
+  color: red;
+  font-size: 1rem;
+  margin: 0px;
+}
 </style>

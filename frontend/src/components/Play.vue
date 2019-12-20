@@ -2,8 +2,19 @@
 
 <template>
   <div class="page row">
-    <div class="player col-lg-9" ref="player"></div>
+    <div
+      class="player-container col-sm-12 col-md-12 col-lg-9" 
+      v-bind:class="{'col-lg-12': closeSidebar}"
+    >
+      <div ref="player" class="player"></div>
+      <i
+        class="switch-sidebar hidden-sm fa fa-angle-right"
+        v-on:click="switchSidebar"
+      ></i>
+    </div>
     <AddrBoxRight
+      class="col-sm-12 col-md-12 col-lg-3"
+      v-bind:class="{hidden: closeSidebar}"
       v-bind:videoInfo="videoInfo"
     />
   </div>
@@ -28,8 +39,8 @@ export default {
 
   data() {
     return {
-      videoInfo: null,
-      curretM3U8Url: null,
+      videoInfo: {},
+      closeSidebar: false,
     }
   },
 
@@ -61,8 +72,8 @@ export default {
     setData(data) {
       if (data.videoInfo && data.plAddr) {
         this.videoInfo = data.videoInfo;
-        this.curretM3U8Url = Object.values(data.plAddr)[0];
-        this.initPlayer(this.curretM3U8Url);
+        const m3u8Url = Object.values(data.plAddr)[0];
+        this.initPlayer(m3u8Url);
         this.$loaded();
       } else {
         this.$message('error','加载网站数据失败');
@@ -85,13 +96,43 @@ export default {
       };
       this.dp = new DPlayer(options);
     },
+
+    switchSidebar() {
+      this.closeSidebar = !this.closeSidebar;
+    },
   }
 }
 </script>
 
 <style scoped>
+.page {
+  margin-bottom: 3rem;
+}
 
-#addr-box {
+.player {
+  height: 80vh;
+}
+@media (max-width: 767px) {
+  .player div {
+    height: 30vh;
+  }
+}
 
+.player-container {
+  position: relative;
+}
+
+.switch-sidebar {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+  right: -12px;
+  cursor: pointer;
+  line-height: 56px;
+  color: #fff;
+  background-color: #404040;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 </style>

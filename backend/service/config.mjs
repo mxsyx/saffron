@@ -9,7 +9,7 @@ const STATEMENTS = {
     'dlAddr': "SELECT `addr` FROM  `dladdr` WHERE `vid`=?;",
   },
   'play': {
-    'info'   : 'SELECT `name`,`tatal1`,`tatal2`,`tatal3`,`tatal4`,`tatal5`,`tatal6` FROM `info` WHERE `id`=?;',
+    'info'   : 'SELECT `id`,`name`,`bigtype`,`tatal1`,`tatal2`,`tatal3`,`tatal4`,`tatal5`,`tatal6` FROM `info` WHERE `id`=?;',
     'plAddr' : 'SELECT ?? FROM `pladdr` WHERE `vid`=? AND `episode`=?;'
   },
   'dandaku': {

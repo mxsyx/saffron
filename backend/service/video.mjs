@@ -49,10 +49,18 @@ function fetchRandom(req, res) {
  * 获取信息页数据
  */
 function fetchInfoPageData(req, res) {
-  const resData = {videoInfo: null};
-  db.excute(STATEMENTS['info']['info'], req.params.vid)
+  const resData = { 
+    videoInfo: null, 
+    randomVideo: null,
+  };
+  const statement = 
+      `${STATEMENTS['info']['info']}` +
+      `${STATEMENTS['main']['random']}`;
+
+  db.excute(statement, req.params.vid)
     .then(data => {
-      resData.videoInfo = data[0];
+      resData.videoInfo = data[0][0];
+      resData.randomVideo = data[1];
     })
     .catch(err => {
       console.error(err);

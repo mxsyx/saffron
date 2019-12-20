@@ -13,6 +13,7 @@
       type="random"
       headerTip="随机推荐"
       v-bind:videoItems="rdItems"
+      v-on:flush-random="fetchRandomVideoData"
     />
   </div>
 </template>
@@ -50,22 +51,19 @@ export default {
   },
     
   beforeRouteEnter(to, from, next) {
-    axios.all([
-      axios.get(`http://zizaixian.top/info/${to.params.vid}`),
-      axios.get('http://zizaixian.top/main/random'),
-    ])
-      .then(axios.spread((resInfo, resRandom) => {
-        next(vm => vm.setVideoData(resInfo.data, resRandom.data));
-      }))
+    axios.get(`http://zizaixian.top/v2/info/${to.params.vid}`)
+      .then(response => {
+        next(vm => vm.setVideoData(response.data));
+      })
       .catch(error => {
         this.$message('error', '加载网站数据失败')
       });
   },
 
   beforeRouteUpdate(to, from, next) {
-    axios.get(`http://zizaixian.top/info/${to.params.vid}`)
+    axios.get(`http://zizaixian.top/v2/info/${to.params.vid}`)
       .then(response => {
-        this.flushVideoInfo(response.data);
+        this.setVideoData(response.data);
       })
       .catch(error => {
         this.$message('error', '加载网站数据失败')
@@ -73,10 +71,11 @@ export default {
   },
 
   methods: {
-    setVideoData(videoInfoData, randomVideoData) {
-      if (videoInfoData.info) {
-        this.videoInfo = videoInfoData.info;
-        this.rdItems = randomVideoData;
+    setVideoData(data) {
+      if (data.videoInfo) {
+        this.videoInfo = data.videoInfo;
+        this.rdItems = data.randomVideo;
+        this.scrollToTop();
         this.$loaded();
       } else {
         this.$message('error','加载网站数据失败');
@@ -84,19 +83,19 @@ export default {
       }
     },
 
-    flushVideoInfo(videoInfoData) {
-      if (videoInfoData.info) {
-        this.videoInfo = videoInfoData.info;
-        this.scrollToTop();
-        this.$loaded();
-      } else {
-        this.$message('error','加载网站数据失败');
-      }
+    fetchRandomVideoData() {
+      axios.get('http://zizaixian.top/v2/random')
+        .then(response => {
+          this.rdItems = response.data.randomVideo;
+        })
+        .catch(error => {
+          this.$message('error','随机获取视频数据失败')
+        })
     },
-
+    
     scrollToTop() {
       window.scroll(0,0);
-    }
+    },
   }
 }
 </script>

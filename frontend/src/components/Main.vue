@@ -38,16 +38,13 @@ export default {
   mixins: [mixin],
 
   created() {
-    axios.all([
-      axios.get('http://zizaixian.top/main/latest'),
-      axios.get('http://zizaixian.top/main/random'),
-    ])
-    .then(axios.spread((resLatest, resRandom) => {
-      this.setVideoData(resLatest.data, resRandom.data);
-    }))
-    .catch(error => {
-      this.$message('error', '加载网站数据失败')
-    });
+    axios.get('http://zizaixian.top/v2/main')
+      .then(response => {
+        this.setVideoData(response.data);
+      })
+      .catch(error => {
+        this.$message('error', '加载网站数据失败')
+      });
   },
 
   activated() {
@@ -68,10 +65,10 @@ export default {
   },
 
   methods: {
-    setVideoData(latestVideoData, randomVideoData) {
-      this.mvItems = latestVideoData.slice(0, 12);
-      this.tvItems = latestVideoData.slice(12,24);
-      this.rdItems = randomVideoData;
+    setVideoData(data) {
+      this.mvItems = data.latestVideo.slice(0, 12);
+      this.tvItems = data.latestVideo.slice(12, 24);
+      this.rdItems = data.randomVideo;
       this.firstLoaded = true;
       setTimeout(this.$loaded, 100);
     }

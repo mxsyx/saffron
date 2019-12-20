@@ -9,7 +9,7 @@
         <button
           v-if="type === 'random'" 
           class="btn btn-switch"
-          v-on:click="fetchRandomVideoData"
+          v-on:click="flushRandom"
         >
           <i class="fa fa-random"></i>
           换一批
@@ -50,15 +50,9 @@ export default {
   },
 
   methods: {
-    fetchRandomVideoData() {
-      axios.get('http://zizaixian.top/main/random')
-        .then(response => {
-          this.videoItems = response.data;
-        })
-        .catch(error => {
-          this.$message('error','随机获取视频数据失败')
-        })
-    },
+    flushRandom() {
+      this.$emit('flush-random');
+    }
   }
 };
 </script>

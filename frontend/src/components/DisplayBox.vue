@@ -41,7 +41,9 @@ export default {
     headerTip: String,
     videoItems: {
       type: Array,
-      default: []
+      default: function() {
+        return []
+      }
     }
   },
 

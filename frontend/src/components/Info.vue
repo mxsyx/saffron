@@ -26,8 +26,8 @@ import AddrBoxBottom from '@/components/AddrBoxBottom';
 import DisplayBox from '@/components/DisplayBox';
 
 export default {
-  props: ['vid'],
-
+  name: "Info",
+  
   components: {
     InfoBox,
     AddrBoxBottom,

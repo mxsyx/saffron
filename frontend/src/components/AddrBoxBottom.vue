@@ -10,7 +10,8 @@
             class="btn btn-addr"
             v-for="(addr, key) in addrs"
             v-bind:key="key"
-            v-on:click="changeAddr(key)"
+            v-on:click="changeAddr(key, addr)"
+            v-bind:class="{'btn-active': key === activeAddr}"
           >线路 {{ addr.index }}</button>
         </div>
       </div>
@@ -19,7 +20,8 @@
       class="row"
       v-for="addr in addrs"
       v-bind:key="addr.key"
-      v-bind:class="{hidden: addr.hidden}"
+      v-show="!addr.hidden"
+      v-bind:class="{visiable: addr.visiable}"
     >
       <li
         class="col-sm-3 col-md-2 col-lg-1"
@@ -27,9 +29,8 @@
         v-bind:key="index.key"
       >
         <router-link 
-          v-bind:to="`/play/${videoInfo.id}/${addr.index}/${index + 1}`">
-          {{ generatePrompt(index) }}
-        </router-link>
+          v-bind:to="`/play/${videoInfo.id}/${addr.index}/${index + 1}`"
+        >{{ generatePrompt(index) }}</router-link>
       </li>
     </ul>
   </div>
@@ -40,7 +41,7 @@ export default {
   name: 'AddrBoxBottom',
 
   props: {
-    videoInfo: Object
+    videoInfo: Object,
   },
 
   watch: {
@@ -53,17 +54,19 @@ export default {
             index: i,
             tatal: tatal,
             hidden: true,
+            visiable: false
           })
         }
       }
       this.addrs[0].hidden = false;
+      this.addrs[0].visiable = true;
     }
   },
 
   data() {
     return {
-      activeAddr: 0,
       addrs: null,
+      activeAddr: 0,
     };
   },
 
@@ -75,11 +78,16 @@ export default {
 
     // 切换线路 
     changeAddr(addrIndex) {
+      this.addrs[this.activeAddr].visiable = false;
       this.addrs[this.activeAddr].hidden = true;
       this.addrs[addrIndex].hidden = false;
       this.activeAddr = addrIndex;
+      setTimeout(() => {
+        this.addrs[addrIndex].visiable = true;
+      })
     },
 
+    // 生成按钮提示
     generatePrompt(index) {
       if (this.videoInfo.bigtype == 'tv') {
         return `第${index+1} 集`;
@@ -87,6 +95,7 @@ export default {
         return '高清云播';
       }
     },
+
   }
 };
 </script>
@@ -94,6 +103,7 @@ export default {
 <style scoped>
 .addr-box-bottom {
   margin: 1.5rem 0rem;
+  overflow: hidden;
 }
 
 .addr-box-bottom header {
@@ -113,6 +123,17 @@ export default {
   line-height: 0.8rem;
   display: inline-block;
   user-select: none;
+}
+
+.addr-box-bottom ul {
+  transform: translateX(100%);
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.visiable {
+  transform: translateX(0%) !important;
+  opacity: 1 !important;
 }
 
 .addr-box-bottom li {
@@ -137,4 +158,12 @@ export default {
 .btn-box {
   float: right;
 }
+
+.btn-active {
+  color: var(--third-color);
+  text-decoration: underline;
+  font-weight: 800;
+}
+
+
 </style>

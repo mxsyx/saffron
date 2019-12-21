@@ -20,7 +20,8 @@
       class="row"
       v-for="addr in addrs"
       v-bind:key="addr.key"
-      v-bind:class="{hidden: addr.hidden}"
+      v-show="!addr.hidden"
+      v-bind:class="{visiable: addr.visiable}"
     >
       <li
         class="col-sm-3 col-md-2 col-lg-4"
@@ -54,10 +55,12 @@ export default {
             index: i,
             tatal: tatal,
             hidden: true,
+            visiable: false,
           })
         }
       }
       this.addrs[0].hidden = false;
+      this.addrs[0].visiable = true;
     }
   },
 
@@ -76,9 +79,13 @@ export default {
 
     // 切换线路 
     changeAddr(addrIndex) {
+      this.addrs[this.activeAddr].visiable = false;
       this.addrs[this.activeAddr].hidden = true;
       this.addrs[addrIndex].hidden = false;
       this.activeAddr = addrIndex;
+      setTimeout(() => {
+        this.addrs[addrIndex].visiable = true;
+      })
     },
 
     generatePrompt(index) {
@@ -154,5 +161,16 @@ export default {
 .btn-active {
   background-image: none !important;
   background-color: var(--third-color);
+}
+
+.addr-box-right ul {
+  transform: translateX(100%);
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.visiable {
+  transform: translateX(0%) !important;
+  opacity: 1 !important;
 }
 </style>

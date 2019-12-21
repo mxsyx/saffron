@@ -135,5 +135,6 @@ export default {
   background-color: #404040;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
+  z-index: 1;
 }
 </style>

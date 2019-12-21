@@ -115,10 +115,27 @@ function fetchDlAddr(req, res) {
 }
 
 
+function searchByName(req, res) {
+  const resData = {searchResult: null};
+  const searchContent = `%${req.params.content}%`;
+  db.excute(STATEMENTS['search']['byname'], searchContent)
+    .then(data => {
+      resData.searchResult = data;
+    })
+    .catch(err => {
+      console.log(err);
+    })
+    .finally(() => {
+      res.send(JSON.stringify(resData));
+    })
+}
+
+
 export { 
   fetchMainPageData, 
   fetchInfoPageData, 
   fetchPlayPageData,
   fetchRandom,
   fetchDlAddr,
+  searchByName,
 }

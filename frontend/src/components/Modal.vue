@@ -47,6 +47,7 @@ export default {
   width: 100%;
   background-color: #fff;
   transition: all 0.5s linear;
+  z-index: 10;
 }
 
 .modal-top {

@@ -7,15 +7,40 @@
       <span>浮云轻入鹤撩雾，青山深处自在仙</span>
     </div>
     <div id="search-box" class="hidden-sm col-md-6 col-lg-8">
-      <input type="text" placeholder="请输入您要搜索的内容..." name="search-content">
-      <button type="submit">搜索</button>
+      <input 
+        name="search-content"
+        type="text"
+        placeholder="请输入您要搜索的内容..." 
+        v-model="searchContent"
+      >
+      <button type="submit" v-on:click="search">搜索</button>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "TheHeader"
+  name: "TheHeader",
+
+  data() {
+    return {
+      searchContent: '',
+    }
+  },
+
+  methods: {
+    search() {
+      this.$router.replace({ 
+        name: 'find',
+        params: {
+          type: 'byname',
+          content: this.searchContent
+        }
+      }).catch(err => {
+        console.log(err);
+      });
+    }
+  }
 }
 </script>
 

@@ -17,6 +17,7 @@
       type="random"
       headerTip="随机推荐"
       v-bind:videoItems="rdItems"
+      v-on:flush-random="fetchRandomVideoData"
     />
   </div>
 </template>
@@ -38,7 +39,7 @@ export default {
   mixins: [mixin],
 
   created() {
-    axios.get('http://zizaixian.top/v2/main')
+    axios.get('/v2/main')
       .then(response => {
         this.setVideoData(response.data);
       })
@@ -71,7 +72,17 @@ export default {
       this.rdItems = data.randomVideo;
       this.firstLoaded = true;
       setTimeout(this.$loaded, 100);
-    }
+    },
+
+    fetchRandomVideoData() {
+      axios.get('/v2/random')
+        .then(response => {
+          this.rdItems = response.data.randomVideo;
+        })
+        .catch(error => {
+          this.$message('error','随机获取视频数据失败')
+        })
+    },
   }
 }
 </script>

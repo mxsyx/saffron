@@ -63,27 +63,27 @@ export default {
 
       lbItems: [
         {
-          imgSrc: require("@/assets/images/pic1.jpg"),
+          imgSrc: "/img/sys/carousel/pic1.jpg",
           desc: "这里是描述文字",
           className: { active: true }
         },
         {
-          imgSrc: require("@/assets/images/pic2.jpg"),
+          imgSrc: "/img/sys/carousel/pic2.jpg",
           desc: "这里是描述文字",
           className: {}
         },
         {
-          imgSrc: require("@/assets/images/pic3.jpg"),
+          imgSrc: "/img/sys/carousel/pic3.jpg",
           desc: "这里是描述文字",
           className: {}
         },
         {
-          imgSrc: require("@/assets/images/pic4.jpg"),
+          imgSrc: "/img/sys/carousel/pic4.jpg",
           desc: "这里是描述文字",
           className: {}
         },
         {
-          imgSrc: require("@/assets/images/pic5.jpg"),
+          imgSrc: "/img/sys/carousel/pic5.jpg",
           desc: "这里是描述文字",
           className: {}
         }

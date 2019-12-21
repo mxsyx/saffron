@@ -4,25 +4,25 @@
   <ul class="share-box">
     <li v-on:click="shareToWeibo">
       <svg width="40" height="40">
-        <use xlink:href="../assets/icon/icon.svg#weibo" />
+        <use xlink:href="/img/sys/share.svg#weibo" />
       </svg>
       <span>微博</span>
     </li>
     <li v-on:click="shareToDouban">
       <svg width="40" height="40">
-        <use xlink:href="../assets/icon/icon.svg#douban" />
+        <use xlink:href="/img/sys/share.svg#douban" />
       </svg>
       <span>豆瓣</span>
     </li>
     <li v-on:click="shareToTieba">
       <svg width="40" height="40">
-        <use xlink:href="../assets/icon/icon.svg#tieba" />
+        <use xlink:href="/img/sys/share.svg#tieba" />
       </svg>
       <span>贴吧</span>
     </li>
     <li v-on:mouseenter="shareToWeChat" v-on:mouseleave="shareToWeChat">
       <svg width="40" height="40">
-        <use xlink:href="../assets/icon/icon.svg#wechat" />
+        <use xlink:href="/img/sys/share.svg#wechat" />
       </svg>
       <span>微信</span>
       <div class="qrcode-box" v-bind:class="{show: showQRCode}">
@@ -32,19 +32,19 @@
     </li>
     <li v-on:click="shareToQQ">
       <svg width="40" height="40">
-        <use xlink:href="../assets/icon/icon.svg#qq" />
+        <use xlink:href="/img/sys/share.svg#qq" />
       </svg>
       <span>QQ</span>
     </li>
     <li v-on:click="shareToQQZone">
       <svg width="40" height="40">
-        <use xlink:href="../assets/icon/icon.svg#qqzone" />
+        <use xlink:href="/img/sys/share.svg#qqzone" />
       </svg>
       <span>空间</span>
     </li>
     <li v-on:click="shareToLink" title="复制链接地址">
       <svg width="40" height="40">
-        <use xlink:href="../assets/icon/icon.svg#link" />
+        <use xlink:href="/img/sys/share.svg#link" />
       </svg>
       <span>链接</span>
     </li>

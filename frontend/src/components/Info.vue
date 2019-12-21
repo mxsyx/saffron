@@ -51,17 +51,17 @@ export default {
   },
     
   beforeRouteEnter(to, from, next) {
-    axios.get(`http://zizaixian.top/v2/info/${to.params.vid}`)
+    axios.get(`/v2/info/${to.params.vid}`)
       .then(response => {
         next(vm => vm.setData(response.data));
       })
       .catch(error => {
-        this.$message('error', '加载网站数据失败')
+        this.$message('error', '  加载网站数据失败')
       });
   },
 
   beforeRouteUpdate(to, from, next) {
-    axios.get(`http://zizaixian.top/v2/info/${to.params.vid}`)
+    axios.get(`/v2/info/${to.params.vid}`)
       .then(response => {
         this.setData(response.data);
         next();
@@ -85,7 +85,7 @@ export default {
     },
 
     fetchRandomVideoData() {
-      axios.get('http://zizaixian.top/v2/random')
+      axios.get('/v2/random')
         .then(response => {
           this.rdItems = response.data.randomVideo;
         })

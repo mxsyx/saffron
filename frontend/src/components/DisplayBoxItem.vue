@@ -29,8 +29,7 @@ export default {
 
   methods: {
     handleBackgroudImage(imgaddr) {
-      return `url(http://zizaixian.top${imgaddr}),
-              url(http://zizaixian.top/img/404/bg404.gif)`
+      return `url(${imgaddr}),url(/img/sys/404/bg404.gif)`
     }
   }
 };
@@ -62,7 +61,7 @@ export default {
   top: 0px;
   display: none;
   border-radius: 5px;
-  background-image: url("../assets/icon/action.svg");
+  background-image: url("/img/sys/action.svg");
   background-repeat: no-repeat;
   background-size: 30% 30%;
   background-position: center;

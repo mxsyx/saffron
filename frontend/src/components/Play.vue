@@ -45,8 +45,8 @@ export default {
   },
 
   beforeRouteEnter(to, from, next) {
-    const url = `http://zizaixian.top/v2/play/${to.params.vid}/`
-                + `${to.params.addr}/${to.params.episode}/`;
+    const url = `/v2/play/${to.params.vid}/${to.params.addr}`
+                +`/${to.params.episode}/`;
     axios.get(url)
       .then(response => {
         next(vm => vm.setData(response.data));
@@ -57,7 +57,7 @@ export default {
   },
 
   beforeRouteUpdate(to, from, next) {
-    const url = `http://zizaixian.top/v2/play/${to.params.vid}/`
+    const url = `/v2/play/${to.params.vid}/`
                 + `${to.params.addr}/${to.params.episode}/`;
     axios.get(url)
       .then(response => {

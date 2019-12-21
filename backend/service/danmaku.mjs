@@ -2,14 +2,11 @@
  * 弹幕API
  */
 
-import http from 'http'
-import { Database } from '../common/database.mjs'
-import { PORT_DANMAKU, ADDR_DANMAKU, STATEMENTS } from './config.mjs'
+import db from '../common/database.mjs'
+import { STATEMENTS } from './config.mjs'
 
 class Danmaku {
   constructor() {
-    this.db = new Database();
-    this.server = http.createServer();
 
     this.server.on('request', (req, res) => {
       this.setHeader(res);
@@ -28,21 +25,7 @@ class Danmaku {
         });
       }
     });
-    
-    this.server.listen(PORT_DANMAKU, ADDR_DANMAKU, () => {
-      console.log(`Danmaku API Start > ${ADDR_DANMAKU}:${PORT_DANMAKU}`);
-    })
-  }
-  
-  /**
-   * 设置响应头
-   * 使API支持跨域请求
-   */
-  setHeader(res) {
-    res.setHeader('Content-Type', 'application/json');
-    res.setHeader('Access-Control-Allow-Origin',  '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+ 
   }
   
   /**
@@ -54,9 +37,9 @@ class Danmaku {
     const danmakuId = parseInt(urlParams.id || 0);
     const maxium = parseInt(urlParams.max || 1000);
 
-    this.db.excute(STATEMENTS['getDanmaku'], [danmakuId, maxium])
+    db.excute(STATEMENTS['getDanmaku'], [danmakuId, maxium])
       .then((results) => {
-        const resContent = {code:0, data:this.db.fetchArray(results)};
+        const resContent = {code:0, data:db.fetchArray(results)};
         res.write(JSON.stringify(resContent));
         this.completed(res);
       })
@@ -84,7 +67,7 @@ class Danmaku {
       remoteAddr,
     ];
 
-    this.db.excute(STATEMENTS['addDanmaku'], params)
+    db.excute(STATEMENTS['addDanmaku'], params)
       .then(() => {
         const resContent = {code:0};
         res.write(JSON.stringify(resContent));

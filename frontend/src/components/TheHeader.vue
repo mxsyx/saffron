@@ -12,8 +12,12 @@
         type="text"
         placeholder="请输入您要搜索的内容..." 
         v-model="searchContent"
+        v-on:keyup.enter="search"
       >
-      <button type="submit" v-on:click="search">搜索</button>
+      <button 
+        type="submit" 
+        v-on:click="search"
+      >搜索</button>
     </div>
   </div>
 </template>
@@ -30,14 +34,14 @@ export default {
 
   methods: {
     search() {
-      this.$router.replace({ 
+      this.$router.push({ 
         name: 'find',
         params: {
           type: 'byname',
           content: this.searchContent
         }
       }).catch(err => {
-        console.log(err);
+        // console.log(err);
       });
     }
   }

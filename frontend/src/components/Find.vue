@@ -12,19 +12,22 @@
 
 <script>
 import axios from 'axios'
+import mixin from '@/mixin'
 import DisplayBox from '@/components/DisplayBox'
 
 export default {
   name: "Find",
-
+  
+  components: {
+    DisplayBox,
+  },
+  
+  mixins: [mixin],
+  
   data() {
     return {
       videoItems: null,
     }
-  },
-
-  components: {
-    DisplayBox,
   },
 
   beforeRouteEnter(to, from, next) {
@@ -34,7 +37,7 @@ export default {
       next();
     }
 
-    axios.get(`/v2/search/${searchType}/${to.params.content}`)
+    axios.get(`/v2/find/${searchType}/${to.params.content}`)
       .then(response => {
         next(vm => vm.setData(response.data));
       })
@@ -50,7 +53,7 @@ export default {
       next();
     }
 
-    axios.get(`/v2/search/${searchType}/${to.params.content}`)
+    axios.get(`/v2/find/${searchType}/${to.params.content}`)
       .then(response => {
         this.setData(response.data);
       })
@@ -59,17 +62,15 @@ export default {
       })
   },
 
-
   methods: {
     setData(data) {
-      this.videoItems = data.searchResult;
+      if (data.searchResult.length === 0) {
+        this.$message('info', '没有找到该影片');
+      } else {
+        this.videoItems = data.searchResult;
+      }
       this.$loaded();
     }
   }
-
 }
 </script>
-
-<style>
-
-</style>

@@ -94,6 +94,15 @@ export default {
           type: 'hls',
           url: url,
         },
+        danmaku: {
+          id: '10101470022',
+          api: 'https://zizaixian.top/v2/',
+          token: 'tokendemo',
+          maximum: 1000,
+          user: '1059',
+          bottom: '15%',
+          unlimited: false,
+        },
       };
       this.dp = new DPlayer(options);
     },

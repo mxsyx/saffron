@@ -18,18 +18,6 @@ const getUrlParams = function (req) {
 }
 
 /**
- * 获取客户端Ip地址
- * @param {object} req 请求对象
- * @returns 客户端的Ip地址
- */
-const getClientIp = function (req) {
-  return req.headers['x-forwarded-for'] ||
-         req.connection.remoteAddress ||
-         req.socket.remoteAddress ||
-         req.connection.socket.remoteAddress;
-};
-
-/**
  * 获取特定格式的当前时间
  * @param {string} format 时间格式
  * @returns 特性格式的时间字符串
@@ -70,7 +58,4 @@ const makeImgAddr = function(videoItem) {
   return `/img/${imgName.slice(0,2)}/${imgName}${suffix}`
 }
 
-export { 
-  getUrlParams, getClientIp, getCurrentTime ,
-  makeImgAddr, sleep
-}
+export { getUrlParams, getCurrentTime, makeImgAddr, sleep }

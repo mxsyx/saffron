@@ -12,7 +12,7 @@ const STATEMENTS = {
     'info'   : 'SELECT `id`,`name`,`bigtype`,`tatal1`,`tatal2`,`tatal3`,`tatal4`,`tatal5`,`tatal6` FROM `info` WHERE `id`=?;',
     'plAddr' : 'SELECT ?? FROM `pladdr` WHERE `vid`=? AND `episode`=?;'
   },
-  'dandaku': {
+  'danmaku': {
     'add': "INSERT INTO `danmaku` (`id`,`author`,`text`,`color`,`type`,`time`,`date`,`addr`) values (?,?,?,?,?,?,?,?);",
     'get': "SELECT `time`,`type`,`color`,`author`,`text` FROM danmaku WHERE `id`=? LIMIT ?;",
   },

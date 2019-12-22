@@ -44,6 +44,10 @@ export default {
     }
   },
 
+  created() {
+    window.Hls = Hls;
+  },
+
   beforeRouteEnter(to, from, next) {
     const url = `/v2/play/${to.params.vid}/${to.params.addr}`
                 +`/${to.params.episode}/`;
@@ -83,7 +87,6 @@ export default {
     },
 
     initPlayer(url) {
-      window.Hls = Hls;
       const options = {
         container: this.$refs.player,
         autoplay: true,
@@ -95,11 +98,11 @@ export default {
           url: url,
         },
         danmaku: {
-          id: '10101470022',
+          id: this.$route.params.vid + 
+              this.$route.params.episode.toString().padStart(4, '0'),
           api: 'https://zizaixian.top/v2/',
-          token: 'tokendemo',
           maximum: 1000,
-          user: '1059',
+          user: '1',
           bottom: '15%',
           unlimited: false,
         },

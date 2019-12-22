@@ -39,13 +39,11 @@ export default {
 
   data() {
     return {
+      dp: null,
+      hls: null,
       videoInfo: {},
       closeSidebar: false,
     }
-  },
-
-  created() {
-    window.Hls = Hls;
   },
 
   beforeRouteEnter(to, from, next) {
@@ -61,6 +59,9 @@ export default {
   },
 
   beforeRouteUpdate(to, from, next) {
+    if (this.hls) {
+      this.hls.destroy();
+    }
     const url = `/v2/play/${to.params.vid}/`
                 + `${to.params.addr}/${to.params.episode}/`;
     axios.get(url)
@@ -73,12 +74,19 @@ export default {
       });
   },
 
+  beforeRouteLeave(to, from, next) {
+    if (this.hls) {
+      this.hls.destroy();
+    }
+    next();
+  },
+
   methods: {
     setData(data) {
       if (data.videoInfo && data.plAddr) {
         this.videoInfo = data.videoInfo;
         const m3u8Url = Object.values(data.plAddr)[0];
-        this.initPlayer(m3u8Url);
+        this.initPlayer(m3u8Url, this);
         this.$loaded();
       } else {
         this.$message('error','加载网站数据失败');
@@ -86,7 +94,7 @@ export default {
       }
     },
 
-    initPlayer(url) {
+    initPlayer(url, that) {
       const options = {
         container: this.$refs.player,
         autoplay: true,
@@ -94,8 +102,16 @@ export default {
         hotkey: true,
         volume: 0.7,
         video: {
-          type: 'hls',
           url: url,
+          type: 'customHls',
+          customType: {
+            customHls: function(video, player) {
+              const hls = new Hls();
+              that.hls = hls;
+              hls.loadSource(video.src);
+              hls.attachMedia(video);
+            },
+          }
         },
         danmaku: {
           id: this.$route.params.vid + 

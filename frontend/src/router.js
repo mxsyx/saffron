@@ -1,35 +1,35 @@
 /**
  * 页面路由配置
  */
-import Main from '@/components/Main'
-import Info from '@/components/Info'
-import Play from '@/components/Play'
-import Find from '@/components/Find'
+const Main = () => import('@/components/Main')
+const Info = () => import('@/components/Info');
+const Play = () => import('@/components/Play');
+const Find = () => import('@/components/Find');
 
 const routes = [
   // 主页路由
   {
+    name: 'main',
     path: '/', 
-    component: Main 
+    component: Main,
   },
   // 信息页路由
   {
+    name: 'info',
     path: '/info/:vid',
     component: Info,
-    props: true
   },
   // 播放页路由
   {
+    name: 'play',
     path: '/play/:vid/:addr/:episode',
     component: Play,
-    props: true
   },
   // 搜索页路由
   { 
     name: 'find',
     path: '/find/:type/:content',
     component: Find,
-    props: true
   }
 ]
 

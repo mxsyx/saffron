@@ -16,8 +16,8 @@ const STATEMENTS = {
     'add': "INSERT INTO `danmaku` (`id`,`author`,`text`,`color`,`type`,`time`,`date`,`addr`) values (?,?,?,?,?,?,?,?);",
     'get': "SELECT `time`,`type`,`color`,`author`,`text` FROM danmaku WHERE `id`=? LIMIT ?;",
   },
-  'search': {
-    'byname': "SELECT `id`,`name`,`imgaddr`,`actors` FROM `info` WHERE `name` LIKE ?;"
+  'find': {
+    'byname': "SELECT `id`,`name`,`imgaddr`,`actors` FROM `info` WHERE LOCATE(?, `name`) > 0 LIMIT ?,?;"
   }
 }
 

@@ -15,7 +15,7 @@ Vue.use(LoadingPlugin);
 // 定义页面路由
 Vue.use(VueRouter)
 const router = new VueRouter({
-  mode: 'history',
+  mode: 'hash',
   routes: routes
 })
 

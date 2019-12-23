@@ -114,19 +114,25 @@ function fetchDlAddr(req, res) {
     })
 }
 
+/**
+ * 通过名称查找视频
+ */
+function findByName(req, res) {
+  const resData = {result: null, end: true};
+  const limitFrom = (req.body.page) * 24;
+  const limitTo = limitFrom + 24;
 
-function searchByName(req, res) {
-  const resData = {searchResult: null};
-  const searchContent = `%${req.params.content}%`;
-  db.excute(STATEMENTS['search']['byname'], searchContent)
+  db.excute(STATEMENTS['find']['byname'],
+           [req.body.content, limitFrom, limitTo])
     .then(data => {
-      resData.searchResult = data;
+      resData.result = data;
+      resData.end = data.length < 24 ? true : false;
     })
     .catch(err => {
       console.log(err);
     })
     .finally(() => {
-      res.send(JSON.stringify(resData));
+      res.json(resData);
     })
 }
 
@@ -137,5 +143,5 @@ export {
   fetchPlayPageData,
   fetchRandom,
   fetchDlAddr,
-  searchByName,
+  findByName,
 }

@@ -26,8 +26,30 @@ export default {
   
   data() {
     return {
-      videoItems: null,
+      videoItems: [],
+      end: true,
+      searchTypes = ['byname'],
+      searchType = '',
     }
+  },
+
+  mounted() {
+    this.searchType = this.$route.params;
+
+    let prevScrollTop = 0;
+    document.addEventListener('scroll', () => {
+      const currentScrollTop = document.documentElement.scrollTop;
+      if (currentScrollTop < prevScrollTop) {
+        prevScrollTop = currentScrollTop;
+        return ;
+      }
+
+      if (document.documentElement.getBoundingClientRect().bottom <
+          document.documentElement.clientHeight + 100 && !this.end) {
+        
+      }
+      prevScrollTop = currentScrollTop;
+    })
   },
 
   beforeRouteEnter(to, from, next) {
@@ -37,7 +59,12 @@ export default {
       next();
     }
 
-    axios.get(`/v2/find/${searchType}/${to.params.content}`)
+    const postData = {
+      content: to.params.content,
+      page: 0,
+    }
+
+    axios.post(`/v2/find/${searchType}`, postData)
       .then(response => {
         next(vm => vm.setData(response.data));
       })
@@ -64,13 +91,28 @@ export default {
 
   methods: {
     setData(data) {
-      if (data.searchResult.length === 0) {
+      if (data.result.length === 0) {
         this.$message('info', '没有找到该影片');
       } else {
-        this.videoItems = data.searchResult;
+        this.videoItems.push.apply(this.videoItems, data.result);
+        this.end = data.end;
       }
       this.$loaded();
-    }
+    },
+
+    fetchMore() {
+      if (searchTypes.indexOf(searchType) === -1) {
+        next();
+      }
+
+      axios.get(`/v2/find/${searchType}/${to.params.content}`)
+        .then(response => {
+          this.setData(response.data);
+        })
+        .catch(err => {
+          console.log(err);
+        })
+    }*/
   }
 }
 </script>

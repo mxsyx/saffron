@@ -40,7 +40,11 @@ export default {
           type: 'byname',
           content: this.searchContent
         }
-      }).catch(err => {
+      })
+      .then(() => {
+        this.searchContent = '';
+      })
+      .catch(err => {
         // console.log(err);
       });
     }

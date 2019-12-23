@@ -28,8 +28,11 @@ app.get('/v2/info/:vid', video.fetchInfoPageData);
 app.get('/v2/play/:vid/:addr/:episode', video.fetchPlayPageData);
 app.get('/v2/random', video.fetchRandom),
 app.get('/v2/download/:vid', video.fetchDlAddr);
-app.get('/v2/find/byname/:content', video.searchByName)
 
+// 搜索接口
+app.post('/v2/find/byname', video.findByName)
+//app.get('/v2/find/bydirector', video.findByDirector)
+//app.get('/v2/find/byactor', video.findByActor)
 
 // 弹幕请求
 app.get('/v2/v3', danmaku.getDanmaku);

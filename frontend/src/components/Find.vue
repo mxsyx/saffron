@@ -28,37 +28,19 @@ export default {
     return {
       videoItems: [],
       end: true,
-      searchTypes = ['byname'],
-      searchType = '',
+      currentPage: 0,
+      searchType: this.$route.params.type,
+      searchContent: this.$route.params.content,
+      loadLock: false,
     }
   },
 
   mounted() {
-    this.searchType = this.$route.params;
-
-    let prevScrollTop = 0;
-    document.addEventListener('scroll', () => {
-      const currentScrollTop = document.documentElement.scrollTop;
-      if (currentScrollTop < prevScrollTop) {
-        prevScrollTop = currentScrollTop;
-        return ;
-      }
-
-      if (document.documentElement.getBoundingClientRect().bottom <
-          document.documentElement.clientHeight + 100 && !this.end) {
-        
-      }
-      prevScrollTop = currentScrollTop;
-    })
+    this.monitorScroll();
   },
 
   beforeRouteEnter(to, from, next) {
-    const searchTypes =  ['byname']
     const searchType = to.params.type;
-    if (searchTypes.indexOf(searchType) === -1) {
-      next();
-    }
-
     const postData = {
       content: to.params.content,
       page: 0,
@@ -74,15 +56,17 @@ export default {
   },
 
   beforeRouteUpdate(to, from, next) {
-    const searchTypes =  ['byname']
-    const searchType = to.params.type;
-    if (searchTypes.indexOf(searchType) === -1) {
-      next();
+    this.flushMeta(to);
+   
+    const postData = {
+      content: to.params.content,
+      page: 0,
     }
 
-    axios.get(`/v2/find/${searchType}/${to.params.content}`)
+    axios.post(`/v2/find/${this.searchType}`, postData)
       .then(response => {
-        this.setData(response.data);
+        this.setData(response.data, false);
+        next();
       })
       .catch(err => {
         console.log(err);
@@ -96,23 +80,64 @@ export default {
       } else {
         this.videoItems.push.apply(this.videoItems, data.result);
         this.end = data.end;
+        ++this.currentPage;
+        this.loadLock = false;
       }
       this.$loaded();
     },
 
+    flushMeta(to) {
+      this.videoItems = [];
+      this.end = true;
+      this.currentPage = 0;
+      this.searchType = to.params.type;
+      this.searchContent = to.params.content;
+      this.loadLock = false;
+    },
+
     fetchMore() {
-      if (searchTypes.indexOf(searchType) === -1) {
-        next();
+      const postData = {
+        content: this.searchContent,
+        page: this.currentPage,
       }
 
-      axios.get(`/v2/find/${searchType}/${to.params.content}`)
+      axios.post(`/v2/find/${this.searchType}`, postData)
         .then(response => {
-          this.setData(response.data);
+          this.setData(response.data)
         })
         .catch(err => {
-          console.log(err);
+          // console.log(err);
         })
-    }*/
+    },
+
+    /**
+     * 监听滚动条事件
+     * 当滚动条滚动时加载剩余内容
+     */
+    monitorScroll() {
+      // 上一次滚动条距顶部高度
+      let prevScrollTop = 0;
+      const rootElement = document.documentElement;
+      
+      document.addEventListener('scroll', () => {
+        const currentScrollTop = rootElement.scrollTop;
+        
+        // 滚动条向上滚动，返回
+        if (currentScrollTop < prevScrollTop) {
+          prevScrollTop = currentScrollTop;
+          return ;
+        }
+
+        if (rootElement.getBoundingClientRect().bottom < 
+              rootElement.clientHeight + 300 
+              && !this.end && !this.loadLock) {
+          this.loadLock = true;
+          this.fetchMore();
+        }
+        prevScrollTop = currentScrollTop;
+      })
+    }
+
   }
 }
 </script>

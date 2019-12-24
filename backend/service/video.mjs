@@ -119,11 +119,9 @@ function fetchDlAddr(req, res) {
  */
 function findByName(req, res) {
   const resData = {result: null, end: true};
-  const limitFrom = (req.body.page) * 24;
-  const limitTo = limitFrom + 24;
 
   db.excute(STATEMENTS['find']['byname'],
-           [req.body.content, limitFrom, limitTo])
+           [req.body.content, (req.body.page) * 24, 24])
     .then(data => {
       resData.result = data;
       resData.end = data.length < 24 ? true : false;

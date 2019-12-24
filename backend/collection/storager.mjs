@@ -94,6 +94,7 @@ class Storager {
 
   // 存储视频信息
   storageInfo(videoItem) {
+    console.log(videoItem);
     const tatalName = `tatal${videoItem.getSite()}`;
 
     return new Promise((resolve, reject) => {

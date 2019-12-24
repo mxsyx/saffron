@@ -41,15 +41,6 @@ class VideoItem {
     this.drop = false;
 
     /**
-     * 该条目播放地址线路名
-     * add1 线路1  add2 线路2
-     * add3 线路3  add4 线路4
-     * add5 线路5  add6 线路6 
-     * @type {string}
-     */
-    this.addrName = null;
-
-    /**
      * 某播放线路剧集总数
      * @type {number}
      */
@@ -125,11 +116,6 @@ class VideoItem {
     this.drop = drop;
   }
 
-  setAddrName(addrName) {
-    this.addrName = addrName;
-  }
-
-
   // 取值函数
   getName() {
     return this.name;
@@ -197,10 +183,6 @@ class VideoItem {
 
   getDrop() {
     return this.drop;
-  }
-
-  getAddrName() {
-    return this.addrName;
   }
 }
 

@@ -16,21 +16,21 @@
       <div>
         <span class="info-tip">导演：</span>
         <span class="info-content">
-          <a
+         <router-link
             v-for="director in splitString(videoInfo.director)" 
             v-bind:key="director.key"
-            v-bind:href="'search/' + director">{{ director }}
-          </a>
+            v-bind:to="`/find/bydirector/${director}`">{{ director }}
+          </router-link>
         </span>
       </div>
       <div>
         <span class="info-tip">主演：</span>
         <span class="info-content">
-          <a
+         <router-link
             v-for="actor in splitString(videoInfo.actors)" 
             v-bind:key="actor.key"
-            v-bind:href="'search/' + actor">{{ actor }}
-          </a>
+            v-bind:to="`/find/byactor/${actor}`">{{ actor }}
+          </router-link>
         </span>
       </div>
       <div>
@@ -51,21 +51,22 @@
       <div class="hidden-sm hidden-md">
         <span class="info-tip">导演：</span>
         <span class="info-content">
-          <a
+          <router-link
             v-for="director in splitString(videoInfo.director)" 
             v-bind:key="director.key"
-            v-bind:href="'search/' + director">{{ director }}
-          </a>
+            v-bind:to="`/find/bydirector/${director}`">{{ director }}
+          </router-link>
         </span>
       </div>
       <!-- 演员 -->
       <div class="hidden-sm hidden-md">
         <span class="info-tip">主演：</span>
         <span class="info-content">
-          <a v-for="actor in splitString(videoInfo.actors)"
-             v-bind:key="actor.key"
-             v-bind:href="'search/' + actor">{{ actor }}
-          </a>
+         <router-link
+            v-for="actor in splitString(videoInfo.actors)" 
+            v-bind:key="actor.key"
+            v-bind:to="`/find/byactor/${actor}`">{{ actor }}
+          </router-link>
         </span>
       </div>
       <!-- 视频源信息 -->

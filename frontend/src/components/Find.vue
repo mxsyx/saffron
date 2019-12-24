@@ -30,7 +30,7 @@ export default {
       end: true,
       currentPage: 0,
       searchType: this.$route.params.type,
-      searchContent: this.$route.params.content,
+      searchContent: this.$route.params.content.trim(),
       loadLock: false,
     }
   },
@@ -40,13 +40,13 @@ export default {
   },
 
   beforeRouteEnter(to, from, next) {
-    const searchType = to.params.type;
     const postData = {
-      content: to.params.content,
+      type: to.params.type,
+      content: to.params.content.trim(),
       page: 0,
     }
 
-    axios.post(`/v2/find/${searchType}`, postData)
+    axios.post(`/v2/findby`, postData)
       .then(response => {
         next(vm => vm.setData(response.data));
       })
@@ -59,11 +59,12 @@ export default {
     this.flushMeta(to);
    
     const postData = {
+      type: this.searchType,
       content: to.params.content,
       page: 0,
     }
 
-    axios.post(`/v2/find/${this.searchType}`, postData)
+    axios.post(`/v2/findby`, postData)
       .then(response => {
         this.setData(response.data, false);
         next();
@@ -97,11 +98,12 @@ export default {
 
     fetchMore() {
       const postData = {
-        content: this.searchContent,
+        type: this.searchType,
+        content: this.searchContent.trim(),
         page: this.currentPage,
       }
 
-      axios.post(`/v2/find/${this.searchType}`, postData)
+      axios.post(`/v2/findby`, postData)
         .then(response => {
           this.setData(response.data)
         })

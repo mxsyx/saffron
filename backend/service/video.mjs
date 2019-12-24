@@ -114,14 +114,30 @@ function fetchDlAddr(req, res) {
     })
 }
 
-/**
- * 通过名称查找视频
- */
-function findByName(req, res) {
-  const resData = {result: null, end: true};
 
-  db.excute(STATEMENTS['find']['byname'],
-           [req.body.content, (req.body.page) * 24, 24])
+// 搜索类型
+const searchTypes = ['byname', 'bydirector', 'byactor'];
+
+/**
+ * 根据条件查找视频
+ */
+function findBy(req, res) {
+  const resData = {result: null, end: true};    
+
+  const searchType = searchTypes.indexOf(req.body.type);
+  
+  // 选择数据库操作语句
+  if (searchType === 0) {
+    var statement = STATEMENTS['find']['byname'];
+  } else if (searchType === 1) {
+    var statement = STATEMENTS['find']['bydirector'];
+  } else if (searchType === 2) {
+    var statement = STATEMENTS['find']['byactor'];
+  } else {  // 搜索类型不存在直接返回
+    res.json(resData);
+    return ;
+  }
+  db.excute(statement, [req.body.content, (req.body.page) * 24, 24])
     .then(data => {
       resData.result = data;
       resData.end = data.length < 24 ? true : false;
@@ -141,5 +157,5 @@ export {
   fetchPlayPageData,
   fetchRandom,
   fetchDlAddr,
-  findByName,
+  findBy,
 }

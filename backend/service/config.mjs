@@ -17,7 +17,9 @@ const STATEMENTS = {
     'get': "SELECT `time`,`type`,`color`,`author`,`text` FROM danmaku WHERE `id`=? LIMIT ?;",
   },
   'find': {
-    'byname': "SELECT `id`,`name`,`imgaddr`,`actors` FROM `info` WHERE LOCATE(?, `name`) > 0 LIMIT ?,?;"
+    'byname': "SELECT `id`,`name`,`imgaddr`,`actors` FROM `info` WHERE LOCATE(?, `name`) > 0 LIMIT ?,?;",
+    'bydirector': "SELECT `id`,`name`,`imgaddr`,`actors` FROM `info` WHERE LOCATE(?, `director`) > 0 LIMIT ?,?;",
+    'byactor': "SELECT `id`,`name`,`imgaddr`,`actors` FROM `info` WHERE LOCATE(?, `actors`) > 0 LIMT ?,?;",
   }
 }
 

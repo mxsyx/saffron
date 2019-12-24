@@ -30,9 +30,7 @@ app.get('/v2/random', video.fetchRandom),
 app.get('/v2/download/:vid', video.fetchDlAddr);
 
 // 搜索接口
-app.post('/v2/find/byname', video.findByName)
-//app.get('/v2/find/bydirector', video.findByDirector)
-//app.get('/v2/find/byactor', video.findByActor)
+app.post('/v2/findby', video.findBy)
 
 // 弹幕请求
 app.get('/v2/v3', danmaku.getDanmaku);

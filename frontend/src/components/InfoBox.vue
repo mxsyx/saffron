@@ -16,14 +16,18 @@
       <div>
         <span class="info-tip">导演：</span>
         <span class="info-content">
-          <a href>{{ videoInfo.director }}</a>
+          <a
+            v-for="director in splitString(videoInfo.director)" 
+            v-bind:key="director.key"
+            v-bind:href="'search/' + director">{{ director }}
+          </a>
         </span>
       </div>
       <div>
         <span class="info-tip">主演：</span>
         <span class="info-content">
           <a
-            v-for="actor in splitActors(videoInfo.actors)" 
+            v-for="actor in splitString(videoInfo.actors)" 
             v-bind:key="actor.key"
             v-bind:href="'search/' + actor">{{ actor }}
           </a>
@@ -47,14 +51,18 @@
       <div class="hidden-sm hidden-md">
         <span class="info-tip">导演：</span>
         <span class="info-content">
-          <a href>{{ videoInfo.director }}</a>
+          <a
+            v-for="director in splitString(videoInfo.director)" 
+            v-bind:key="director.key"
+            v-bind:href="'search/' + director">{{ director }}
+          </a>
         </span>
       </div>
       <!-- 演员 -->
       <div class="hidden-sm hidden-md">
         <span class="info-tip">主演：</span>
         <span class="info-content">
-          <a v-for="actor in splitActors(videoInfo.actors)"
+          <a v-for="actor in splitString(videoInfo.actors)"
              v-bind:key="actor.key"
              v-bind:href="'search/' + actor">{{ actor }}
           </a>
@@ -191,14 +199,14 @@ export default {
     switchShowSummaryDetaile() {
       this.showSummaryDetaile = !this.showSummaryDetaile;
     },
-    
-    splitActors(actors) {
-      return actors.split(',');
+
+    splitString(str) {
+      return str.split(',').map(value => {return value + ' '})
     },
 
     handleBackgroudImage(imgaddr) {
       return `url(http://zizaixian.top${imgaddr}),
-              url(http://zizaixian.top/img/404/bg404.gif)`
+              url(http://zizaixian.top/img/sys/404/bg404.gif)`
     }
   },
 

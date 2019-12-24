@@ -48,6 +48,12 @@ class VideoItem {
      * @type {string}
      */
     this.addrName = null;
+
+    /**
+     * 某播放线路剧集总数
+     * @type {number}
+     */
+    this.tatal = 0
   }
 
   // 存值函数
@@ -97,6 +103,10 @@ class VideoItem {
   
   setUpdate(update) {
     this.update = update; 
+  }
+
+  setTatal() {
+    this.tatal = this.pladdrs.length;
   }
 
   setPlAddrs(pladdrs) {
@@ -169,6 +179,10 @@ class VideoItem {
     return this.update;
   }
 
+  getTatal() {
+    return this.tatal;
+  }
+
   getPlAddrs() {
     return this.pladdrs;
   }
@@ -190,4 +204,4 @@ class VideoItem {
   }
 }
 
-export { VideoItem }
+export default VideoItem

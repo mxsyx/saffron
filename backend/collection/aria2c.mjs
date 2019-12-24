@@ -12,8 +12,8 @@ class Aria2c {
     this.aria2 = new Aria2([options]);
     this.aria2.open().then(() => { 
       console.log('Aria2c RPC 服务已就绪');
-    }).catch((error) => {
-      console.log(error);
+    }).catch(err => {
+      console.error(err);
     });
   }
 
@@ -25,11 +25,11 @@ class Aria2c {
    */
   addTask(url, dir, out) {
     this.aria2.call('addUri', [url], { dir: dir, out: out})
-      .catch((error) => {
-        // console.log(error)
+      .catch(err => {
+        // console.error(err)
       })
   }
 }
 
 
-export { Aria2c }
+export default Aria2c

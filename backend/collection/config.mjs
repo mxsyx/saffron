@@ -184,7 +184,7 @@ const LANGS = [
 
 // 数据库操作语句
 const STATEMENTS = {
-  'addInfo'   : 'INSERT INTO `info` (`name`,`bigtype`,`summary`,`imgaddr`,`director`,`actors`,`type`,`year`,`area`,`lang`,`update`) values (?,?,?,?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE `update`=?',
+  'addInfo'   : 'INSERT INTO `info` (`name`,`bigtype`,`summary`,`imgaddr`,`director`,`actors`,`type`,`year`,`area`,`lang`,`update`, ??) values (?,?,?,?,?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE `update`=?',
   'addPlAddr' : 'INSERT INTO `pladdr`(`vid`,`episode`, ??) VALUES (?,?,?) ON DUPLICATE KEY UPDATE ??=?',
   'addDlAddr' : 'INSERT IGNORE INTO `dladdr` (`vid`,`episode`, `addr`) VALUES (?,?,?)',
   'resetAutoInc': 'ALTER TABLE `info` AUTO_INCREMENT=100001',

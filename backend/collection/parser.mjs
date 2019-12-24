@@ -2,8 +2,8 @@
  * 视频信息解析器 
  */
 
-import { XPath } from './xpath.mjs'
-import { VideoItem } from './items.mjs'
+import XPath from './xpath.mjs'
+import VideoItem from './items.mjs'
 import { getCurrentTime, makeImgAddr } from '../common/utils.mjs'
 import { DOMAIN, SELECTOR, THRESHOLD } from './config.mjs'
 
@@ -35,6 +35,7 @@ class Parser {
     // 提取视频的播放与下载地址
     videoItem.setPlAddrs(this.extractPlAddr(document));
     videoItem.setDlAddrs(this.extractDlAddr(document));
+    videoItem.setTatal();
     
     return videoItem;
   }
@@ -148,4 +149,4 @@ class Parser {
 }
 
 
-export { Parser }
+export default Parser

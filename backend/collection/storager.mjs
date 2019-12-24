@@ -1,15 +1,12 @@
 /**
  * 数据存储器
  */
-
-import { Aria2c } from './aria2c.mjs'
-import { Database } from '../common/database.mjs'
+import db from '../common/database.mjs'
+import Aria2c from './aria2c.mjs'
 import { STATEMENTS } from './config.mjs'
 
 class Storager {
-  constructor() {
-    this.db = new Database();
-    
+  constructor() {    
     // 存储器锁
     this.mutex = false;
 
@@ -97,8 +94,11 @@ class Storager {
 
   // 存储视频信息
   storageInfo(videoItem) {
+    const tatalName = `tatal${videoItem.getSite()}`;
+
     return new Promise((resolve, reject) => {
       const params = [
+        tatalName,
         videoItem.getName(),
         videoItem.getBigType(),
         videoItem.getSummary(),
@@ -110,12 +110,13 @@ class Storager {
         videoItem.getArea(),
         videoItem.getLang(),
         videoItem.getUpdate(),
+        videoItem.getTatal(),
         videoItem.getUpdate()
       ];
   
       // 首先重置自增索引
-      this.db.excute(STATEMENTS['resetAutoInc']).then((result) => {
-        this.db.excute(STATEMENTS['addInfo'], params).then((result) => {
+      db.excute(STATEMENTS['resetAutoInc']).then((result) => {
+        db.excute(STATEMENTS['addInfo'], params).then((result) => {
           resolve(result)
         });
       });
@@ -130,7 +131,7 @@ class Storager {
   storagePlAddr(videoItem, vid) {
     return new Promise( async (resolve, reject) => {
       const pladdrs = videoItem.getPlAddrs();
-      const addrName = videoItem.getAddrName();
+      const addrName = `addr${videoItem.getSite()}`;
       const len = pladdrs.length;
       for (let i = 0; i < len; i++) {
         const params = [
@@ -138,7 +139,7 @@ class Storager {
           vid, i + 1, pladdrs[i],
           addrName, pladdrs[i],
         ];
-        await this.db.excute(STATEMENTS['addPlAddr'], params);
+        await db.excute(STATEMENTS['addPlAddr'], params);
       }
       resolve();
     });
@@ -157,7 +158,7 @@ class Storager {
         const params = [
           vid, i + 1, dladdrs[i],
         ];
-        await this.db.excute(STATEMENTS['addDlAddr'], params);
+        await db.excute(STATEMENTS['addDlAddr'], params);
       }
       resolve();
     });
@@ -174,4 +175,4 @@ class Storager {
 }
 
 
-export { Storager }
+export default Storager

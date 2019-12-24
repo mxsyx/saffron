@@ -45,4 +45,4 @@ class XPath {
   }
 }
 
-export { XPath }
+export default XPath

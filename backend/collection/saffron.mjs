@@ -4,30 +4,22 @@
 
 import util from 'util'
 import jsdom from 'jsdom'
-import { Parser } from './parser.mjs'
-import { Filter } from './filter.mjs'
-import { Storager } from './storager.mjs'
+import Parser from './parser.mjs'
+import Filter from './filter.mjs'
+import Storager from './storager.mjs'
 import { URLTPL, PAGEINDEX } from './config.mjs'
 import { sleep } from '../common/utils.mjs'
 
 class Saffron {
-  constructor(site, sta) {
+  constructor(site) {
     this.site = site;
     this.parser = new Parser(site);
     this.filter = new Filter();
     this.storager = new Storager(this.downloader);
-    this.pageIndexs = []
+    this.pageIndexs = PAGEINDEX[site];
     this.urlsToFetch = [];
     this.sumTasks = 0;
     this.sumCompleted = 0;
-    this.generateIndexs(sta);
-  }
-
-  generateIndexs(sta) {
-    for(let i = (sta*50) + 1; i <= (sta+1)*50; i++) {
-      this.pageIndexs.push(i);
-    } 
-    console.log(this.pageIndexs);
   }
 
   /**
@@ -110,5 +102,5 @@ class Saffron {
   }
 }
 
-const saffron = new Saffron(parseInt(process.argv[2]),parseInt(process.argv[3]));
+const saffron = new Saffron(parseInt(process.argv[2]));
 saffron.start();

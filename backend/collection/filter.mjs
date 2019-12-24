@@ -9,15 +9,6 @@ class Filter {
   constructor() {}
 
   filte(videoItem) {
-    switch(videoItem.getSite()) {
-      case 1: this.makeFilteSite1(videoItem);break;
-      case 2: this.makeFilteSite2(videoItem);break;
-      case 3: this.makeFilteSite3(videoItem);break;
-      case 4: this.makeFilteSite4(videoItem);break;
-      case 5: this.makeFilteSite5(videoItem);break;
-      case 6: this.makeFilteSite6(videoItem);break;
-    }
-
     this.filteType(videoItem);
     this.filteYear(videoItem);
     this.filteArea(videoItem);
@@ -77,36 +68,20 @@ class Filter {
     }
   }
 
-  // 执行站点1特殊过滤
-  makeFilteSite1(videoItem) {
-    videoItem.setAddrName('addr1');
-  }
-  
-  // 执行站点2特殊过滤
-  makeFilteSite2(videoItem) {
-    videoItem.setAddrName('addr2');
-  }
-  
-  // 执行站点3特殊过滤
-  makeFilteSite3(videoItem) {
-    videoItem.setAddrName('addr3');
-  }
-  
-  // 执行站点4特殊过滤
-  makeFilteSite4(videoItem) {
-    videoItem.setAddrName('addr4');
-  }
-  
-  // 执行站点5特殊过滤
-  makeFilteSite5(videoItem) {
-    videoItem.setAddrName('addr5');
+  /**
+   * 统一演员字符串样式
+   * @param actors 演员字符串
+   */
+  filteActors(videoItem) {
+    let actors = videoItem.getActors();
+    actors = actors.replace(/ /g, ',');
+    actors = actors.replace(/\//g, ',');
+    actors = actors.replace(/ \/ /g, ',');
+    actors = actors.replace(/，/g, ',');
+    videoItem.setActors(actors);
   }
 
-  // 执行站点6特殊过滤
-  makeFilteSite6(videoItem) {
-    videoItem.setAddrName('addr6');
-  }
 }
 
 
-export { Filter }
+export default Filter

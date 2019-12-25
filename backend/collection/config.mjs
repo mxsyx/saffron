@@ -63,7 +63,7 @@ const SELECTOR = {
     'year'      : '/html[1]/body[1]/div[5]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[7]/span[1]',
     'area'      : '/html[1]/body[1]/div[5]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[5]/span[1]',
     'lang'      : '/html[1]/body[1]/div[5]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[6]/span[1]',  
-    'plAddr'    : '/html[1]/body[1]/div[5]/div[3]/font[1]/div[1]/div[1]/div[2]/ul[1]/li/input[1]/@value',  
+    'plAddr'    : '/html[1]/body[1]/div[5]/div[3]/font[1]/div[1]/div[1]/div/ul[1]/li/input[1]/@value',  
     'dlAddr'    : '/html[1]/body[1]/div[5]/font[1]/div[1]/div[2]/div[1]/div[1]/ul[1]/li/input[1]/@value',
   },
   2: {
@@ -85,7 +85,7 @@ const SELECTOR = {
     'videoUrl'  : '/html[1]/body[1]/div[5]/ul/li[1]/span[2]/a[1]/@href',
     'updateTime': '/html[1]/body[1]/div[5]/ul/li[1]/span[4]',
     'name'      : '/html[1]/body[1]/div[5]/div[1]/div[1]/div[1]/div[2]/div[1]/h2[1]',
-    'summary'   : '/html[1]/body[1]/div[5]/div[3]/div[2]',
+    'summary'   : '/html[1]/body[1]/div[5]/div[2]/div[2]',
     'imgUrl'    : '/html[1]/body[1]/div[5]/div[1]/div[1]/div[1]/div[1]/img[1]/@src',
     'director'  : '/html[1]/body[1]/div[5]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[2]/span[1]',
     'actors'    : '/html[1]/body[1]/div[5]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[3]/span[1]',
@@ -93,8 +93,8 @@ const SELECTOR = {
     'year'      : '/html[1]/body[1]/div[5]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[7]/span[1]',
     'area'      : '/html[1]/body[1]/div[5]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[5]/span[1]',
     'lang'      : '/html[1]/body[1]/div[5]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[6]/span[1]',  
-    'plAddr'    : '/html[1]/body[1]/div[5]/div[4]/div[2]/div[1]/div/ul[1]/li/input[1]/@value',
-    'dlAddr'    : '/html[1]/body[1]/div[1]/input[1]/@value',
+    'plAddr'    : '/html[1]/body[1]/div[5]/div[3]/div[2]/div[1]/div/ul[1]/li/input[1]/@value',
+    'dlAddr'    : '/html[1]/body[1]/div[5]/div[4]/div[2]/div[1]/div[1]/ul[1]/li/input[1]/@value',
   },
   4: {
     'videoUrl'  : '/html[1]/body[1]/div[4]/ul/li[1]/span[2]/a[1]/@href',
@@ -115,7 +115,7 @@ const SELECTOR = {
     'videoUrl'  : '/html[1]/body[1]/div[6]/ul/li[1]/span[2]/a[1]/@href',
     'updateTime': '/html[1]/body[1]/div[6]/ul/li[1]/span[4]',
     'name'      : '/html[1]/body[1]/div[6]/div[1]/div[1]/div[1]/div[2]/div[1]/h2[1]',
-    'summary'   : '/html[1]/body[1]/div[6]/div[3]/div[2]',
+    'summary'   : '/html[1]/body[1]/div[6]/div[2]/div[2]',
     'imgUrl'    : '/html[1]/body[1]/div[6]/div[1]/div[1]/div[1]/div[1]/img[1]/@src',
     'director'  : '/html[1]/body[1]/div[6]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[2]/span[1]',
     'actors'    : '/html[1]/body[1]/div[6]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[3]/span[1]',
@@ -123,7 +123,7 @@ const SELECTOR = {
     'year'      : '/html[1]/body[1]/div[6]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[7]/span[1]',
     'area'      : '/html[1]/body[1]/div[6]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[5]/span[1]',
     'lang'      : '/html[1]/body[1]/div[6]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[6]/span[1]',
-    'plAddr'    : '/html[1]/body[1]/div[6]/div[4]/font[1]/div[1]/div[1]/ul/li/input[1]/@value',
+    'plAddr'    : '/html[1]/body[1]/div[6]/div[3]/font[1]/div[1]/div[1]/ul/li/input[1]/@value',
     'dlAddr'    : '/html[1]/body[1]/div[1]/input[1]/@value',
   },
   6: {
@@ -139,7 +139,7 @@ const SELECTOR = {
     'area'      : '/html[1]/body[1]/table[1]/tbody[1]/tr[1]/td[1]/b[1]/div[3]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[5]/span[1]/a[1]',
     'lang'      : '/html[1]/body[1]/table[1]/tbody[1]/tr[1]/td[1]/b[1]/div[3]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[6]/span[1]/a[1]',  
     'plAddr'    : '/html[1]/body[1]/table[1]/tbody[1]/tr[1]/td[1]/b[1]/div[3]/div[4]/div[2]/div[1]/div/ul[1]/li/input[1]/@value',
-    'dlAddr'    : '/html[1]/body[1]/div[1]/input[1]/@value',
+    'dlAddr'    : '/html[1]/body[1]/table[1]/tbody[1]/tr[1]/td[1]/b[1]/div[3]/div[5]/div[2]/div[1]/div[1]/ul[1]/li/input[1]/@value',
   },
 }
 
@@ -184,7 +184,7 @@ const LANGS = [
 
 // 数据库操作语句
 const STATEMENTS = {
-  'addInfo'   : 'INSERT INTO `info` (`name`,`bigtype`,`summary`,`imgaddr`,`director`,`actors`,`type`,`year`,`area`,`lang`,`update`, ??) values (?,?,?,?,?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE `update`=?',
+  'addInfo'   : 'INSERT INTO `info` (`name`,`bigtype`,`summary`,`imgaddr`,`director`,`actors`,`type`,`year`,`area`,`lang`,`update`, ??) values (?,?,?,?,?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE `update`=?,??=?',
   'addPlAddr' : 'INSERT INTO `pladdr`(`vid`,`episode`, ??) VALUES (?,?,?) ON DUPLICATE KEY UPDATE ??=?',
   'addDlAddr' : 'INSERT IGNORE INTO `dladdr` (`vid`,`episode`, `addr`) VALUES (?,?,?)',
   'resetAutoInc': 'ALTER TABLE `info` AUTO_INCREMENT=100001',

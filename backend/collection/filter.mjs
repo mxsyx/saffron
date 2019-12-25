@@ -13,6 +13,8 @@ class Filter {
     this.filteYear(videoItem);
     this.filteArea(videoItem);
     this.filteLang(videoItem);
+    this.filteActors(videoItem);
+    this.filteDirector(videoItem);
   }
 
   /**
@@ -70,17 +72,25 @@ class Filter {
 
   /**
    * 统一演员字符串样式
-   * @param actors 演员字符串
    */
   filteActors(videoItem) {
     let actors = videoItem.getActors();
     actors = actors.replace(/ /g, ',');
     actors = actors.replace(/\//g, ',');
-    actors = actors.replace(/ \/ /g, ',');
     actors = actors.replace(/，/g, ',');
     videoItem.setActors(actors);
   }
 
+  /**
+   * 统一导演字符串样式
+   */
+  filteDirector(videoItem) {
+    let director = videoItem.getDirector();
+    director = director.replace(/ /g, ',');
+    director = director.replace(/\//g, ',');
+    director = director.replace(/，/g, ',');
+    videoItem.setDirector(director);
+  }
 }
 
 

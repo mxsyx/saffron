@@ -112,9 +112,11 @@ class Storager {
         videoItem.getLang(),
         videoItem.getUpdate(),
         videoItem.getTatal(),
-        videoItem.getUpdate()
+        videoItem.getUpdate(),
+        tatalName,
+        videoItem.getTatal(),
       ];
-  
+
       // 首先重置自增索引
       db.excute(STATEMENTS['resetAutoInc']).then((result) => {
         db.excute(STATEMENTS['addInfo'], params).then((result) => {

@@ -23,7 +23,7 @@ function fetchMainPageData(req, res) {
       console.error(err);
     })
     .finally(() => {
-      res.send(JSON.stringify(resData));
+      res.json(resData)
     })               
 }
 
@@ -41,7 +41,7 @@ function fetchRandom(req, res) {
       console.log(err);
     })
     .finally(() => {
-      res.send(JSON.stringify(resData));
+      res.json(resData)
     })
 }
 
@@ -66,7 +66,7 @@ function fetchInfoPageData(req, res) {
       console.error(err);
     })
     .finally(() => {
-      res.send(JSON.stringify(resData));
+      res.json(resData)
     });
 }
 
@@ -93,7 +93,7 @@ function fetchPlayPageData(req, res) {
       console.error(err);
     })
     .finally(() => {
-      res.send(JSON.stringify(resData));
+      res.json(resData)
     })
 }
 
@@ -110,7 +110,7 @@ function fetchDlAddr(req, res) {
       console.log(err);
     })
     .finally(() => {
-      res.send(JSON.stringify(resData));
+      res.json(resData)
     })
 }
 
@@ -137,20 +137,45 @@ function findBy(req, res) {
     res.json(resData);
     return ;
   }
-  console.log(statement);
 
   db.excute(statement, [req.body.content, (req.body.page) * 24, 24])
     .then(data => {
-      console.log(data);
       resData.result = data;
       resData.end = data.length < 24 ? true : false;
     })
     .catch(err => {
-      console.log(err);
+      console.error(err);
     })
     .finally(() => {
       res.json(resData);
     })
+}
+
+/**
+ * 按条件分类查询
+ */
+function classify(req, res) {
+  const resData = {result: null, end: true};
+
+  const values = [
+    req.body.type,
+    req.body.year,
+    req.body.area,
+    (req.body.page) * 24,
+    24
+  ];
+
+  db.excute(STATEMENTS['nava']['nava'], values)
+    .then(data => {
+       resData.result = data;
+       resData.end = data.length < 24 ? true : false;
+    })
+    .catch(err => {
+      console.error(err);
+    })
+    .finally(() => {
+      res.json(resData)
+    }) 
 }
 
 
@@ -161,4 +186,5 @@ export {
   fetchRandom,
   fetchDlAddr,
   findBy,
+  classify,
 }

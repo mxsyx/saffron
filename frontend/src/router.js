@@ -5,6 +5,7 @@ const Main = () => import('@/components/Main')
 const Info = () => import('@/components/Info');
 const Play = () => import('@/components/Play');
 const Find = () => import('@/components/Find');
+const Nava = () => import('@/components/Nava');
 
 const routes = [
   // 主页路由
@@ -30,7 +31,13 @@ const routes = [
     name: 'find',
     path: '/find/:type/:content',
     component: Find,
-  }
+  },
+  // 分类页路由
+  { 
+    name: 'nava',
+    path: '/nava/:type/:year/:area',
+    component: Nava,
+  },
 ]
 
 

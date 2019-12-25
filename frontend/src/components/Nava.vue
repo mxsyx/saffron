@@ -1,11 +1,11 @@
-<!-- Find Page -->
+<!-- Nava Page -->
 
 <template>
   <div class="page">
     <DisplayBox
-      type="search"
-      headerTip="搜索结果"
-      v-bind:videoItems="videoItems"
+      type="nava"
+      headerTip="分类查询"
+      v-bind:videoItems="videoItems" 
     />
   </div>
 </template>
@@ -15,22 +15,24 @@ import axios from 'axios'
 import mixin from '@/mixin'
 import DisplayBox from '@/components/DisplayBox'
 
+
 export default {
-  name: "Find",
-  
+  name: "Nave",
+
   components: {
     DisplayBox,
   },
-  
+
   mixins: [mixin],
-  
+
   data() {
     return {
-      videoItems: [],
+      type: this.$route.params.type,
+      year: this.$route.params.year,
+      area: this.$route.params.area,
       end: true,
       currentPage: 0,
-      searchType: this.$route.params.type,
-      searchContent: this.$route.params.content.trim(),
+      videoItems: [],
       loadLock: false,
       prevScrollTop: 0,
     }
@@ -43,11 +45,12 @@ export default {
   beforeRouteEnter(to, from, next) {
     const postData = {
       type: to.params.type,
-      content: to.params.content.trim(),
+      year: to.params.year,
+      area: to.params.area,
       page: 0,
     }
 
-    axios.post(`/v2/findby`, postData)
+    axios.post(`/v2/nava`, postData)
       .then(response => {
         next(vm => vm.setData(response.data));
       })
@@ -60,12 +63,13 @@ export default {
     this.flushMeta(to);
    
     const postData = {
-      type: this.searchType,
-      content: to.params.content,
-      page: 0,
+      type: this.type,
+      year: this.year,
+      area: this.area,
+      page: this.currentPage,
     }
 
-    axios.post(`/v2/findby`, postData)
+    axios.post(`/v2/nava`, postData)
       .then(response => {
         this.setData(response.data, false);
         next();
@@ -80,10 +84,11 @@ export default {
     next();
   },
 
+
   methods: {
     setData(data) {
       if (data.result.length === 0) {
-        this.$message('info', '没有找到该影片');
+        this.$message('info', '没有找到诶');
       } else {
         this.videoItems.push.apply(this.videoItems, data.result);
         this.end = data.end;
@@ -97,20 +102,21 @@ export default {
       this.videoItems = [];
       this.end = true;
       this.currentPage = 0;
-      this.searchType = to.params.type;
-      this.searchContent = to.params.content;
+      this.type = to.params.type;
+      this.year = to.params.year;
+      this.area = to.params.area;
       this.loadLock = false;
-      this.prevScrollTop = 0;
     },
 
     fetchMore() {
       const postData = {
-        type: this.searchType,
-        content: this.searchContent.trim(),
+        type: this.type,
+        year: this.year,
+        area: this.area,
         page: this.currentPage,
       }
 
-      axios.post(`/v2/findby`, postData)
+      axios.post(`/v2/nava`, postData)
         .then(response => {
           this.setData(response.data)
         })
@@ -140,3 +146,7 @@ export default {
   }
 }
 </script>
+
+<style>
+
+</style>

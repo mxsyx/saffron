@@ -32,6 +32,10 @@ app.get('/v2/download/:vid', video.fetchDlAddr);
 // 搜索接口
 app.post('/v2/findby', video.findBy)
 
+// 分类接口
+app.post('/v2/nava', video.classify);
+
+
 // 弹幕请求
 app.get('/v2/v3', danmaku.getDanmaku);
 app.post('/v2/v3', danmaku.addDanmaku);

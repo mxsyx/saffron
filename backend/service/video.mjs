@@ -137,8 +137,11 @@ function findBy(req, res) {
     res.json(resData);
     return ;
   }
+  console.log(statement);
+
   db.excute(statement, [req.body.content, (req.body.page) * 24, 24])
     .then(data => {
+      console.log(data);
       resData.result = data;
       resData.end = data.length < 24 ? true : false;
     })

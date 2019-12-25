@@ -2,6 +2,35 @@
 
 <template>
   <div class="page">
+    <div class="nava-box">
+      <ul>
+        类型：
+        <li
+          v-for="type in types" 
+          v-bind:key="type.key"
+          v-on:click="changeType(type)"
+          v-bind:class="{active: type===activeType}"
+        >{{ type }}</li>
+      </ul>
+      <ul>
+        年份：
+        <li
+          v-for="year in years" 
+          v-bind:key="year.key"
+          v-on:click="changeYear(year)"
+          v-bind:class="{active: year===activeYear}"
+        >{{ year }}</li>
+      </ul>
+      <ul>
+        地区：
+        <li
+          v-for="area in areas" 
+          v-bind:key="area.key"
+          v-on:click="changeArea(area)"
+          v-bind:class="{active: area===activeArea}"
+        >{{ area }}</li>
+      </ul>
+    </div>
     <DisplayBox
       type="nava"
       headerTip="分类查询"
@@ -35,11 +64,38 @@ export default {
       videoItems: [],
       loadLock: false,
       prevScrollTop: 0,
+      types: [
+        '全部',
+        '动作片','喜剧片','爱情片','科幻片','恐怖片',
+        '剧情片','战争片','伦理片','微电影','国产剧',
+        '香港剧','台湾剧','日本剧','韩国剧','欧美剧',
+        '海外剧','动漫剧'
+      ],
+      years: [
+        '全部',
+        '2019','2018','2017','2016','2015','2014',
+        '2013','2012','2011','2010','更早'
+      ],
+      areas: [
+        '全部',
+        '大陆','香港','台湾','日本','韩国','美国','英国',
+        '德国','法国','意大利','西班牙','加拿大','泰国',
+        '印度','其它'
+      ],
+      activeType: this.$route.params.type,
+      activeYear: this.$route.params.year,
+      activeArea: this.$route.params.area,
     }
   },
 
   mounted() {
     document.addEventListener('scroll', this.handleScroll);
+  },
+
+  watch: {
+    'type'() { this.flushRoute() },
+    'year'() { this.flushRoute() },
+    'area'() { this.flushRoute() }, 
   },
 
   beforeRouteEnter(to, from, next) {
@@ -84,13 +140,16 @@ export default {
     next();
   },
 
-
   methods: {
-    setData(data) {
+    setData(data, append=true) {
       if (data.result.length === 0) {
         this.$message('info', '没有找到诶');
       } else {
-        this.videoItems.push.apply(this.videoItems, data.result);
+        if (append) {
+          this.videoItems.push.apply(this.videoItems, data.result);
+        } else {
+          this.videoItems = data.result;
+        }
         this.end = data.end;
         ++this.currentPage;
         this.loadLock = false;
@@ -99,12 +158,14 @@ export default {
     },
 
     flushMeta(to) {
-      this.videoItems = [];
       this.end = true;
       this.currentPage = 0;
       this.type = to.params.type;
       this.year = to.params.year;
       this.area = to.params.area;
+      this.activeType = to.params.type;
+      this.activeYear = to.params.year;
+      this.activeArea = to.params.area;
       this.loadLock = false;
     },
 
@@ -123,6 +184,32 @@ export default {
         .catch(err => {
           // console.log(err);
         })
+    },
+
+    changeType(type) {
+      this.type = type;
+      this.activeType = type;
+    },
+
+    changeYear(year) {
+      this.year = year;
+      this.activeYear = year;
+    },
+
+    changeArea(area) {
+      this.area = area;
+      this.activeArea = area;
+    },
+
+    flushRoute() {
+      this.$router.push({ 
+        name: 'nava',
+        params: {
+          type: this.type,
+          year: this.year,
+          area: this.area,
+        }
+      });
     },
 
     handleScroll() {
@@ -148,5 +235,28 @@ export default {
 </script>
 
 <style>
+.nava-box {
+  background-color: #F5F5F5;
+  padding: 1rem;
+  font-size: 0.8rem;
+  color: #999;
+  margin-bottom: 1rem;
+}
 
+.nava-box ul li{
+  cursor: pointer;
+  display: inline-block;
+  color: #333333;
+  padding: 0.25rem 0.6rem;
+  border-radius: 5px;
+}
+
+.nava-box ul li:hover{
+  color: var(--third-color);
+}
+
+.active {
+  color: #ffffff !important;
+  background-color: #ff9900;
+}
 </style>

@@ -81,11 +81,15 @@ export default {
   },
 
   methods: {
-    setData(data) {
+    setData(data, append=true) {
       if (data.result.length === 0) {
         this.$message('info', '没有找到该影片');
       } else {
-        this.videoItems.push.apply(this.videoItems, data.result);
+        if (append) {
+          this.videoItems.push.apply(this.videoItems, data.result);
+        } else {
+          this.videoItems = data.result;
+        }
         this.end = data.end;
         ++this.currentPage;
         this.loadLock = false;
@@ -94,7 +98,6 @@ export default {
     },
 
     flushMeta(to) {
-      this.videoItems = [];
       this.end = true;
       this.currentPage = 0;
       this.searchType = to.params.type;

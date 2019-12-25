@@ -158,9 +158,9 @@ function classify(req, res) {
   const resData = {result: null, end: true};
 
   const values = [
-    req.body.type,
-    req.body.year,
-    req.body.area,
+    `%${req.body.type.replace('全部', '')}%`,
+    `%${req.body.year.replace('全部', '')}%`,
+    `%${req.body.area.replace('全部', '')}%`,
     (req.body.page) * 24,
     24
   ];

@@ -22,7 +22,7 @@ const STATEMENTS = {
     'byactor': "SELECT `id`,`name`,`imgaddr`,`actors` FROM `info` WHERE LOCATE(?, `actors`) > 0 LIMIT ?,?;",
   },
   'nava': {
-    'nava': "SELECT `id`,`name`,`imgaddr`,`actors` FROM `info` WHERE `type`=? AND `year`=? AND `area`=? LIMIT ?,?;"
+    'nava': "SELECT `id`,`name`,`imgaddr`,`actors` FROM `info` WHERE `type` LIKE ? AND `year` LIKE ? AND `area` LIKE ? LIMIT ?,?;"
   }
 }
 

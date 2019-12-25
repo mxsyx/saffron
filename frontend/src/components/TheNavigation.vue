@@ -20,12 +20,12 @@
         </a>
       </li>
       <li>
-        <a href="#" class="three-d">
+        <router-link to="/nava/动作片/2019/大陆" class="three-d">
           <span class="three-d-box">
             <span class="front">分类</span>
             <span class="back">分类</span>
           </span>
-        </a>
+        </router-link>
       </li>
       <li>
         <a href="#" class="three-d">
@@ -35,13 +35,13 @@
           </span>
         </a>
         <ul>
-          <li v-for="movieItem in mvTypes" v-bind:key="movieItem.id">
-            <a href="#" class="three-d">
+          <li v-for="mvItem in mvTypes" v-bind:key="mvItem.id">
+            <router-link v-bind:to="`/nava/${mvItem.name}/全部/全部`" class="three-d">
               <span class="three-d-box">
-                <span class="front">{{ movieItem.name }}</span>
-                <span class="back">{{ movieItem.name }}</span>
+                <span class="front">{{ mvItem.name }}</span>
+                <span class="back">{{ mvItem.name }}</span>
               </span>
-            </a>
+            </router-link>
           </li>
         </ul>
       </li>
@@ -54,12 +54,12 @@
         </a>
         <ul>
           <li v-for="tvItem in tvTypes" v-bind:key="tvItem.id">
-            <a href="#" class="three-d">
+            <router-link v-bind:to="`/nava/${tvItem.name}/全部/全部`" class="three-d">
               <span class="three-d-box">
                 <span class="front">{{ tvItem.name }}</span>
                 <span class="back">{{ tvItem.name }}</span>
               </span>
-            </a>
+            </router-link>
           </li>
         </ul>
       </li>
@@ -87,13 +87,19 @@ export default {
         { name: '科幻片'},
         { name: '恐怖片'},
         { name: '剧情片'},
-        { name: '战争片'}
+        { name: '战争片'},
+        { name: '伦理片'},
+        { name: '微电影'},
       ],
       tvTypes: [
         { name: '国产剧'},
-        { name: '港台剧'},
-        { name: '日韩剧'},
-        { name: '欧美剧'}
+        { name: '香港剧'},
+        { name: '台湾剧'},
+        { name: '日本剧'},
+        { name: '韩国剧'},
+        { name: '欧美剧'},
+        { name: '海外剧'},
+        { name: '动漫剧'},
       ]
     }
   },

@@ -39,9 +39,7 @@ export default {
   data: function() {
     return {
       videoInfo: null,
-      plAddrs: null,
       rdItems: [],
-      movieItems: [],
       movieTypes: ['动作片','喜剧片','爱情片','科幻片','恐怖片','剧情片','战争片','动漫片','微电影'],
     }
   },

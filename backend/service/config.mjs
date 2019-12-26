@@ -23,6 +23,10 @@ const STATEMENTS = {
   },
   'nava': {
     'nava': "SELECT `id`,`name`,`imgaddr`,`actors` FROM `info` WHERE `type` LIKE ? AND `year` LIKE ? AND `area` LIKE ? LIMIT ?,?;"
+  },
+  'util': {
+    'love': 'UPDATE `info` SET `love` = `love` + 1 WHERE `id`=?',
+    'hate': 'UPDATE `info` SET `hate` = `hate` + 1 WHERE `id`=?',
   }
 }
 

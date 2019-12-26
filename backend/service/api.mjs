@@ -36,6 +36,12 @@ app.post('/v2/findby', video.findBy)
 app.post('/v2/nava', video.classify);
 
 
+// 功能接口
+app.post('/v2/util/love', video.handleLove);
+app.post('/v2/util/hate', video.handleHate);
+
+
+
 // 弹幕请求
 app.get('/v2/v3', danmaku.getDanmaku);
 app.post('/v2/v3', danmaku.addDanmaku);

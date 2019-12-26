@@ -12,15 +12,15 @@
     </div>
     <ul id="nav-menu">
       <li>
-        <a href="#" class="three-d active hidden-sm">
+        <router-link to="/" class="three-d active hidden-sm">
           <span class="three-d-box">
             <span class="front">首页</span>
             <span class="back">首页</span>
           </span>
-        </a>
+        </router-link>
       </li>
       <li>
-        <router-link to="/nava/动作片/2019/大陆" class="three-d">
+        <router-link to="/nava/全部/全部/全部" class="three-d">
           <span class="three-d-box">
             <span class="front">分类</span>
             <span class="back">分类</span>

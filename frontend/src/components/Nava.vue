@@ -4,9 +4,18 @@
   <div class="page">
     <div class="nava-box">
       <ul>
-        类型：
+        电影类型：
         <li
-          v-for="type in types" 
+          v-for="type in mvTypes" 
+          v-bind:key="type.key"
+          v-on:click="changeType(type)"
+          v-bind:class="{active: type===activeType}"
+        >{{ type }}</li>
+      </ul>
+      <ul>
+        电视剧类型：
+        <li
+          v-for="type in tvTypes" 
           v-bind:key="type.key"
           v-on:click="changeType(type)"
           v-bind:class="{active: type===activeType}"
@@ -64,11 +73,13 @@ export default {
       videoItems: [],
       loadLock: false,
       prevScrollTop: 0,
-      types: [
+      mvTypes: [
         '全部',
         '动作片','喜剧片','爱情片','科幻片','恐怖片',
-        '剧情片','战争片','伦理片','微电影','国产剧',
-        '香港剧','台湾剧','日本剧','韩国剧','欧美剧',
+        '剧情片','战争片','伦理片','微电影'
+      ],
+      tvTypes: [
+        '国产剧','香港剧','台湾剧','日本剧','韩国剧','欧美剧',
         '海外剧','动漫剧'
       ],
       years: [

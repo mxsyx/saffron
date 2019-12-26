@@ -178,6 +178,39 @@ function classify(req, res) {
     }) 
 }
 
+// 处理点赞
+function handleLove(req, res) {
+  const resData = {code: 1};
+  db.excute(STATEMENTS['util']['love'], req.body.vid)
+  .then(data => {
+    if (data.affectedRows === 1) {
+      resData.code = 0;
+    }
+  })
+  .catch(err => {
+    console.error(err);
+  })
+  .finally(() => {
+    res.json(resData)
+  }) 
+}
+
+// 吐槽点赞
+function handleHate(req, res) {
+  const resData = {code: 1};
+  db.excute(STATEMENTS['util']['hate'], req.body.vid)
+  .then(data => {
+    if (data.affectedRows === 1) {
+      resData.code = 0;
+    }
+  })
+  .catch(err => {
+    console.error(err);
+  })
+  .finally(() => {
+    res.json(resData)
+  }) 
+}
 
 export { 
   fetchMainPageData, 
@@ -187,4 +220,6 @@ export {
   fetchDlAddr,
   findBy,
   classify,
+  handleLove,
+  handleHate,
 }

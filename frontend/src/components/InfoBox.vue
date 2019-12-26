@@ -5,8 +5,8 @@
     <!-- 视频图片展示 -->
     <div class="info-box-img col-sm-4 col-md-2 col-lg-2">
       <a 
-        v-bind:style="{ backgroundImage: 
-            handleBackgroudImage(videoInfo.imgaddr)}">
+        v-bind:style="{ backgroundImage:
+        handleBackgroudImage(videoInfo.imgaddr)}">
       </a>
     </div>
 
@@ -127,7 +127,7 @@
 
       <!-- 按钮组 -->
       <div class="row">
-        <button class="btn btn-play">
+        <button class="btn btn-play" v-on:click="playImmediately">
           <i class="fa fa-play"></i>
           <span>立即播放</span>
         </button>
@@ -139,11 +139,11 @@
           <i class="fa fa-star"></i>
           <span>收藏</span>
         </button>
-        <button class="btn btn-score hidden-sm hidden-md">
+        <button class="btn btn-score hidden-sm hidden-md" v-on:click="handleLove">
           <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
           <span>顶({{ videoInfo.love }})</span>
         </button>
-        <button class="btn btn-score hidden-sm hidden-md">
+        <button class="btn btn-score hidden-sm hidden-md" v-on:click="handleHate">
           <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
           <span>踩({{ videoInfo.hate }})</span>
         </button>
@@ -168,6 +168,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import Share from "@/components/Share.vue";
 import Modal from "@/components/Modal.vue";
 
@@ -182,7 +183,9 @@ export default {
     return {
       href: 'https://zizaixian.top/info/movie/18724/',
       modalTip: "喜欢就分享给好友吧",
-      showSummaryDetaile: false
+      showSummaryDetaile: false,
+      hasLoved: false,
+      hasHated: false,
     };
   },
 
@@ -208,6 +211,65 @@ export default {
     handleBackgroudImage(imgaddr) {
       return `url(http://zizaixian.top${imgaddr}),
               url(http://zizaixian.top/img/sys/404/bg404.gif)`
+    },
+
+    // 立即播放视频
+    playImmediately() {
+      let i = 1;
+      for(; i <= 6; i++) {
+        if (this.videoInfo[`tatal${i}`] !== 0) break;
+      }
+
+      this.$router.push({ 
+        name: 'play',
+        params: {
+          vid: this.videoInfo.id,
+          addr: i,
+          episode: 1,
+        }
+      })
+    },
+
+    // 处理点赞
+    handleLove() {
+      if (this.hasLoved) {
+        this.$message('warning', '不可重复点赞');
+        return ;
+      }
+      axios.post(`/v2/util/love`, {vid: this.videoInfo.id})
+        .then(response => {
+          if (response.data.code === 0) {
+            this.$message('success', '点赞成功');
+            ++this.videoInfo.love;
+            this.hasLoved = true;
+          } else {
+            this.$message('error', '点赞失败');
+          }
+        })
+        .catch(err => {
+          // console.log(err);
+        })
+    },
+
+    // 处理吐糟
+    handleHate() {
+      if (this.hasHated) {
+        this.$message('warning', '不可重复吐槽');
+        return ;
+      }
+      axios.post(`/v2/util/hate`, {vid: this.videoInfo.id})
+        .then(response => {
+          if (response.data.code === 0) {
+            this.$message('success', '吐槽成功');
+            ++this.videoInfo.hate;
+            this.hasHated = true;
+          } else {
+            this.$message('error', '吐槽失败');
+          }
+        })
+        .catch(err => {
+          // console.log(err);
+        })
     }
   },
 

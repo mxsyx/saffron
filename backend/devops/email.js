@@ -35,7 +35,7 @@ const sendMail = function (recipient, subject, html='', attachments=[]) {
 }
 
 
-sendMail('zsimline@163.com', '采集日志', [{
+sendMail('zsimline@163.com', '采集日志', '早上好呀小伙子！', [{
   filename: '采集日志.txt',
-  path: '/var/log/saffron/collog',
+  path: '/var/log/saffron/clct.log',
 }]);

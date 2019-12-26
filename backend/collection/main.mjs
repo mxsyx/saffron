@@ -103,4 +103,5 @@ class Saffron {
 }
 
 const saffron = new Saffron(parseInt(process.argv[2]));
+
 saffron.start();

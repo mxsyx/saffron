@@ -94,6 +94,7 @@ class Storager {
 
   // 存储视频信息
   storageInfo(videoItem) {
+    // 输出日志
     console.log(videoItem);
     const tatalName = `tatal${videoItem.getSite()}`;
 

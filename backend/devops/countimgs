@@ -1,4 +1,6 @@
-import fs  from 'fs';
+#!/bin/node
+
+const fs = require('fs');
 
 function countFiles() {
   let sum = 0;

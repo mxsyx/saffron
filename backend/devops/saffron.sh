@@ -40,6 +40,4 @@ restart)
 *)
 	echo "Usage: $0 {start|stop|status|restart}"
 	exit 0
-	;;
 esac
-

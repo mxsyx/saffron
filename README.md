@@ -1,10 +1,3 @@
-# Saffron
-[自在仙影院](https://zizaixian.top)
+**一个基于VueJS的电影网站**
 
-
-
-TODO 
-  - 导航页
-  - 立即播放
-  - 下载功能
-  
+**[自在仙影院](https://zizaixian.top)**
